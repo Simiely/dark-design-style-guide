@@ -1,12 +1,12 @@
-# AGENTS.md · 深色设计风格手册
+# AGENTS.md · 深色设计风格收集库
 
 > 给 AI / 未来的你:先读这个文件再动手改。
 
-**文档基线**:2026-08-15(首次发布)。
+**文档基线**:2026-08-15(首次发布)。当前页面:`dark-homepage-designs.html`(28 种深色主页风格)+ 同名速查 `dark-homepage-designs.md`。后续新增收集主题各自独立成 `xxx.html` + `xxx.md`。
 
 ## 技术栈
 
-- 纯 HTML + CSS + JS,**零依赖、零构建**。一个 `index.html` 完成全部。
+- 纯 HTML + CSS + JS,**零依赖、零构建**。每个收集页面一个独立 HTML 文件。
 - 无 npm / 无框架 / 无 CDN;字体用系统栈(sans/serif/mono)。
 - 浏览器要求:支持 `color-mix()`、`clip-path`、`backdrop-filter`、`background-clip:text`(现代 Chrome/Edge/Firefox 即可)。
 
@@ -51,4 +51,4 @@
 
 ## 常用命令
 
-无构建。校验语法:`node -e "new Function(require('fs').readFileSync('index.html','utf8').match(/<script>([\s\S]*?)<\/script>/)[1])"`
+无构建。校验语法:`node -e "new Function(require('fs').readFileSync('dark-homepage-designs.html','utf8').match(/<script>([\s\S]*?)<\/script>/)[1])"`
