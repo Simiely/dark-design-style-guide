@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="深色设计风格手册:28 种完整主页设计方案(构图/比例/形式各不相同),含布局骨架、组件、色板与 CSS 变量,可搜索可收藏可复制">
+<title>深色设计风格手册 · 23 种主页设计方案</title>
+<style>
+  :root{
+    --shell-bg:#0e1116; --shell-panel:#151a22; --shell-panel2:#1a2029; --shell-border:#262e3b;
+    --shell-text:#e8ebf2; --shell-dim:#9aa5b5; --shell-accent:#7c9cf5; --shell-accent2:#a5b4fc;
+    --shell-red:#f87171; --shell-gold:#f0c36b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--shell-bg); color:var(--shell-text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+    line-height:1.65; font-size:15px;
+  }
+  a{color:var(--shell-accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  ::selection{background:rgba(124,156,245,.35)}
+
+  header.site-head{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,17,22,.86); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--shell-border);
+  }
+  .head-inner{max-width:1320px;margin:0 auto;padding:14px 20px}
+  .head-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{font-size:19px;font-weight:800;letter-spacing:.4px;display:flex;align-items:center;gap:9px}
+  .logo .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#7c9cf5,#a78bfa);box-shadow:0 0 10px rgba(124,156,245,.7)}
+  .logo small{font-weight:500;color:var(--shell-dim);font-size:12.5px;letter-spacing:0}
+  .search{flex:1;min-width:200px;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--shell-panel);border:1px solid var(--shell-border);border-radius:9px;padding:7px 12px}
+  .search input{flex:1;background:none;border:none;outline:none;color:var(--shell-text);font-size:14px}
+  .search input::placeholder{color:var(--shell-dim)}
+  .stats{font-size:12.5px;color:var(--shell-dim);white-space:nowrap}
+  .stats b{color:var(--shell-accent)}
+  .fav-toggle{background:var(--shell-panel);border:1px solid var(--shell-border);color:var(--shell-text);border-radius:9px;padding:7px 13px;font-size:13px;cursor:pointer;white-space:nowrap;transition:.18s}
+  .fav-toggle:hover{border-color:var(--shell-accent)}
+  .fav-toggle.on{background:rgba(248,113,113,.14);border-color:var(--shell-red);color:#ffd7d7}
+  .cats{display:flex;gap:8px;flex-wrap:wrap;padding:11px 0 2px}
+  .chip{background:var(--shell-panel);border:1px solid var(--shell-border);color:var(--shell-dim);border-radius:999px;padding:4px 13px;font-size:12.5px;cursor:pointer;transition:.18s}
+  .chip:hover{color:var(--shell-text);border-color:#3a4657}
+  .chip.on{background:rgba(124,156,245,.16);border-color:var(--shell-accent);color:#d6e0ff}
+  .tip{max-width:1320px;margin:0 auto;padding:10px 20px 0;font-size:12.5px;color:var(--shell-dim)}
+  .tip b{color:var(--shell-text);font-weight:600}
+
+  main{max-width:1320px;margin:0 auto;padding:18px 20px 60px}
+  .cards{display:flex;flex-direction:column;gap:22px}
+
+  /* ===== 风格卡片:主页大图在上,参数在下 ===== */
+  .style-card{background:var(--shell-panel);border:1px solid var(--shell-border);border-radius:16px;overflow:hidden;transition:border-color .2s}
+  .style-card:hover{border-color:#37445a}
+  .sc-preview{padding:14px;background:var(--shell-panel2);border-bottom:1px solid var(--shell-border);display:flex;flex-direction:column;gap:10px}
+  .sc-info{padding:18px 22px;display:grid;grid-template-columns:1.35fr 1fr;gap:4px 30px}
+  @media(max-width:1000px){ .sc-info{grid-template-columns:1fr} }
+
+  .tabs{display:flex;gap:6px}
+  .tab{background:var(--shell-panel);border:1px solid var(--shell-border);color:var(--shell-dim);border-radius:8px;padding:4px 14px;font-size:12px;cursor:pointer;transition:.18s;font-family:inherit}
+  .tab:hover{color:var(--shell-text);border-color:#3a4657}
+  .tab.on{background:rgba(124,156,245,.16);border-color:var(--shell-accent);color:#d6e0ff}
+  .tab-bodies{display:flex;flex-direction:column;gap:10px}
+  .tb-extra{display:none}
+  .tb-cmp{display:none}
+  .tab-bodies.show-extra .tb-page{display:none}
+  .tab-bodies.show-extra .tb-extra{display:block}
+  .tab-bodies.show-cmp .tb-page{display:none}
+  .tab-bodies.show-cmp .tb-cmp{display:block}
+
+  /* ===== 主页预览(完整页面) ===== */
+  .mock{
+    position:relative; border-radius:var(--radius,10px); overflow:hidden;
+    background:var(--bg,#000); color:var(--text,#fff);
+    border:1px solid var(--border,rgba(255,255,255,.12));
+    font-family:var(--font,inherit);
+    display:flex; flex-direction:column; width:100%; min-height:520px;
+  }
+  .mock *{box-sizing:border-box}
+  .mock::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:8;box-shadow:inset 0 0 60px rgba(0,0,0,.16)}
+  .mock h3,.mock h4{line-height:1.22;font-weight:800;letter-spacing:.2px}
+  .mock .mbtn{border:1px solid var(--border);border-radius:var(--radius,6px);padding:8px 18px;font-size:12px;cursor:default;display:inline-block;font-weight:600}
+  .mock .mbtn.primary{background:var(--accent);color:var(--on-accent,#fff);border-color:transparent;font-weight:700}
+  .mk-nav{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);font-size:11px;background:var(--elev)}
+  .mk-nav b{font-weight:800;font-size:12.5px;letter-spacing:.5px}
+  .mk-nav .lnk{color:var(--dim);font-size:10.5px;margin-left:8px}
+  .mk-nav .cta{margin-left:auto}
+  .mk-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid var(--border);font-size:9px;letter-spacing:1.5px;color:var(--dim);background:var(--elev);margin-top:auto}
+  .mk-kick{font-size:9px;letter-spacing:2.5px;color:var(--dim)}
+
+  /* 01 瑞士极简:竖向节奏,大留白,网格秩序 */
+  .mk-swiss .sw-hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding:34px 44px;gap:4px}
+  .mk-swiss .sw-hero h3{font-size:46px;line-height:1.02;letter-spacing:-1px}
+  .mk-swiss .sw-rule{width:64px;height:1px;background:var(--border);margin:20px 0 14px}
+  .mk-swiss .sw-hero p{font-size:13px;color:var(--dim);max-width:420px}
+  .mk-swiss .sw-actions{display:flex;gap:10px;margin-top:24px}
+  .mk-swiss .sw-data{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+  .mk-swiss .sw-data>div{padding:18px 24px;border-right:1px solid var(--border)}
+  .mk-swiss .sw-data>div:last-child{border-right:none}
+  .mk-swiss .sw-data b{font-size:24px;display:block}
+  .mk-swiss .sw-data span{font-size:9px;letter-spacing:1.8px;color:var(--dim)}
+
+  /* 02 杂志编辑:纸媒展开页,标题即版面 */
+  .mk-editorial .ed-mast{display:flex;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border);font-size:9px;letter-spacing:2.5px;color:var(--dim)}
+  .mk-editorial .ed-head{padding:26px 28px 16px;border-bottom:1px solid var(--border)}
+  .mk-editorial .ed-head h3{font-size:42px;font-weight:700;line-height:1.02}
+  .mk-editorial .ed-meta{font-size:10px;color:var(--dim);margin-top:12px;letter-spacing:.5px}
+  .mk-editorial .ed-cols{padding:20px 28px;column-count:2;column-gap:34px;column-rule:1px solid var(--border);flex:1}
+  .mk-editorial .ed-cols p{font-size:12px;color:var(--dim);line-height:1.85;text-align:justify;margin-bottom:10px}
+  .mk-editorial .ed-cols p:first-child::first-letter{font-size:44px;float:left;line-height:.9;padding-right:6px;color:var(--text);font-weight:700}
+  .mk-editorial .ed-quote{padding:16px 28px;border-top:1px solid var(--border);font-size:17px;font-style:italic;line-height:1.6}
+  .mk-editorial .ed-quote::before{content:'“';font-size:30px;color:var(--accent);margin-right:8px}
+
+  /* 03 印刷纸张:居中活版印刷品 */
+  .fx-print .mock::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.34;mix-blend-mode:overlay;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .mk-print{background:radial-gradient(120% 90% at 20% 0%, rgba(255,255,255,.04), transparent 60%), var(--bg)}
+  .mk-print>*{position:relative;z-index:1}
+  .mk-print .pr-mark{position:absolute;z-index:3;width:16px;height:16px;opacity:.5}
+  .mk-print .pr-mark::before,.mk-print .pr-mark::after{content:'';position:absolute;background:var(--accent)}
+  .mk-print .pr-mark.tl{top:10px;left:10px}.mk-print .pr-mark.tr{top:10px;right:10px}.mk-print .pr-mark.bl{bottom:10px;left:10px}.mk-print .pr-mark.br{bottom:10px;right:10px}
+  .mk-print .pr-mark::before{width:16px;height:1px;top:7px;left:0}
+  .mk-print .pr-mark::after{width:1px;height:16px;left:7px;top:0}
+  .mk-print .pr-mast{padding:22px 18px 0;font-size:10px;letter-spacing:4px;color:var(--dim);text-align:center}
+  .mk-print .pr-title{padding:26px 18px 8px;font-size:44px;text-align:center;font-weight:700;line-height:1.02;transform:rotate(-.6deg)}
+  .mk-print .pr-stamp{margin:22px auto;width:96px;height:96px;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;color:var(--accent);letter-spacing:2px;transform:rotate(-9deg);line-height:1.6}
+  .mk-print .pr-body{padding:0 60px;font-size:12.5px;color:var(--dim);text-align:center;line-height:1.9;flex:1}
+  .mk-print .pr-foot{padding:14px;border-top:1px solid var(--border);text-align:center;font-size:10px;letter-spacing:3px;color:var(--dim)}
+
+  /* 04 Bento 模块:非对称砖块拼贴,功能展示页 */
+  .mk-bento .bt-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:110px;gap:12px;padding:18px}
+  .mk-bento .bt-tile{background:var(--elev);border:1px solid var(--border);border-radius:var(--radius,14px);padding:16px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+  .mk-bento .bt-tile b{font-size:10px;color:var(--dim);letter-spacing:1.5px}
+  .mk-bento .bt-tile h4{font-size:16px}
+  .mk-bento .bt-tile p{font-size:11px;color:var(--dim);line-height:1.6}
+  .mk-bento .bt-wide{grid-column:span 2}
+  .mk-bento .bt-tall{grid-row:span 2}
+  .mk-bento .bt-chart{justify-content:flex-end}
+  .mk-bento .bt-bars{display:flex;align-items:flex-end;gap:6px;flex:1}
+  .mk-bento .bt-bars i{flex:1;background:linear-gradient(180deg,var(--accent2),var(--accent));border-radius:4px 4px 0 0}
+
+  /* 05 分屏对比:50/50 一刀两断 */
+  .mk-split{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
+  .mk-split .sp-left{position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#101014;overflow:hidden}
+  .mk-split .sp-shape{position:absolute;width:220px;height:220px;border-radius:50%;border:38px solid rgba(16,16,20,.16);top:-60px;right:-60px}
+  .mk-split .sp-shape2{position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(16,16,20,.15);bottom:-40px;left:-30px}
+  .mk-split .sp-type{font-size:64px;font-weight:900;line-height:.9;letter-spacing:-3px}
+  .mk-split .sp-right{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:40px;border-left:1px solid var(--border)}
+  .mk-split .sp-kicker{font-size:9px;letter-spacing:3px;color:var(--dim)}
+  .mk-split .sp-right h3{font-size:30px}
+  .mk-split .sp-right p{font-size:12px;color:var(--dim);max-width:300px}
+  .mk-split .sp-btn{display:inline-block;align-self:flex-start;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius,8px);padding:10px 24px;font-size:13px;font-weight:700;margin-top:8px}
+  .mk-split .sp-link{font-size:11.5px;color:var(--accent);text-decoration:underline}
+
+  /* 06 终端:全屏命令行窗口 */
+  .mk-term .mock-nav{display:flex;align-items:center;gap:8px;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--elev);font-size:11px}
+  .mk-term .mock-nav .dot{width:10px;height:10px;border-radius:50%;background:var(--border);display:inline-block}
+  .mk-term .mock-nav .dot.r{background:#ff5f57}.mk-term .mock-nav .dot.y{background:#febc2e}.mk-term .mock-nav .dot.g{background:#28c840}
+  .mk-term .term-body{padding:26px 24px;flex:1;display:flex;flex-direction:column;gap:10px;font-size:13px;font-family:var(--font);justify-content:center}
+  .mk-term .term-body .c{color:var(--dim)}
+  .mk-term .term-body .cmd{color:var(--text)}
+  .mk-term .term-body .ok{color:var(--accent)}
+  .mk-term .term-body .caret{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:middle;animation:blink 1.1s infinite}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .mk-term .term-status{display:flex;justify-content:space-between;padding:9px 16px;border-top:1px solid var(--border);font-size:9px;letter-spacing:1.5px;color:var(--dim);font-family:var(--font)}
+
+  /* 07 玻璃拟态:光斑上漂浮的玻璃层 */
+  .fx-aurora .mock::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(420px 260px at 18% 12%, color-mix(in srgb,var(--accent) 30%,transparent), transparent 70%),
+      radial-gradient(380px 280px at 85% 30%, color-mix(in srgb,var(--accent2) 28%,transparent), transparent 70%),
+      radial-gradient(400px 300px at 55% 105%, color-mix(in srgb,var(--accent3,var(--accent)) 24%,transparent), transparent 72%);
+  }
+  .fx-aurora .mock>*{position:relative;z-index:1}
+  .mk-glass{background:
+    radial-gradient(500px 320px at 15% 20%, rgba(122,162,255,.22), transparent 70%),
+    radial-gradient(420px 300px at 85% 35%, rgba(200,182,255,.2), transparent 70%),
+    radial-gradient(460px 340px at 55% 110%, rgba(139,92,246,.18), transparent 72%),
+    #0d1020}
+  .mk-glass .gl-nav{display:flex;align-items:center;gap:14px;margin:22px 26px 0;padding:12px 20px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);font-size:12px}
+  .mk-glass .gl-nav .gl-links{color:var(--dim);font-size:11px;flex:1}
+  .mk-glass .gl-hero{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+  .mk-glass .gl-main{width:62%;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(16px);border-radius:24px;padding:34px 36px}
+  .mk-glass .gl-main h4{font-size:22px;margin-top:14px}
+  .mk-glass .gl-main p{font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.7}
+  .mk-glass .gl-ico{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 24px color-mix(in srgb,var(--accent) 60%,transparent)}
+  .mk-glass .gl-mini{position:absolute;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);border-radius:16px;padding:16px 20px}
+  .mk-glass .gl-mini.a{right:12%;top:8%}
+  .mk-glass .gl-mini.b{left:10%;bottom:12%}
+  .mk-glass .gl-mini b{font-size:22px;display:block}
+  .mk-glass .gl-mini span{font-size:10px;color:var(--dim);letter-spacing:1.5px}
+
+  /* 08 新拟态:同色浮雕控制台 */
+  .mk-neumorph .nm-nav{display:flex;align-items:center;justify-content:space-between;margin:22px 22px 0;padding:14px 22px;border-radius:16px;background:var(--elev);box-shadow:6px 6px 14px rgba(0,0,0,.5),-6px -6px 14px color-mix(in srgb,var(--border) 32%,transparent);font-size:12px}
+  .mk-neumorph .nm-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:20px}
+  .mk-neumorph .nm-knob{width:104px;height:104px;border-radius:50%;background:var(--elev);box-shadow:9px 9px 20px rgba(0,0,0,.5),-9px -9px 20px color-mix(in srgb,var(--border) 34%,transparent);position:relative}
+  .mk-neumorph .nm-knob::after{content:'';display:block;width:7px;height:30px;background:var(--accent);border-radius:4px;margin:14px auto 0}
+  .mk-neumorph .nm-tiles{display:grid;grid-template-columns:repeat(3,170px);gap:18px}
+  .mk-neumorph .nm-tile{background:var(--elev);border-radius:18px;padding:20px;text-align:center;box-shadow:6px 6px 14px rgba(0,0,0,.5),-6px -6px 14px color-mix(in srgb,var(--border) 30%,transparent)}
+  .mk-neumorph .nm-tile b{display:block;font-size:20px}
+  .mk-neumorph .nm-tile span{font-size:10px;color:var(--dim);letter-spacing:1.5px}
+  .mk-neumorph .nm-slider{width:420px;height:12px;border-radius:999px;background:var(--inset);box-shadow:inset 5px 5px 10px rgba(0,0,0,.45),inset -5px -5px 10px color-mix(in srgb,var(--border) 30%,transparent)}
+  .mk-neumorph .nm-slider i{display:block;height:100%;width:60%;border-radius:999px;background:var(--accent)}
+
+  /* 09 赛博朋克 HUD:全屏装备界面 */
+  .fx-grid .mock::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(color-mix(in srgb,var(--accent) 12%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent) 12%,transparent) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:linear-gradient(180deg,#000 20%,transparent 96%);
+    mask-image:linear-gradient(180deg,#000 20%,transparent 96%);
+  }
+  .fx-grid .mock>*{position:relative;z-index:1}
+  .fx-scan .mock::after{background-image:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.25) 3px 4px)}
+  .mk-hud{font-family:var(--font);min-height:520px}
+  .mk-hud .hd-corner{position:absolute;width:30px;height:30px;border:2px solid var(--accent);z-index:9;opacity:.9}
+  .mk-hud .hd-corner.tl{top:12px;left:12px;border-right:none;border-bottom:none}
+  .mk-hud .hd-corner.tr{top:12px;right:12px;border-left:none;border-bottom:none}
+  .mk-hud .hd-corner.bl{bottom:12px;left:12px;border-right:none;border-top:none}
+  .mk-hud .hd-corner.br{bottom:12px;right:12px;border-left:none;border-top:none}
+  .mk-hud .hd-top{display:flex;justify-content:space-between;padding:16px 34px;font-size:10px;letter-spacing:2px;color:var(--dim)}
+  .mk-hud .hd-top .hd-status{color:var(--accent)}
+  .mk-hud .hd-body{flex:1;display:grid;grid-template-columns:1.3fr 1fr;gap:16px;padding:10px 34px;align-items:center}
+  .mk-hud .hd-list{display:flex;flex-direction:column;gap:14px}
+  .mk-hud .hd-list>div{border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 7%,transparent);padding:12px 14px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+  .mk-hud .hd-list span{font-size:8.5px;letter-spacing:2px;color:var(--dim);display:block}
+  .mk-hud .hd-list b{font-size:20px;font-family:var(--font)}
+  .mk-hud .hd-list i{display:block;height:6px;background:color-mix(in srgb,var(--border) 55%,transparent);margin-top:6px}
+  .mk-hud .hd-list em{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .mk-hud .hd-read{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:6px}
+  .mk-hud .hd-big{font-size:36px;font-family:var(--font);color:var(--accent);text-shadow:0 0 16px color-mix(in srgb,var(--accent) 60%,transparent)}
+  .mk-hud .hd-read span:last-child{font-size:9px;letter-spacing:2px;color:var(--dim)}
+  .mk-hud .hd-foot{display:flex;gap:22px;justify-content:center;padding:12px;border-top:1px solid color-mix(in srgb,var(--accent) 30%,transparent);font-size:9px;letter-spacing:1.5px;color:var(--dim)}
+
+  /* 10 粗野主义:宣言式大色块 */
+  .mk-brutal .br-top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:3px solid var(--border)}
+  .mk-brutal .br-top b{font-size:13px}
+  .mk-brutal .br-sticker{background:var(--accent);color:var(--on-accent);border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);padding:3px 12px;font-size:11px;font-weight:800;transform:rotate(-6deg)}
+  .mk-brutal .br-btn{margin-left:auto;border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);padding:5px 14px;font-size:11px;font-weight:800}
+  .mk-brutal .br-hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:30px 36px}
+  .mk-brutal .br-title{font-size:60px;line-height:.9;font-weight:900;letter-spacing:-2px;text-shadow:6px 6px 0 var(--border)}
+  .mk-brutal .br-btns{display:flex;gap:14px;flex-wrap:wrap}
+  .mk-brutal .br-btn2{border:2px solid var(--border);box-shadow:4px 4px 0 var(--border);padding:10px 22px;font-size:12px;font-weight:800;background:var(--elev)}
+  .mk-brutal .br-btn2.solid{background:var(--accent);color:var(--on-accent)}
+  .mk-brutal .br-marquee{border-top:3px solid var(--border);border-bottom:3px solid var(--border);padding:8px 12px;font-size:11px;letter-spacing:3px;font-weight:800;white-space:nowrap;overflow:hidden;color:var(--accent2)}
+  .mk-brutal .br-info{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:3px solid var(--border)}
+  .mk-brutal .br-info>div{padding:16px 20px;border-right:3px solid var(--border)}
+  .mk-brutal .br-info>div:last-child{border-right:none}
+  .mk-brutal .br-info b{font-size:20px;display:block}
+  .mk-brutal .br-info span{font-size:9px;letter-spacing:1.5px;color:var(--dim);font-weight:800}
+
+  /* 11 包豪斯:几何构成,形式即内容 */
+  .mk-bauhaus .bh-circle{position:absolute;right:30px;top:26px;width:110px;height:110px;border-radius:50%;background:var(--accent);z-index:1}
+  .mk-bauhaus .bh-square{position:absolute;left:28px;top:24px;width:66px;height:66px;background:var(--accent3);z-index:1}
+  .mk-bauhaus .bh-triangle{position:absolute;left:34px;bottom:80px;width:96px;height:84px;background:var(--accent2);clip-path:polygon(50% 0,100% 100%,0 100%);z-index:1}
+  .mk-bauhaus .bh-type{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 44px}
+  .mk-bauhaus .bh-type h3{font-size:40px;line-height:1;font-weight:900;letter-spacing:-1px}
+  .mk-bauhaus .bh-type p{font-size:10px;letter-spacing:4px;color:var(--dim);margin-top:16px}
+  .mk-bauhaus .bh-bar{position:absolute;left:0;right:0;bottom:0;height:22px;background:var(--accent3);z-index:2}
+  .mk-bauhaus .bh-bar::after{content:'';display:block;width:42%;height:100%;background:var(--accent2)}
+
+  /* 12 装饰艺术:对称的金色几何 */
+  .mk-deco .dc-fan{position:absolute;top:0;left:50%;transform:translateX(-50%);width:300px;height:130px;clip-path:polygon(50% 0,100% 100%,0 100%);background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--accent) 85%,transparent) 0 1px,transparent 1px 13px);opacity:.8}
+  .mk-deco .dc-center{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding-top:70px;text-align:center}
+  .mk-deco .dc-kicker{font-size:10px;letter-spacing:6px;color:var(--dim)}
+  .mk-deco .dc-center h3{font-size:38px;font-weight:700;line-height:1.08;letter-spacing:4px}
+  .mk-deco .dc-rule{width:170px;height:1px;background:var(--accent);box-shadow:0 0 10px color-mix(in srgb,var(--accent) 50%,transparent)}
+  .mk-deco .dc-center p{font-size:10px;letter-spacing:4px;color:var(--dim)}
+  .mk-deco .dc-diamond{width:10px;height:10px;background:var(--accent);transform:rotate(45deg)}
+  .mk-deco .dc-base{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:200px;height:5px;background:var(--accent)}
+
+  /* 13 哥特:圣殿拱门 */
+  .mk-gothic .gt-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+  .mk-gothic .gt-arch{position:relative;width:240px;height:300px;background:var(--elev);border:1px solid var(--border);border-radius:120px 120px 8px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;box-shadow:inset 0 0 40px rgba(0,0,0,.4)}
+  .mk-gothic .gt-arch::before{content:'';position:absolute;inset:9px;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:111px 111px 5px 5px;pointer-events:none}
+  .mk-gothic .gt-cross{color:var(--accent);font-size:24px}
+  .mk-gothic .gt-arch h3{font-size:26px;letter-spacing:2px}
+  .mk-gothic .gt-arch p{font-size:10.5px;color:var(--dim);letter-spacing:1.5px;text-align:center;line-height:1.8}
+  .mk-gothic .gt-btn{border:1px solid var(--accent);color:var(--accent);padding:9px 18px;font-size:11px;letter-spacing:2px;margin-top:6px}
+  .mk-gothic .gt-bar{padding:13px;border-top:1px solid var(--border);text-align:center;font-size:10px;letter-spacing:5px;color:var(--dim)}
+
+  /* 14 故障:信号崩坏 */
+  .fx-glitch .mock [data-t]{position:relative;animation:gl 2.4s infinite steps(1)}
+  .fx-glitch .mock [data-t]::before,.fx-glitch .mock [data-t]::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;opacity:.85;clip-path:inset(0 0 0 0)}
+  .fx-glitch .mock [data-t]::before{color:#00f5ff;animation:gl1 2.4s infinite steps(1)}
+  .fx-glitch .mock [data-t]::after{color:#ff3d6e;animation:gl2 2.4s infinite steps(1)}
+  @keyframes gl1{0%,86%{clip-path:inset(0 0 100% 0)}88%{clip-path:inset(12% 0 58% 0);transform:translateX(-3px)}92%{clip-path:inset(60% 0 8% 0);transform:translateX(3px)}96%{clip-path:inset(0 0 100% 0)}100%{clip-path:inset(0 0 100% 0)}}
+  @keyframes gl2{0%,86%{clip-path:inset(100% 0 0 0)}88%{clip-path:inset(55% 0 20% 0);transform:translateX(3px)}92%{clip-path:inset(10% 0 75% 0);transform:translateX(-3px)}96%{clip-path:inset(100% 0 0 0)}100%{clip-path:inset(100% 0 0 0)}}
+  .fx-noise .mock::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.15}
+  .mk-glitch .glc-head{flex:1;display:flex;align-items:center;padding:30px 36px}
+  .mk-glitch .glc-head h3{font-size:54px;line-height:.92;font-weight:900;letter-spacing:-2px}
+  .mk-glitch .glc-cols{display:grid;grid-template-columns:1fr 1fr;border-top:2px dashed var(--border)}
+  .mk-glitch .glc-col{padding:18px 24px;font-size:11.5px;color:var(--dim);line-height:1.9}
+  .mk-glitch .glc-col.b{transform:translateX(4px);border-left:2px dashed var(--border)}
+  .mk-glitch .glc-bar{padding:10px 18px;border-top:1px solid var(--border);font-size:10px;letter-spacing:2px;color:var(--accent);font-family:var(--font)}
+
+  /* 15 酸性:夜店海报 */
+  .mk-acid .ac-blob{position:absolute;border-radius:60% 40% 55% 45%/50% 60% 40% 50%;opacity:.6;filter:blur(2px)}
+  .mk-acid .ac-blob.b1{width:180px;height:180px;top:-40px;right:-30px;background:linear-gradient(135deg,var(--accent2),transparent 80%)}
+  .mk-acid .ac-blob.b2{width:150px;height:150px;bottom:40px;left:-40px;background:linear-gradient(135deg,var(--accent),transparent 80%)}
+  .mk-acid .ac-blob.b3{width:110px;height:110px;right:50px;bottom:110px;background:linear-gradient(135deg,var(--accent3),transparent 80%);opacity:.5}
+  .mk-acid .ac-type{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:30px 40px;gap:14px}
+  .mk-acid .ac-type h3{font-size:56px;line-height:.9;font-weight:900;transform:skew(-8deg);letter-spacing:-2px}
+  .mk-acid .ac-type p{font-size:11px;letter-spacing:4px;color:var(--dim)}
+  .mk-acid .ac-btn{background:var(--accent);color:var(--on-accent);font-weight:800;font-size:13px;padding:12px 26px;transform:skew(-8deg);border-radius:4px;margin-top:6px}
+  .mk-acid .ac-halftone{position:absolute;right:24px;top:24px;width:110px;height:110px;background-image:radial-gradient(circle,var(--accent2) 3px,transparent 3.1px);background-size:14px 14px;opacity:.75}
+  .mk-acid .ac-marquee{position:absolute;left:0;right:0;bottom:0;padding:9px 14px;font-size:11px;letter-spacing:3px;font-weight:800;transform:skew(-6deg);color:var(--accent);border-top:1px dashed var(--border)}
+
+  /* 16 蒸汽波:复古未来的梦 */
+  .mk-vapor{overflow:hidden}
+  .mk-vapor .vp-sun{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);width:240px;height:140px;border-radius:50% 50% 0 0;background:linear-gradient(180deg,var(--accent),var(--accent2));opacity:.85}
+  .mk-vapor .vp-grid{position:absolute;left:-40%;right:-40%;bottom:0;height:160px;transform:perspective(260px) rotateX(58deg);transform-origin:bottom;background-image:linear-gradient(var(--accent2) 1px,transparent 1px),linear-gradient(90deg,var(--accent2) 1px,transparent 1px);background-size:34px 34px;opacity:.4}
+  .mk-vapor .vp-type{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+  .mk-vapor .vp-type h3{font-size:56px;line-height:.9;font-weight:900;letter-spacing:4px;text-shadow:0 0 32px color-mix(in srgb,var(--accent) 60%,transparent)}
+  .mk-vapor .vp-type p{font-size:10px;letter-spacing:6px;color:var(--dim)}
+  .mk-vapor .vp-foot{position:absolute;left:0;right:0;bottom:0;padding:10px;border-top:1px solid color-mix(in srgb,var(--accent2) 30%,transparent);text-align:center;font-size:9px;letter-spacing:3px;color:var(--dim);z-index:2}
+
+  /* 17 深空:宇宙仪式感 */
+  .fx-stars .mock::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff,transparent),radial-gradient(1px 1px at 32% 58%,#fff,transparent),radial-gradient(1.5px 1.5px at 48% 16%,#fff,transparent),radial-gradient(1px 1px at 66% 44%,#fff,transparent),radial-gradient(1.5px 1.5px at 80% 70%,#fff,transparent),radial-gradient(1px 1px at 90% 24%,#fff,transparent),radial-gradient(1.2px 1.2px at 24% 84%,#fff,transparent),radial-gradient(1px 1px at 58% 78%,#fff,transparent),radial-gradient(1.2px 1.2px at 76% 12%,#fff,transparent)}
+  .fx-stars .mock>*{position:relative;z-index:1}
+  .mk-space{background:radial-gradient(140% 100% at 70% 20%, rgba(192,132,252,.16), transparent 60%), radial-gradient(120% 90% at 20% 90%, rgba(125,211,252,.12), transparent 55%), #04060d}
+  .mk-space .sp2-type{flex:1;display:flex;flex-direction:column;justify-content:center;padding:34px 44px;gap:14px}
+  .mk-space .sp2-type h3{font-size:56px;font-weight:900;line-height:.95;background:linear-gradient(120deg,var(--text),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .mk-space .sp2-type p{font-size:10px;letter-spacing:4px;color:var(--dim)}
+  .mk-space .sp2-card{position:absolute;right:20px;bottom:20px;background:var(--elev);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:10.5px;letter-spacing:2px;color:var(--dim);font-family:var(--font)}
+
+  /* ===== 等距 3D:纪念碑谷式等距世界(悬浮岛) ===== */
+  .mk-iso{overflow:hidden;background:linear-gradient(180deg,#1b1d3f 0%,#352c5e 52%,#57456e 100%)}
+  .mk-iso .iso-stars{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(1.2px 1.2px at 15% 18%,rgba(255,255,255,.9),transparent),radial-gradient(1px 1px at 28% 42%,rgba(255,255,255,.7),transparent),radial-gradient(1.2px 1.2px at 43% 12%,rgba(255,255,255,.8),transparent),radial-gradient(1px 1px at 60% 30%,rgba(255,255,255,.7),transparent),radial-gradient(1.2px 1.2px at 75% 16%,rgba(255,255,255,.85),transparent),radial-gradient(1px 1px at 88% 38%,rgba(255,255,255,.6),transparent),radial-gradient(1px 1px at 50% 55%,rgba(255,255,255,.5),transparent)}
+  .mk-iso .iso-moon{position:absolute;top:30px;right:44px;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 36% 34%,#fff6d8,#ffe9b3 58%,rgba(255,233,179,.15));box-shadow:0 0 36px rgba(255,233,179,.5);z-index:1}
+  .mk-iso .iso-head{position:relative;z-index:2;padding:28px 40px 0}
+  .mk-iso .iso-kicker{font-size:9px;letter-spacing:4px;color:#c9c3e8}
+  .mk-iso .iso-head h3{font-size:30px;font-weight:600;line-height:1.05;letter-spacing:.5px;color:#f4f1ff}
+  .mk-iso .iso-head p{font-size:10px;letter-spacing:2.5px;color:#bdb6dc;margin-top:8px}
+  .mk-iso .iso-actions{display:flex;gap:10px;margin-top:14px}
+  .mk-iso .iso-scene{position:relative;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:24px;padding:0 40px 34px;z-index:2}
+  .mk-iso .iso-b{position:relative}
+  .mk-iso .iso-b i{position:absolute;inset:0;display:block}
+  .mk-iso .iso-b .t{clip-path:polygon(50% 0,100% 25%,50% 50%,0 25%)}
+  .mk-iso .iso-b .l{clip-path:polygon(0 25%,50% 50%,50% 100%,0 75%)}
+  .mk-iso .iso-b .r{clip-path:polygon(50% 50%,100% 25%,100% 75%,50% 100%)}
+  .mk-iso .iso-tower{width:104px;height:130px}
+  .mk-iso .iso-tower .t{background:#d8d1fb}.mk-iso .iso-tower .l{background:#7d74b0}.mk-iso .iso-tower .r{background:#b3acf0}
+  .mk-iso .iso-arch{width:78px;height:94px}
+  .mk-iso .iso-arch .t{background:#bff2df}.mk-iso .iso-arch .l{background:#549c80}.mk-iso .iso-arch .r{background:#8fd8b8}
+  .mk-iso .iso-arch::before{content:'';position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:26px;height:38px;background:#1b1d3f;border-radius:13px 13px 0 0;z-index:3}
+  .mk-iso .iso-stairs{position:relative;width:70px;height:56px;margin-bottom:36px}
+  .mk-iso .iso-stairs i{position:absolute;width:22px;height:22px;background:#8fd8b8}
+  .mk-iso .iso-stairs i:nth-child(1){left:0;top:34px}
+  .mk-iso .iso-stairs i:nth-child(2){left:24px;top:17px}
+  .mk-iso .iso-stairs i:nth-child(3){left:48px;top:0}
+  .mk-iso .iso-float{position:relative;margin-bottom:10px}
+  .mk-iso .iso-fisle{width:106px;height:38px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#f7eed9}
+  .mk-iso .iso-float::after{content:'';position:absolute;left:50%;top:calc(100% - 2px);transform:translateX(-50%);width:140px;height:32px;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);filter:blur(4px)}
+  .mk-iso .iso-guy{position:absolute;left:50%;bottom:26px;transform:translate(-50%,0);width:9px;height:15px;background:#fff;border-radius:4px 4px 2px 2px;z-index:5;animation:walk 7s ease-in-out infinite}
+  .mk-iso .iso-guy::before{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:5.5px;height:5.5px;border-radius:50%;background:#fff}
+  @keyframes walk{0%,100%{transform:translate(-50%,0)}50%{transform:translate(calc(-50% + 14px),0)}}
+  .mk-iso .iso-floor{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:min(440px,84%);height:44px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:#f7eed9;box-shadow:0 16px 30px rgba(0,0,0,.3);z-index:1;opacity:.92}
+  .mk-iso .iso-mist{position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg,transparent,rgba(120,90,140,.5));pointer-events:none;z-index:3}
+  .mk-iso .iso-foot{position:relative;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:11px 22px;border-top:1px solid rgba(255,255,255,.14);font-size:9.5px;letter-spacing:2.5px;color:#bdb6dc;background:linear-gradient(180deg,transparent,#2a2450)}
+  .mk-iso .iso-foot h3{font-size:12px;color:#efeaff;letter-spacing:2px}
+  /* 19 像素:8-bit 街机 */
+
+
+
+  .mk-pixel{image-rendering:pixelated}
+  .mk-pixel .px-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:4px solid var(--border);font-size:11px;letter-spacing:2px;font-family:var(--font)}
+  .mk-pixel .px-heart{width:10px;height:10px;background:var(--accent);display:inline-block;box-shadow:10px 0 0 var(--accent),20px 0 0 var(--accent),0 10px 0 var(--accent),10px 10px 0 var(--accent),20px 10px 0 var(--accent),10px 20px 0 var(--accent)}
+  .mk-pixel .px-hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:24px 32px}
+  .mk-pixel .px-hero h3{font-size:48px;font-weight:900;font-family:var(--font);letter-spacing:0;text-shadow:5px 5px 0 var(--border)}
+  .mk-pixel .px-hero p{font-size:11px;letter-spacing:3px;color:var(--dim);font-family:var(--font)}
+  .mk-pixel .px-btn{display:inline-block;align-self:flex-start;background:var(--accent);color:var(--on-accent);font-family:var(--font);font-size:13px;font-weight:800;padding:12px 24px;border:4px solid var(--border);box-shadow:5px 5px 0 var(--border);letter-spacing:2px}
+  .mk-pixel .px-art{height:52px;border-top:4px solid var(--border);background-image:linear-gradient(45deg,var(--accent) 25%,transparent 25%,transparent 75%,var(--accent) 75%),linear-gradient(45deg,var(--accent) 25%,transparent 25%,transparent 75%,var(--accent) 75%);background-size:22px 22px;background-position:0 0,11px 11px;opacity:.4}
+  .mk-pixel .px-foot{display:flex;justify-content:center;padding:10px;border-top:4px solid var(--border);font-size:9px;letter-spacing:3px;color:var(--dim);font-family:var(--font)}
+
+  /* 20 国风水墨:留白的仪式 */
+  .mk-ink{background:linear-gradient(160deg,#1a1612,#100d0a)}
+  .mk-ink .ink-brush{position:absolute;top:-30px;right:-30px;width:260px;height:130px;background:radial-gradient(ellipse at 30% 50%,rgba(0,0,0,.55),transparent 70%);filter:blur(3px);transform:rotate(-18deg)}
+  .mk-ink .ink-body{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+  .mk-ink .ink-vert{writing-mode:vertical-rl;text-align:center}
+  .mk-ink .ink-vert h3{font-size:40px;letter-spacing:10px;font-weight:600}
+  .mk-ink .ink-vert p{font-size:11px;color:var(--dim);letter-spacing:5px;margin-top:18px}
+  .mk-ink .ink-seal{position:absolute;right:40px;bottom:10px;width:46px;height:46px;background:var(--accent);color:#f5ede0;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:5px;transform:rotate(-6deg)}
+  .mk-ink .ink-foot{padding:13px;border-top:1px solid var(--border);text-align:center;font-size:10px;letter-spacing:5px;color:var(--dim)}
+
+  /* 21 电影感:宽银幕海报 */
+  .mk-cine{background:#080808}
+  .mk-cine .cine-bar{position:absolute;left:0;right:0;height:44px;background:#000;z-index:5}
+  .mk-cine .cine-bar.top{top:0}
+  .mk-cine .cine-bar.bottom{bottom:0}
+  .mk-cine .cine-body{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:60px 20px}
+  .mk-cine .cine-kicker{font-size:10px;letter-spacing:6px;color:var(--dim)}
+  .mk-cine .cine-body h3{font-size:60px;font-weight:900;letter-spacing:2px;line-height:1;text-shadow:0 6px 40px rgba(0,0,0,.9)}
+  .mk-cine .cine-meta{font-size:11px;letter-spacing:4px;color:var(--dim)}
+  .mk-cine .cine-btn{font-size:12px;letter-spacing:3px;color:var(--text);border-bottom:1px solid var(--accent);padding-bottom:3px}
+  .mk-cine .cine-cap{position:absolute;bottom:56px;left:0;right:0;text-align:center;font-size:10px;letter-spacing:6px;color:var(--dim)}
+
+  /* 22 构成主义:宣传画的动感 */
+  .mk-construct{overflow:hidden}
+  .mk-construct .cs-shape1{position:absolute;top:-40px;right:-34px;width:190px;height:190px;background:var(--accent);transform:rotate(24deg);clip-path:polygon(0 0,100% 0,55% 100%)}
+  .mk-construct .cs-shape2{position:absolute;bottom:-34px;left:-26px;width:150px;height:150px;background:var(--accent2);border-radius:50%}
+  .mk-construct .cs-body{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 42px;gap:12px}
+  .mk-construct .cs-kicker{font-size:10px;letter-spacing:4px;color:var(--dim)}
+  .mk-construct .cs-body h3{font-size:46px;font-weight:900;line-height:.95;letter-spacing:-2px;transform:rotate(-4deg);text-shadow:6px 6px 0 color-mix(in srgb,var(--accent) 45%,transparent)}
+  .mk-construct .cs-btn{display:inline-block;align-self:flex-start;margin-top:10px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;letter-spacing:2px;padding:12px 24px;transform:rotate(-4deg)}
+  .mk-construct .cs-rays{position:absolute;left:0;right:0;bottom:0;height:42px;background:repeating-linear-gradient(-45deg,var(--accent2) 0 10px,transparent 10px 20px);opacity:.5}
+
+  /* ===== 延伸页面区块(随风格变量适配) ===== */
+  .mock-nav{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);background:var(--elev);font-size:11px}
+  .mock-logo{font-weight:800;font-size:12.5px}
+  .mock-links{display:flex;gap:12px;color:var(--dim);font-size:10.5px;margin-left:8px;flex:1}
+  .mock-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}
+  .mock-card{background:var(--elev);border:1px solid var(--border);border-radius:var(--radius,10px);padding:16px}
+  .mock-card b{font-size:15px;display:block}
+  .mock-card h4{font-size:14px;margin:6px 0 3px}
+  .mock-card p{font-size:11px;color:var(--dim);line-height:1.6}
+  .mock-card .price{font-size:22px;font-weight:800;color:var(--accent)}
+  .ex-kicker{font-size:10px;letter-spacing:2.5px;color:var(--dim);margin-bottom:8px}
+  .ex-hero{padding:26px 28px 18px;border-bottom:1px solid var(--border)}
+  .ex-hero h3{font-size:26px}
+  .ex-sub{font-size:12px;color:var(--dim);margin-top:6px;max-width:92%}
+  .ex-hero .mbtn{margin-top:14px}
+  .ex-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
+  .ex-stats>div{padding:14px 20px;border-right:1px solid var(--border)}
+  .ex-stats>div:last-child{border-right:none}
+  .ex-stats b{font-size:20px;display:block}
+  .ex-stats span{font-size:9px;letter-spacing:1.5px;color:var(--dim)}
+  .ex-chart{display:flex;align-items:flex-end;gap:7px;padding:14px 18px;border-bottom:1px solid var(--border);height:110px;flex:1}
+  .ex-chart i{flex:1;background:linear-gradient(180deg,var(--accent2),var(--accent));border-radius:3px 3px 0 0;opacity:.92}
+  .ex-table{padding:8px 18px;border-bottom:1px solid var(--border)}
+  .ex-table .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;padding:9px 0;border-bottom:1px dashed color-mix(in srgb,var(--border) 55%,transparent);font-size:11px;color:var(--dim)}
+  .ex-table .row:last-child{border-bottom:none}
+  .ex-table .row b{color:var(--text);font-weight:600}
+  .ex-table .row .ok{color:var(--accent)}
+  .ex-quote{padding:16px 20px;font-size:14px;font-style:italic;border-left:3px solid var(--accent);color:var(--text);margin:14px 18px;background:var(--elev);border-radius:0 10px 10px 0;line-height:1.7}
+  .ex-body{padding:18px 22px;font-size:12px;color:var(--dim);line-height:1.85;flex:1}
+  .ex-body p{margin-bottom:10px}
+  .ex-form{display:flex;gap:10px;padding:20px 22px;align-items:center;border-top:1px solid var(--border)}
+  .ex-input{flex:1;background:var(--inset,var(--elev));border:1px solid var(--border);border-radius:var(--radius,6px);padding:10px 14px;color:var(--text);font-size:12px;font-family:inherit;outline:none;min-width:0}
+  .ex-input::placeholder{color:var(--dim)}
+  .ex-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px}
+  .ex-tile{aspect-ratio:1.6;background:linear-gradient(135deg,var(--elev),var(--inset));border:1px solid var(--border);border-radius:var(--radius,8px);position:relative;overflow:hidden}
+  .ex-tile::after{content:'';position:absolute;left:10px;right:10px;bottom:10px;height:6px;background:color-mix(in srgb,var(--accent) 55%,transparent);border-radius:2px}
+  .ex-footer{padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;color:var(--dim);margin-top:auto}
+  .fx-glass .mock-nav,.fx-glass .mock-card{background:var(--elev);backdrop-filter:blur(12px)}
+  .fx-brutal .mock-nav,.fx-brutal .mock-card,.fx-brutal .ex-tile{border:2px solid var(--border);border-radius:2px}
+  .fx-brutal .mbtn,.fx-brutal .ex-input{border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);border-radius:2px}
+  .fx-neumorph .mock-nav,.fx-neumorph .mock-card,.fx-neumorph .ex-tile{box-shadow:5px 5px 12px rgba(0,0,0,.5),-5px -5px 12px color-mix(in srgb,var(--border) 30%,transparent);background:var(--elev);border-color:transparent}
+  .fx-neumorph .ex-input{box-shadow:inset 3px 3px 8px rgba(0,0,0,.45),inset -3px -3px 8px color-mix(in srgb,var(--border) 28%,transparent);background:var(--inset);border-color:transparent}
+  .fx-glow .mbtn.primary{box-shadow:0 0 16px color-mix(in srgb,var(--accent) 60%,transparent)}
+
+  /* 23 侧边栏应用 */
+  .mk-sidebar{display:grid;grid-template-columns:158px 1fr;min-height:520px}
+  .mk-sidebar .sb-side{display:flex;flex-direction:column;gap:4px;padding:16px 12px;background:var(--elev);border-right:1px solid var(--border)}
+  .mk-sidebar .sb-logo{font-size:17px;margin-bottom:14px;padding-left:8px}
+  .mk-sidebar .sb-item{display:flex;gap:9px;align-items:center;padding:9px 12px;border-radius:8px;font-size:11.5px;color:var(--dim)}
+  .mk-sidebar .sb-item.on{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--text)}
+  .mk-sidebar .sb-user{margin-top:auto;width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-left:8px}
+  .mk-sidebar .sb-main{display:flex;flex-direction:column;gap:14px;padding:16px 20px}
+  .mk-sidebar .sb-top{display:flex;align-items:center;gap:10px}
+  .mk-sidebar .sb-top h4{font-size:15px;flex:1}
+  .mk-sidebar .sb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mk-sidebar .sb-stats>div{background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:12px}
+  .mk-sidebar .sb-stats b{font-size:18px;display:block}
+  .mk-sidebar .sb-stats span{font-size:9px;letter-spacing:1.5px;color:var(--dim)}
+  .mk-sidebar .sb-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1}
+  .mk-sidebar .sb-card{background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .mk-sidebar .sb-card b{font-size:10px;color:var(--dim);letter-spacing:1.5px}
+  .mk-sidebar .sb-card h5{font-size:13px;margin:6px 0 3px}
+  .mk-sidebar .sb-card p{font-size:10.5px;color:var(--dim)}
+  /* 24 时间线 */
+  .mk-timeline{position:relative;min-height:520px}
+  .mk-timeline .tl-head{padding:26px 34px 6px}
+  .mk-timeline .tl-head h3{font-size:28px}
+  .mk-timeline .tl-head p{font-size:10px;letter-spacing:2.5px;color:var(--dim);margin-top:6px}
+  .mk-timeline .tl-axis{position:absolute;left:50%;top:142px;bottom:26px;width:1px;background:var(--border)}
+  .mk-timeline .tl-item{position:absolute;width:42%}
+  .mk-timeline .tl-item.i1{left:5%;top:148px}
+  .mk-timeline .tl-item.i2{right:5%;top:268px}
+  .mk-timeline .tl-item.i3{left:5%;top:388px}
+  .mk-timeline .tl-dot{position:absolute;right:-6px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}
+  .mk-timeline .tl-item.r .tl-dot{left:-6px;right:auto}
+  .mk-timeline .tl-card{background:var(--elev);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-left:22px}
+  .mk-timeline .tl-item.r .tl-card{margin-left:0;margin-right:22px;text-align:right}
+  .mk-timeline .tl-card b{color:var(--accent);font-size:10.5px;letter-spacing:1.5px}
+  .mk-timeline .tl-card h5{font-size:14px;margin:3px 0}
+  .mk-timeline .tl-card p{font-size:10.5px;color:var(--dim)}
+  /* 25 对话界面 */
+  .mk-chat .ch-top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--elev)}
+  .mk-chat .ch-ava{width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--accent) 30%,var(--elev));border:1px solid var(--border);flex:none}
+  .mk-chat .ch-top b{font-size:13px;display:block}
+  .mk-chat .ch-on{font-size:9.5px;color:var(--accent)}
+  .mk-chat .ch-top .mbtn{margin-left:auto}
+  .mk-chat .ch-body{flex:1;display:flex;flex-direction:column;gap:14px;padding:18px 16px;justify-content:center}
+  .mk-chat .ch-msg{display:flex;flex-direction:column;gap:3px;max-width:72%}
+  .mk-chat .ch-msg.in{align-self:flex-start}
+  .mk-chat .ch-msg.out{align-self:flex-end;align-items:flex-end}
+  .mk-chat .ch-bub{padding:10px 15px;border-radius:14px;font-size:11.5px;line-height:1.6;background:var(--elev);border:1px solid var(--border)}
+  .mk-chat .ch-msg.out .ch-bub{background:var(--accent);color:var(--on-accent);border-color:transparent}
+  .mk-chat .ch-time{font-size:8.5px;color:var(--dim)}
+  .mk-chat .ch-input{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--border);background:var(--elev)}
+  /* 26 书页章节 */
+  .mk-book .bk-head{padding:38px 48px 12px;text-align:center}
+  .mk-book .bk-ch{font-size:9px;letter-spacing:5px;color:var(--accent)}
+  .mk-book .bk-head h3{font-size:38px;font-weight:700;margin-top:14px;line-height:1.05}
+  .mk-book .bk-by{font-size:10px;color:var(--dim);margin-top:12px;letter-spacing:2px}
+  .mk-book .bk-body{flex:1;width:min(360px,84%);margin:0 auto;padding:14px 0 8px;text-align:justify}
+  .mk-book .bk-body p{font-size:12.5px;line-height:2.1;color:var(--dim)}
+  .mk-book .bk-quote{margin:20px 0 0;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-size:14px;font-style:italic;text-align:center;color:var(--text);line-height:1.8}
+  .mk-book .bk-foot{display:flex;justify-content:space-between;padding:12px 22px;border-top:1px solid var(--border);font-size:9.5px;letter-spacing:2px;color:var(--dim);margin-top:auto}
+  /* 27 镀铬金属 */
+  .mk-chrome{background:radial-gradient(120% 90% at 50% 0%, #1a1d2b, #0b0c12 70%)}
+  .mk-chrome .cr-glow{position:absolute;left:50%;top:34%;transform:translateX(-50%);width:360px;height:230px;background:radial-gradient(ellipse,rgba(192,200,221,.16),transparent 70%);filter:blur(20px);pointer-events:none}
+  .mk-chrome .cr-type{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding-top:46px}
+  .mk-chrome .cr-title{font-size:66px;font-weight:900;letter-spacing:10px;line-height:1;background:linear-gradient(180deg,#ffffff 0%,#c0c8dd 28%,#6f7a96 46%,#e2e8f6 52%,#5b6478 74%,#c7d0e4 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 20px rgba(0,0,0,.65))}
+  .mk-chrome .cr-type p{font-size:10px;letter-spacing:6px;color:var(--dim)}
+  .mk-chrome .cr-disc{position:absolute;left:50%;bottom:-80px;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:conic-gradient(from 210deg,#3a4154,#8fa3c9,#eef2fa,#6f7a96,#2c3142,#8fa3c9,#3a4154);opacity:.55;filter:blur(2px)}
+  /* 28 全息投影 */
+  .mk-holo{background:radial-gradient(120% 100% at 50% 0%, #1a1030, #0c0814 70%)}
+  .mk-holo .ho-type{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+  .mk-holo .ho-type h3{font-size:52px;font-weight:900;letter-spacing:3px;line-height:.95;background:linear-gradient(90deg,#22d3ee,#8b5cf6,#f472b6,#22d3ee);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:hue 8s linear infinite}
+  @keyframes hue{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  .mk-holo .ho-type p{font-size:10px;letter-spacing:4px;color:var(--dim)}
+  .mk-holo .ho-rings{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:310px;height:310px;pointer-events:none;opacity:.55}
+  .mk-holo .ho-rings i{position:absolute;inset:0;border:1px solid color-mix(in srgb,var(--accent2) 45%,transparent);border-radius:50%;animation:ring 6s ease-in-out infinite}
+  .mk-holo .ho-rings i:nth-child(2){inset:38px;border-color:color-mix(in srgb,var(--accent3) 45%,transparent);animation-delay:1s}
+  .mk-holo .ho-rings i:nth-child(3){inset:76px;border-color:color-mix(in srgb,var(--accent) 45%,transparent);animation-delay:2s}
+  @keyframes ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.06);opacity:.95}}
+  .mk-holo .ho-scan{position:absolute;left:0;right:0;top:-90px;height:90px;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--accent2) 12%,transparent),transparent);animation:scan 5s linear infinite;pointer-events:none}
+  @keyframes scan{0%{top:-90px}100%{top:100%}}
+
+  /* ===== 组件样式预览 ===== */
+  .cmp{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius,10px);font-family:var(--font,inherit);display:flex;flex-direction:column;gap:14px;padding:20px;color:var(--text)}
+  .cmp *{box-sizing:border-box}
+  .cmp-label{font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+  .cmp-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .cmp-btn{background:var(--accent);color:var(--on-accent,#fff);border:1px solid transparent;border-radius:var(--radius,6px);padding:9px 20px;font-size:13px;font-weight:700;cursor:default;font-family:inherit;letter-spacing:.3px}
+  .cmp-btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .cmp-btn.danger{background:transparent;color:#ff6b6b;border:1px solid color-mix(in srgb,#ff6b6b 42%,transparent)}
+  .cmp-input{background:var(--inset,var(--elev));border:1px solid var(--border);border-radius:var(--radius,6px);padding:10px 14px;color:var(--text);font-size:13px;font-family:inherit;flex:1;min-width:150px;outline:none}
+  .cmp-input::placeholder{color:var(--dim)}
+  .cmp-badge{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:999px;padding:3px 13px;font-size:12px;font-weight:700;white-space:nowrap}
+  .cmp-switch{width:40px;height:22px;border-radius:999px;background:var(--inset,var(--elev));border:1px solid var(--border);position:relative;display:inline-block;flex:none}
+  .cmp-switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+  .cmp-switch.on{background:var(--accent);border-color:transparent}
+  .cmp-switch.on::after{left:20px}
+  .cmp-progress{flex:1;height:9px;border-radius:999px;background:var(--inset,var(--elev));border:1px solid var(--border);overflow:hidden;min-width:110px}
+  .cmp-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .cmp-stat{font-size:14px;font-weight:800;color:var(--accent);font-family:var(--font,inherit)}
+  .fx-glass .cmp{background:var(--elev);backdrop-filter:blur(12px)}
+  .fx-neumorph .cmp{box-shadow:5px 5px 12px rgba(0,0,0,.5),-5px -5px 12px color-mix(in srgb,var(--border) 30%,transparent);background:var(--elev);border-color:transparent}
+  .fx-neumorph .cmp-input{box-shadow:inset 3px 3px 8px rgba(0,0,0,.45),inset -3px -3px 8px color-mix(in srgb,var(--border) 28%,transparent);border-color:transparent;background:var(--inset)}
+  .fx-glow .cmp-btn{box-shadow:0 0 16px color-mix(in srgb,var(--accent) 60%,transparent)}
+  .fx-brutal .cmp{border:2px solid var(--border)}
+  .fx-brutal .cmp-btn{border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);border-radius:2px}
+  .fx-brutal .cmp-input{border:2px solid var(--border);border-radius:2px}
+
+  /* ===== 信息区 ===== */
+  .sc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .sc-no{font-size:12px;color:var(--shell-dim);border:1px solid var(--shell-border);border-radius:6px;padding:1px 8px}
+  .sc-name{font-size:21px;font-weight:800}
+  .sc-en{font-size:12px;color:var(--shell-dim);font-family:Consolas,monospace}
+  .sc-cat{font-size:11.5px;background:rgba(124,156,245,.15);color:#b7c6f7;border-radius:999px;padding:2px 10px}
+  .star{margin-left:auto;background:none;border:1px solid var(--shell-border);color:var(--shell-dim);border-radius:8px;padding:4px 11px;font-size:14px;cursor:pointer;transition:.18s;line-height:1.3}
+  .star:hover{color:var(--shell-gold);border-color:var(--shell-gold)}
+  .star.on{background:rgba(240,195,107,.14);color:var(--shell-gold);border-color:var(--shell-gold)}
+  .sc-desc{margin-top:10px;color:#c3ccda;font-size:13.5px;max-width:640px}
+  .traits{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .trait{font-size:11.5px;background:var(--shell-panel2);border:1px solid var(--shell-border);border-radius:999px;padding:2px 10px;color:var(--shell-dim)}
+  .trait b{color:var(--shell-text);font-weight:600}
+  .ui-box{margin-top:14px;border:1px solid var(--shell-border);border-radius:12px;overflow:hidden;background:var(--shell-panel2);max-width:640px}
+  .ui-box .ui-h{font-size:12px;font-weight:800;padding:8px 13px;background:rgba(124,156,245,.1);color:#c9d5f7;display:flex;align-items:center;gap:6px}
+  .ui-box .ui-h::before{content:'◈';font-size:10px}
+  .ui-box table{width:100%;border-collapse:collapse}
+  .ui-box td{padding:6px 13px;font-size:12px;border-top:1px solid var(--shell-border);vertical-align:top;color:#b8c4d6;line-height:1.55}
+  .ui-box td.k{width:76px;color:var(--shell-dim);font-weight:700;white-space:nowrap;background:rgba(255,255,255,.015)}
+  .palette{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+  .swatch{display:flex;flex-direction:column;gap:4px;cursor:pointer;align-items:center;width:66px}
+  .swatch .sq{width:66px;height:42px;border-radius:8px;border:1px solid rgba(255,255,255,.12);transition:.15s;position:relative}
+  .swatch:hover .sq{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.35)}
+  .swatch .nm{font-size:10.5px;color:var(--shell-dim)}
+  .swatch .hex{font-size:10px;font-family:Consolas,monospace;color:#7f8ba0}
+  .swatch .sq::after{content:'复制';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:#fff;background:rgba(0,0,0,.35);border-radius:8px;opacity:0;transition:.15s}
+  .swatch:hover .sq::after{opacity:1}
+  .css-block{margin-top:14px;position:relative}
+  .css-block pre{background:#0b0e13;border:1px solid var(--shell-border);border-radius:10px;padding:12px 14px;font-family:Consolas,"Courier New",monospace;font-size:11.8px;line-height:1.7;color:#b8c4d6;overflow-x:auto;white-space:pre}
+  .css-block pre .cm{color:#5c6b80}
+  .copy-css{position:absolute;top:8px;right:8px;background:rgba(124,156,245,.14);border:1px solid #3b4a6b;color:#c6d3ff;border-radius:7px;padding:3px 12px;font-size:11.5px;cursor:pointer;transition:.18s}
+  .copy-css:hover{background:rgba(124,156,245,.3)}
+  .info-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .info-item{font-size:12.5px}
+  .info-item .k{display:block;font-size:11px;color:var(--shell-dim);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+  .info-item .v{color:#c3ccda}
+  .chips-row{display:flex;flex-wrap:wrap;gap:6px}
+  .chip2{font-size:11.5px;border:1px dashed #39445a;border-radius:6px;padding:1px 8px;color:#aeb9c9}
+
+  .sect{margin-top:34px;background:var(--shell-panel);border:1px solid var(--shell-border);border-radius:16px;padding:22px 24px}
+  .sect h2{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .sect h2::before{content:'';width:4px;height:16px;border-radius:2px;background:var(--shell-accent)}
+  .sect p,.sect li{font-size:13.5px;color:#c3ccda;margin-bottom:7px}
+  .sect ul{padding-left:20px}
+  .sect b{color:var(--shell-text)}
+  .axis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0 4px}
+  .axis .ax{background:var(--shell-panel2);border:1px solid var(--shell-border);border-radius:12px;padding:12px 14px}
+  .axis .ax b{display:block;font-size:13px;margin-bottom:4px}
+  .axis .ax span{font-size:12px;color:#b8c4d6}
+  table.compare{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px}
+  table.compare th,table.compare td{border:1px solid var(--shell-border);padding:8px 10px;text-align:left;vertical-align:top}
+  table.compare th{background:var(--shell-panel2);color:#cdd6e4;font-weight:700;white-space:nowrap}
+  table.compare td{color:#b8c4d6}
+  table.compare tr:hover td{background:rgba(124,156,245,.05)}
+  .sect .sub{font-size:12.5px;color:var(--shell-dim);margin:18px 0 2px;font-weight:700;letter-spacing:.4px}
+  .ext-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .ext-links a{font-size:12.5px;border:1px solid #39445a;border-radius:999px;padding:4px 13px;color:#b7c6f7}
+  .ext-links a:hover{border-color:var(--shell-accent);text-decoration:none}
+
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#202836;border:1px solid #3a4a66;color:#e8ecf5;border-radius:10px;padding:9px 20px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .empty{text-align:center;color:var(--shell-dim);padding:50px 0;display:none}
+  .empty.show{display:block}
+  footer{max-width:1320px;margin:0 auto;padding:0 20px 40px;font-size:12px;color:#6b7688;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="head-inner">
+    <div class="head-row">
+      <div class="logo"><span class="dot"></span>深色设计风格手册 <small>28 种主页设计方案</small></div>
+      <div class="search">🔍<input id="q" type="text" placeholder="搜索风格 / 场景 / 颜色…"></div>
+      <div class="stats"><b id="cnt">0</b> 种风格 · <span id="catCnt">0</span> 类</div>
+      <button class="fav-toggle" id="favToggle">☆ 只看收藏</button>
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+</header>
+
+<div class="tip">💡 <b>用法:</b>每种风格是<b>一套完整的主页设计</b>(构图 / 比例 / 形式各不相同,不是换色)。3 个预览 Tab:首页(完整主页稿)· 延伸页面(其他页面形态)· 组件样式 · 点击色块复制 · <b>复制 CSS</b> 一键取用 · ☆ 收藏(本地保存) · 支持搜索筛选。</div>
+
+<main>
+  <div class="cards" id="cards"></div>
+  <div class="empty" id="empty">没有匹配的风格,换个关键词试试吧。</div>
+
+  <section class="sect">
+    <h2>怎么看懂一种主页设计:五个维度</h2>
+    <p>主页设计的差异来自这五个维度——它们决定"构思",只换配色不算新方案:</p>
+    <div class="axis">
+      <div class="ax"><b>① 布局骨架</b><span>竖向节奏 / 报纸多栏 / 砖块拼贴 / 分屏 / 终端行 / HUD 覆盖 / 几何构图…</span></div>
+      <div class="ax"><b>② 比例结构</b><span>hero 占全屏、占 70%、占 40%…;导航-内容-页脚的不同占比与节奏。</span></div>
+      <div class="ax"><b>③ 组件形态</b><span>按钮与卡片:直角硬边 / 圆角玻璃 / 浮雕 / 贴纸 / 切角 / 像素边…</span></div>
+      <div class="ax"><b>④ 材质纹理</b><span>纸张颗粒 / 玻璃模糊 / 噪点 / 扫描线 / 网格 / 星云 / 液态…</span></div>
+      <div class="ax"><b>⑤ 字体与装饰</b><span>衬线 / 无衬线 / 等宽 / 斜切变形 / 几何图形 / 印章 / 放射线…</span></div>
+    </div>
+    <p style="margin-top:8px">本手册 23 种主页在<b>布局与比例层面就不同</b>,配色只是第二层。</p>
+  </section>
+
+  <section class="sect">
+    <h2>深色界面设计最佳实践</h2>
+    <ul>
+      <li><b>避免纯黑背景(#000)</b>:改用深灰、深蓝、墨绿等"柔和黑",观感更高级、眩光更少。</li>
+      <li><b>文字对比度 ≥ 4.5:1</b>(WCAG AA):主文字用 90% 亮度的灰白,次要文字 60% 左右。</li>
+      <li><b>层次靠"层级色"而非边框</b>:背景 → 面板 → 内嵌 三档明度拉开层级。</li>
+      <li><b>强调色用 1~2 个</b>:大面积霓虹/荧光会疲劳,用单一点缀色。</li>
+      <li><b>圆角、阴影、边框要成体系</b>:一种风格里所有组件用同一套策略。</li>
+      <li><b>深色下的发光</b>:用强调色的半透明版本做光晕,别用纯白。</li>
+      <li><b>图片与图标</b>:深色背景上的图片压暗 15~25% 或加渐变遮罩。</li>
+      <li><b>尊重系统偏好</b>:用 <code>prefers-color-scheme: dark</code> + 手动开关。</li>
+    </ul>
+  </section>
+
+  <section class="sect">
+    <h2>怎么选主页方案</h2>
+    <p><b>按产品调性:</b></p>
+    <ul>
+      <li><b>开发者工具 / SaaS / 数据后台</b> → 侧边栏应用、瑞士极简、Bento 模块、对话界面、终端</li>
+      <li><b>游戏 / 电竞 / 音乐 / 潮流</b> → 赛博朋克 HUD、像素 8-bit、蒸汽波、酸性、故障艺术</li>
+      <li><b>金融 / 商务 / 品牌官网</b> → 装饰艺术、瑞士极简、杂志编辑</li>
+      <li><b>个人主页 / 作品集 / 极客风</b> → 终端、粗野主义、包豪斯、等距 3D、时间线叙事、构成主义</li>
+      <li><b>健康 / 生活 / 文创</b> → 玻璃拟态、国风水墨、书页章节、印刷纸张、新拟态</li>
+      <li><b>展示 / 叙事 / 首屏</b> → 电影感、深空宇宙、镀铬金属、全息投影、蒸汽波、分屏对比</li>
+    </ul>
+  </section>
+
+  <section class="sect">
+    <h2>速查对比表</h2>
+    <div class="sub">① 主页方案速查(布局骨架 / 比例 / 边框阴影 / 动效)</div>
+    <div style="overflow-x:auto"><table class="compare" id="compareUi">
+      <thead><tr><th>风格</th><th>布局骨架</th><th>hero 占比</th><th>边框 / 阴影</th><th>动效倾向</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <div class="sub">② 配色速查</div>
+    <div style="overflow-x:auto"><table class="compare" id="compare">
+      <thead><tr><th>风格</th><th>核心色系</th><th>适合场景</th><th>参考案例</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <section class="sect">
+    <h2>配色工具与资源</h2>
+    <p>取色、调色、验证对比度时常用工具:</p>
+    <div class="ext-links">
+      <a href="https://coolors.co" target="_blank" rel="noopener">Coolors 配色生成器</a>
+      <a href="https://realtimecolors.com" target="_blank" rel="noopener">Realtime Colors 实时预览</a>
+      <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM 对比度检测</a>
+      <a href="https://color.adobe.com/zh/trends" target="_blank" rel="noopener">Adobe Color 趋势</a>
+      <a href="https://www.figma.com/community" target="_blank" rel="noopener">Figma 社区 Dark UI Kit</a>
+      <a href="https://github.com/morhetz/gruvbox" target="_blank" rel="noopener">Gruvbox 配色</a>
+      <a href="https://github.com/folke/tokyonight.nvim" target="_blank" rel="noopener">Tokyo Night 配色</a>
+      <a href="https://draculatheme.com" target="_blank" rel="noopener">Dracula 配色</a>
+    </div>
+  </section>
+</main>
+
+<footer>深色设计风格手册 · 28 种完整主页设计方案(布局 / 比例 / 形式各不相同)· 点击色块/按钮即可复制 · 收藏记录保存在本地浏览器</footer>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ================= 风格数据 =================
+   layout: 主页模板键; extra: 延伸页类型
+   ui.proportion: hero 占比(展示于速查表) */
+const CATS = ['全部','现代极简','编辑印刷','数字界面','艺术文化','实验亚文化','沉浸展示'];
+
+const FONT_SANS = "-apple-system,'Segoe UI','Helvetica Neue','Microsoft YaHei',sans-serif";
+const FONT_SERIF = "Georgia,'Noto Serif SC','Songti SC','SimSun',serif";
+const FONT_MONO = "'JetBrains Mono',Consolas,'Courier New',monospace";
+
+const STYLES = [
+{
+  id:'swiss', name:'瑞士极简', en:'Swiss / International', cat:'现代极简', layout:'swiss',
+  extra:'article',
+  tags:['网格','左对齐','排版','Helvetica','克制'],
+  desc:'源自 1950s 瑞士国际主义:严格网格、左对齐、无衬线、发丝线分割。信息第一、零装饰,是"高级感"的现代主义底子。',
+  traits:[['布局','严格网格+大留白'],['字体','无衬线为骨'],['装饰','零装饰'],['气质','理性克制']],
+  font:'无衬线(Helvetica/Inter 系)· 常规到粗字重', cases:['SaaS 官网','设计工作室','金融科技','企业官网'],
+  refs:['Vignelli','Josef Müller-Brockmann','Swiss Style'],
+  fx:'', onAccent:'#141416',
+  ui:{ proportion:'45% · 居中大字为主',  layout:'严格网格 + 左对齐 + 大留白,标题为视觉主角', edge:'发丝线分割,基本无边框无投影', motion:'极克制淡入,悬停仅变色', icon:'几乎不用图标,用序号与文字', avoid:'避免渐变、装饰元素、圆角与动效炫技' },
+  vars:{ bg:'#0c0c0e', elev:'#151517', inset:'#1b1b1e', border:'#26262b', text:'#f2f2f3', dim:'#9a9aa3', accent:'#e8e8ea', accent2:'#8a8a95', radius:'0px', font:FONT_SANS },
+  palette:[['背景','#0c0c0e'],['面板','#151517'],['主文字','#f2f2f3'],['次要文字','#9a9aa3'],['强调色','#e8e8ea']]
+},
+{
+  id:'editorial', name:'杂志编辑', en:'Editorial / Magazine', cat:'编辑印刷', layout:'editorial',
+  extra:'article',
+  tags:['多栏','引文','首字下沉','衬线','纸媒'],
+  desc:'杂志版面搬上屏幕:报头、大衬线标题、双栏正文、首字下沉与引文。内容型网站讲故事的高级解法。',
+  traits:[['布局','多栏杂志版式'],['字体','衬线大标题'],['符号','引文/首字下沉'],['气质','纸媒叙事']],
+  font:'衬线标题 + 无衬线正文', cases:['在线杂志','品牌叙事','思想领袖博客','出版机构'],
+  refs:['The New Yorker','Kinfolk','NYT'],
+  fx:'', onAccent:'#1c1507',
+  ui:{ proportion:'35% · 标题+双栏正文',  layout:'报头 + 大衬线标题 + 双栏正文 + 引文 + 章节号', edge:'发丝线栏分隔,无投影', motion:'滚动淡入、章节切换', icon:'少用图标,用引号/首字下沉/序号', avoid:'避免卡片化与通用后台感' },
+  vars:{ bg:'#0e0e0c', elev:'#161613', inset:'#1b1b18', border:'#2a2a26', text:'#ece7dd', dim:'#9a927f', accent:'#b08d57', accent2:'#d4b98a', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#0e0e0c'],['面板','#161613'],['主文字','#ece7dd'],['次要文字','#9a927f'],['强调色','#b08d57']]
+},
+{
+  id:'print', name:'印刷纸张', en:'Analog / Print', cat:'编辑印刷', layout:'print',
+  extra:'article',
+  tags:['纸张','油墨','印章','颗粒','手工感'],
+  desc:'数字对印刷物的乡愁:纸张颗粒纹理、油墨质感、印章与套准标记,轻微错位的不完美反而温暖。适合匠人与文创。',
+  traits:[['材质','纸张颗粒+油墨'],['符号','印章/角标'],['排版','居中+错位'],['气质','手工温度']],
+  font:'衬线(印刷感)· 可配手写体', cases:['文创品牌','独立出版','匠人店铺','生活美学'],
+  refs:['独立出版社','Risograph 风格','版画工作室'],
+  fx:'print', onAccent:'#ffffff',
+  ui:{ proportion:'50% · 居中印刷版',  layout:'纸张版面:居中排版 + 印章 + 套准角标 + 轻微旋转', edge:'纸张纹理与油墨质感,几乎无投影', motion:'几乎不动,或纸张展开式缓入', icon:'印章、角标等印刷符号', avoid:'避免像素级完美;避免霓虹鲜色' },
+  vars:{ bg:'#12100c', elev:'#1a1712', inset:'#201c15', border:'#2e2920', text:'#e8dfc8', dim:'#9b8f73', accent:'#b5472f', accent2:'#8a6b3f', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#12100c'],['面板','#1a1712'],['主文字','#e8dfc8'],['油墨红','#b5472f'],['陶土','#8a6b3f']]
+},
+{
+  id:'bento', name:'Bento 模块格', en:'Bento Grid', cat:'现代极简', layout:'bento',
+  extra:'features',
+  tags:['砖块','模块化','产品页','仪表盘','苹果风'],
+  desc:'日式便当盒式拼贴:大小不一的圆角砖块(图表/文字/数据/图片)组成非对称网格。现代产品页与 Dashboard 的当红解法。',
+  traits:[['布局','大小砖块拼贴'],['组件','圆角卡片'],['结构','非对称网格'],['气质','清爽现代']],
+  font:'无衬线 · 圆润字重', cases:['产品官网','功能展示','仪表盘','SaaS 首页'],
+  refs:['Apple 产品页','Linear','各类 AI 产品'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'60% · 砖块铺满',  layout:'非对称砖块网格:宽块/高块/图表块混排', edge:'1px 细边 + 柔和投影', motion:'砖块 hover 微抬升,数据微动效', icon:'线性图标 + 数据小图', avoid:'避免砖块大小均一;避免密度过高失去呼吸感' },
+  vars:{ bg:'#0d0f14', elev:'#171b23', inset:'#1e232e', border:'#2a3140', text:'#e8ecf5', dim:'#8f99ad', accent:'#6c8cff', accent2:'#9db4ff', radius:'14px', font:FONT_SANS },
+  palette:[['背景','#0d0f14'],['面板','#171b23'],['主文字','#e8ecf5'],['次要文字','#8f99ad'],['强调色','#6c8cff']]
+},
+{
+  id:'split', name:'分屏对比', en:'Split Screen', cat:'现代极简', layout:'split',
+  extra:'form',
+  tags:['左右分屏','对比','双色','视觉张力'],
+  desc:'屏幕一分为二:一侧纯视觉(色块/图形),一侧信息(文字/表单),中间一刀。天生适合"对比、选择、讲故事"。',
+  traits:[['布局','50/50 分屏'],['构成','视觉 vs 信息'],['张力','天然对比'],['气质','大胆直接']],
+  font:'无衬线 · 一侧大字', cases:['品牌对比','A/B 引导','作品集','产品二选一'],
+  refs:['各类 Agency 站','Split 风格 Landing'],
+  fx:'glow', onAccent:'#ffffff',
+  ui:{ proportion:'100% · 全屏分屏',  layout:'左右/上下分屏:一侧图形、一侧文字表单,中线分割', edge:'分屏中线,无多余边框', motion:'进入时两半错位滑入', icon:'图形色块代替图标', avoid:'避免两侧都堆满内容;避免两侧信息重复' },
+  vars:{ bg:'#0a0c10', elev:'#12151b', inset:'#181d25', border:'#232933', text:'#f0f2f6', dim:'#8a93a3', accent:'#ff4d6d', accent2:'#ff9e5e', radius:'8px', font:FONT_SANS },
+  palette:[['背景','#0a0c10'],['面板','#12151b'],['主文字','#f0f2f6'],['玫红','#ff4d6d'],['橙粉','#ff9e5e']]
+},
+{
+  id:'terminal', name:'终端黑客', en:'Terminal / Hacker', cat:'数字界面', layout:'term',
+  extra:'dashboard',
+  tags:['命令行','绿字','等宽','极客','Matrix'],
+  desc:'终端界面美学:窗口栏(圆点)、等宽字体、绿色荧光、提示符与闪烁光标。极客感拉满,开发者工具与黑客文化直接照搬。',
+  traits:[['布局','命令行窗口'],['字体','等宽'],['配色','绿字黑底'],['气质','极客硬核']],
+  font:'等宽字体', cases:['开发者工具','技术博客','CTF/安全','极客产品'],
+  refs:['Hacker News 风','Matrix','终端风站'],
+  fx:'term glow', onAccent:'#001a0b',
+  ui:{ proportion:'100% · 全屏终端',  layout:'窗口栏(红黄绿点)+ 等宽正文 + 提示符 + 光标', edge:'1px 窗口边框,绿色 glow', motion:'光标闪烁、打字机回显', icon:'不用图标,用 ASCII/符号', avoid:'避免衬线字体与彩色图标;保持等宽对齐' },
+  vars:{ bg:'#050a07', elev:'#0b140d', inset:'#0f1c12', border:'#1e3b28', text:'#33ff77', dim:'#1fa855', accent:'#00ff66', accent2:'#7dffa8', radius:'0px', font:FONT_MONO },
+  palette:[['背景','#050a07'],['面板','#0b140d'],['主文字','#33ff77'],['次要文字','#1fa855'],['荧光绿','#00ff66']]
+},
+{
+  id:'glass', name:'玻璃拟态', en:'Glassmorphism', cat:'数字界面', layout:'glass',
+  extra:'features',
+  tags:['毛玻璃','模糊','半透明','浮动','轻盈'],
+  desc:'毛玻璃质感:彩色光斑背景 + 半透明模糊面板 + 高亮细边。做展示页、音乐产品与 Dashboard 的"轻盈现代感"首选。',
+  traits:[['材质','毛玻璃模糊'],['布局','浮动错落'],['背景','彩色光斑'],['气质','轻盈通透']],
+  font:'无衬线 · 细字重', cases:['产品官网','音乐播放器','Dashboard','作品集'],
+  refs:['macOS','Spotify 播放页','Apple Music'],
+  fx:'aurora glow', onAccent:'#0b1020',
+  ui:{ proportion:'75% · 中央玻璃卡',  layout:'浮层化:彩色光斑背景 + 半透明玻璃卡片错落', edge:'1px 半透明白高亮边 + 柔和投影', motion:'光斑缓慢流动,卡片 hover 抬升', icon:'细线性图标,半透明白', avoid:'避免透明度过高影响阅读;纯色底失去玻璃感' },
+  vars:{ bg:'#0d1020', elev:'rgba(255,255,255,.08)', inset:'rgba(255,255,255,.05)', border:'rgba(255,255,255,.18)', text:'#eef1ff', dim:'#a9b1d1', accent:'#7aa2ff', accent2:'#c8b6ff', accent3:'#8b5cf6', radius:'18px', font:FONT_SANS },
+  palette:[['背景','#0d1020'],['面板(半透明)','rgba(255,255,255,.08)'],['主文字','#eef1ff'],['蓝','#7aa2ff'],['紫','#c8b6ff']]
+},
+{
+  id:'neumorph', name:'暗黑新拟态', en:'Neumorphism', cat:'数字界面', layout:'neumorph',
+  extra:'dashboard',
+  tags:['浮雕','软UI','双阴影','圆润','触感'],
+  desc:'同色系"暗影+高光"双阴影让面板像从背景里凸出来:圆角浮雕、旋钮、滑条。深色版比浅色版耐看,柔和且触感强。',
+  traits:[['形态','浮雕凸起'],['阴影','双阴影'],['圆角','大圆角'],['气质','柔软温和']],
+  font:'无衬线 · 常规字重', cases:['音乐/家居 App','轻工具','设置界面','禅意产品'],
+  refs:['Soft UI Kit','智能家居 App'],
+  fx:'neumorph', onAccent:'#ffffff',
+  ui:{ proportion:'70% · 浮雕控制台',  layout:'同色浮雕面板:圆角方块/旋钮/滑条', edge:'无边框,双阴影(暗+高光)定义轮廓', motion:'按压反馈(阴影反转)', icon:'柔和线性图标', avoid:'避免强边框与强彩色;明度差过大破坏浮雕' },
+  vars:{ bg:'#1c1f26', elev:'#232730', inset:'#191c22', border:'#2c313b', text:'#d3d8e2', dim:'#8a90a0', accent:'#7f9dff', accent2:'#a3b9ff', radius:'16px', font:FONT_SANS },
+  palette:[['背景','#1c1f26'],['面板','#232730'],['内嵌','#191c22'],['主文字','#d3d8e2'],['强调色','#7f9dff']]
+},
+{
+  id:'hud', name:'赛博朋克 HUD', en:'Cyberpunk / HUD', cat:'数字界面', layout:'hud',
+  extra:'dashboard',
+  tags:['霓虹','网格','数据读条','HUD','未来'],
+  desc:'近未来装备界面:网格地面、四角 HUD 标记、切角数据面板、霓虹描边与扫描线。游戏、电竞与科技发布页的首选氛围。',
+  traits:[['布局','HUD 覆盖层'],['元素','角标/读条/扫描线'],['字体','等宽数据'],['气质','高能高对比']],
+  font:'等宽 + 窄体标题', cases:['游戏官网','电竞平台','科技发布页','数据大屏'],
+  refs:['Cyberpunk 2077','Ghost in the Shell','FUI 设计'],
+  fx:'grid glow scan', onAccent:'#001114',
+  ui:{ proportion:'100% · 全屏 HUD',  layout:'网格地面 + 四角 HUD 标记 + 切角数据面板 + 状态栏', edge:'霓虹描边 + glow,切角', motion:'扫描线、数据流、hover 发光', icon:'等宽数据 + 状态点', avoid:'避免空洞纯黑;无发光描边的普通卡片不搭' },
+  vars:{ bg:'#05030f', elev:'#0d0722', inset:'#150c33', border:'#2b1a66', text:'#e6e9ff', dim:'#8f8fd0', accent:'#00e5ff', accent2:'#ff2e88', radius:'2px', font:FONT_MONO },
+  palette:[['背景','#05030f'],['面板','#0d0722'],['主文字','#e6e9ff'],['电青','#00e5ff'],['品红','#ff2e88']]
+},
+{
+  id:'brutal', name:'暗黑粗野主义', en:'(Neo)Brutalism', cat:'艺术文化', layout:'brutal',
+  extra:'pricing',
+  tags:['超大字号','硬边框','硬阴影','贴纸','反精致'],
+  desc:'拒绝精致:超大字号、2-3px 粗描边、不模糊的偏移投影、贴纸式按钮与跑马灯。记忆点极强,个性表达的最短路。',
+  traits:[['字体','超大号'],['边框','粗描边'],['阴影','硬偏移'],['气质','直给反叛']],
+  font:'超粗无衬线', cases:['独立开发者','设计工作室','播客','亚文化品牌'],
+  refs:['Gumroad 风','Pitch','Brutal 风站'],
+  fx:'brutal', onAccent:'#131300',
+  ui:{ proportion:'65% · 宣言区',  layout:'大色块拼接:超大字号 + 贴纸按钮 + 跑马灯条', edge:'2-3px 粗描边 + 硬偏移投影(不模糊)', motion:'悬停投影位移、轻微抖动', icon:'粗描边几何/符号', avoid:'避免渐变柔光;避免细边框与圆角' },
+  vars:{ bg:'#0f0f0f', elev:'#1c1c1c', inset:'#242424', border:'#f5f5f5', text:'#f5f5f5', dim:'#9c9c9c', accent:'#ffd60a', accent2:'#ff5d8f', radius:'0px', font:FONT_SANS },
+  palette:[['背景','#0f0f0f'],['面板','#1c1c1c'],['主文字','#f5f5f5'],['黄','#ffd60a'],['粉','#ff5d8f']]
+},
+{
+  id:'bauhaus', name:'包豪斯几何', en:'Bauhaus', cat:'艺术文化', layout:'bauhaus',
+  extra:'gallery',
+  tags:['几何','原色','色块','非对称','1919'],
+  desc:'包豪斯 "形式追随功能":圆、三角、方块 + 原色(红黄蓝)在非对称构图里做文章。用几何本身构成画面,百年不腻。',
+  traits:[['元素','圆/三角/方块'],['配色','原色色块'],['构图','非对称'],['气质','理性有力']],
+  font:'粗无衬线 · 几何感', cases:['设计学院','建筑工作室','文化机构','艺术展览'],
+  refs:['Bauhaus 海报','Joost Schmidt','包豪斯博物馆'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'60% · 几何构图',  layout:'几何构图:圆/三角/方块色块 + 非对称布局', edge:'色块边缘锐利,无投影', motion:'几何元素缓慢漂浮/旋转', icon:'几何图形代替图标', avoid:'避免写实与复杂装饰;避免柔和渐变' },
+  vars:{ bg:'#101114', elev:'#1a1b20', inset:'#222329', border:'#2c2e36', text:'#f2f2f2', dim:'#9a9ca6', accent:'#e8412f', accent2:'#f2b134', accent3:'#3d6ef2', radius:'0px', font:FONT_SANS },
+  palette:[['背景','#101114'],['主文字','#f2f2f2'],['红','#e8412f'],['黄','#f2b134'],['蓝','#3d6ef2']]
+},
+{
+  id:'deco', name:'装饰艺术', en:'Art Deco', cat:'艺术文化', layout:'deco',
+  extra:'gallery',
+  tags:['金色','几何','放射线','对称','1920s'],
+  desc:'1920s 巴黎的华丽:对称构图、金色发丝线、扇形放射线与几何装饰,衬线大字。把"深色高级感"做到极致。',
+  traits:[['元素','扇形/放射线'],['配色','金色描边'],['构图','严格对称'],['气质','华丽昂贵']],
+  font:'衬线(装饰感)', cases:['高端品牌','珠宝腕表','酒店','限量产品'],
+  refs:['The Great Gatsby','Normandie 海报','Art Deco 风站'],
+  fx:'', onAccent:'#1a1304',
+  ui:{ proportion:'55% · 对称金字',  layout:'对称构图:扇形放射线 + 金色几何描边 + 居中衬线标题', edge:'金色发丝线 + 几何装饰,柔投影', motion:'缓慢克制的淡入', icon:'几何/纹章感线条', avoid:'避免多色;金色要克制,大面积金会俗' },
+  vars:{ bg:'#0d0b08', elev:'#17130e', inset:'#1e1912', border:'#6b5428', text:'#f0e6cf', dim:'#a9977a', accent:'#c9a24b', accent2:'#e8cd8c', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#0d0b08'],['面板','#17130e'],['主文字','#f0e6cf'],['金','#c9a24b'],['亮金','#e8cd8c']]
+},
+{
+  id:'gothic', name:'哥特暗黑', en:'Gothic Dark', cat:'艺术文化', layout:'gothic',
+  extra:'article',
+  tags:['尖拱','纹章','暗红','衬线','神秘'],
+  desc:'尖拱窗、纹章与暗血红:中世纪的庄严神秘搬进屏幕。衬线花体 + 装饰结构,戏剧张力强,适合暗黑系与文创。',
+  traits:[['结构','尖拱窗'],['符号','纹章/十字'],['配色','暗血红+银'],['气质','神秘庄重']],
+  font:'衬线(哥特/花体标题)', cases:['暗黑系品牌','文创','影视宣传','艺术工作室'],
+  refs:['哥特乐队站','教堂主题','暗黑文创'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'60% · 尖拱门',  layout:'尖拱结构 + 对称 + 纹章点缀,居中构图', edge:'细金银描边 + 装饰纹样', motion:'缓慢淡入,烛光呼吸', icon:'纹章/盾徽图形', avoid:'避免现代扁平感;避免冷色霓虹' },
+  vars:{ bg:'#0a0a0c', elev:'#131316', inset:'#19191d', border:'#2a2a30', text:'#d8d2c6', dim:'#7a7367', accent:'#9b2226', accent2:'#b7a48f', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#0a0a0c'],['面板','#131316'],['主文字','#d8d2c6'],['暗血红','#9b2226'],['银灰','#b7a48f']]
+},
+{
+  id:'glitch', name:'故障艺术', en:'Glitch Art', cat:'实验亚文化', layout:'glitch',
+  extra:'gallery',
+  tags:['RGB错位','撕裂','噪点','扫描线','反叛'],
+  desc:'数字崩坏美学:RGB 通道分离、撕裂分栏、噪点与扫描线。地下文化、实验艺术与街头潮流的最爱。',
+  traits:[['特效','RGB 错位'],['元素','撕裂/噪点'],['字体','等宽'],['气质','崩坏反叛']],
+  font:'等宽 + 像素体', cases:['实验艺术','街头潮流','地下音乐','电子乐'],
+  refs:['Glitch 艺术站','Drake 专辑风','实验派作品集'],
+  fx:'glitch noise', onAccent:'#001114',
+  ui:{ proportion:'60% · 错位大字',  layout:'撕裂分栏 + RGB 错位标题 + 噪点扫描', edge:'撕裂/虚线边,RGB 色散投影', motion:'间歇故障闪烁、扫描线', icon:'等宽/像素,可错位', avoid:'避免频繁故障动效致眩晕' },
+  vars:{ bg:'#0a0a0e', elev:'#12121a', inset:'#191924', border:'#262636', text:'#f0f0f4', dim:'#8b8b99', accent:'#00f5ff', accent2:'#ff3d6e', radius:'2px', font:FONT_MONO },
+  palette:[['背景','#0a0a0e'],['面板','#12121a'],['主文字','#f0f0f4'],['青','#00f5ff'],['红','#ff3d6e']]
+},
+{
+  id:'acid', name:'酸性设计', en:'Acid Graphic', cat:'实验亚文化', layout:'acid',
+  extra:'pricing',
+  tags:['荧光撞色','液态','斜切','半调网点','地下'],
+  desc:'酸到起泡:荧光黄×品红×电光绿撞色压深底,液态光斑、斜切字体与半调网点。90s 地下俱乐部美学,张扬到极致。',
+  traits:[['配色','荧光撞色'],['形态','液态扭曲'],['字体','斜切变形'],['气质','张扬大胆']],
+  font:'变形无衬线 + 等宽', cases:['潮牌','音乐俱乐部','艺术展览','Z 世代品牌'],
+  refs:['Y2K 电商','俱乐部海报','酸性视觉工作室'],
+  fx:'noise', onAccent:'#101500',
+  ui:{ proportion:'55% · 斜切大字',  layout:'液态漂浮:扭曲光斑 + 斜切排版 + 半调网点', edge:'粗描边包裹,液态边界', motion:'光斑流动,字体扭曲回弹', icon:'变形字体/几何', avoid:'避免层级混乱,保持可读' },
+  vars:{ bg:'#0d0710', elev:'#180f1e', inset:'#201429', border:'#332044', text:'#f5ecf4', dim:'#bfa5c4', accent:'#c8ff00', accent2:'#ff2ec4', accent3:'#00ffb0', radius:'8px', font:FONT_SANS },
+  palette:[['背景','#0d0710'],['主文字','#f5ecf4'],['荧光黄','#c8ff00'],['品红','#ff2ec4'],['电光绿','#00ffb0']]
+},
+{
+  id:'vapor', name:'蒸汽波', en:'Vaporwave', cat:'实验亚文化', layout:'vapor', extra:'gallery',
+  tags:['透视网格','渐变落日','复古未来','80s','合成器'],
+  desc:'80 年代合成器美学:透视网格地面 + 渐变落日 + 霓虹粉紫。复古未来感拉满,音乐与亚文化题材的经典画面。',
+  traits:[['布局','透视网格+落日'],['配色','粉紫霓虹'],['氛围','复古未来']],
+  font:'等宽 + 复古显示体', cases:['音乐厂牌','复古电商','独立游戏','亚文化品牌'],
+  refs:['Synthwave 音乐站','Outrun','Vaporwave 艺术'],
+  fx:'glow', onAccent:'#1a0426',
+  ui:{ proportion:'80% · 落日+网格',  layout:'透视网格地面 + 渐变落日 + 居中大字', edge:'霓虹描边 + glow', motion:'网格缓动、霓虹闪烁', icon:'等宽/像素复古字形', avoid:'避免真实照片与过细字体' },
+  vars:{ bg:'#16072b', elev:'#231040', inset:'#2d1450', border:'#5a2e9e', text:'#f9ecff', dim:'#c3a4e8', accent:'#ff71ce', accent2:'#01cdfe', accent3:'#05ffa1', radius:'6px', font:FONT_MONO },
+  palette:[['背景','#16072b'],['主文字','#f9ecff'],['品红','#ff71ce'],['电青','#01cdfe'],['荧光绿','#05ffa1']]
+},
+{
+  id:'space', name:'深空宇宙', en:'Deep Space', cat:'沉浸展示', layout:'space', extra:'dashboard',
+  tags:['星云','星点','深空','沉浸','科幻'],
+  desc:'全屏星云沉浸:星点、星云渐变与悬浮面板。仰望星空的仪式感,航天/科幻/高概念产品的浪漫解法。',
+  traits:[['布局','全屏沉浸'],['元素','星点星云'],['标题','渐变字'],['氛围','宏大梦幻']],
+  font:'无衬线 + 等宽数据点缀', cases:['航天科技','科幻 IP','天文科普','高概念产品'],
+  refs:['NASA 风','SpaceX','星图类网站'],
+  fx:'stars glow', onAccent:'#04131f',
+  ui:{ proportion:'85% · 星云+渐变字',  layout:'全屏星云背景 + 星点 + 悬浮面板', edge:'半透明亮边,柔和光晕', motion:'星点缓动、视差、光晕呼吸', icon:'线性图标 + 等宽数据', avoid:'避免背景过亮与撞色' },
+  vars:{ bg:'#04060d', elev:'#0b1020', inset:'#111830', border:'#232c4d', text:'#e8f0ff', dim:'#8b9cc9', accent:'#7dd3fc', accent2:'#c084fc', radius:'14px', font:FONT_SANS },
+  palette:[['背景','#04060d'],['主文字','#e8f0ff'],['天蓝','#7dd3fc'],['星云紫','#c084fc']]
+},
+{
+  id:'iso', name:'等距 3D', en:'Isometric / Monument', cat:'数字界面', layout:'iso', extra:'features',
+  tags:['纪念碑谷','等距','几何建筑','粉彩','梦幻'],
+  desc:'纪念碑谷式等距世界:粉彩几何的悬浮岛、拱门与阶梯,悬在深夜星空里,白色小人缓缓走过。留白很多,安静得能听见月光。',
+  traits:[['形态','等距几何建筑'],['配色','粉彩×夜空'],['符号','拱门/台阶/小人'],['氛围','静谧梦幻']],
+  font:'细无衬线(静谧感)', cases:['游戏宣传','冥想/睡眠 App','故事化产品','概念展示'],
+  refs:['Monument Valley','Ustwo','几何艺术'],
+  fx:'', onAccent:'#2a2650',
+  ui:{ proportion:'80% · 场景+夜空', layout:'悬浮岛 + 塔 + 拱门 + 阶梯 + 小人,场景留白,月光与雾', edge:'柔和无边框,顶面亮侧面暗(柔和光照)', motion:'月亮微光呼吸、小人缓步、雾霭浮动', icon:'几何图形与白色剪影', avoid:'避免荧光高饱和与粗边框(破坏静谧感)' },
+  vars:{ bg:'#20234d', elev:'#2e2b56', inset:'#383362', border:'#4a4470', text:'#efeaff', dim:'#b9b3d6', accent:'#b3acf0', accent2:'#9fe8cd', accent3:'#f2b0cb', radius:'4px', font:FONT_SANS },
+  palette:[['夜空','#20234d'],['薰衣草','#b3acf0'],['薄荷','#9fe8cd'],['淡粉','#f2b0cb'],['奶油','#f7eed9'],['月光','#ffe9b3']]
+},
+{
+  id:'pixel', name:'像素 8-bit', en:'Pixel / 8-bit', cat:'实验亚文化', layout:'pixel', extra:'gallery',
+  tags:['像素','8bit','复古游戏','点阵','怀旧'],
+  desc:'8-bit 游戏机美学:像素块、粗描边、棋盘格与"INSERT COIN"。独立游戏与怀旧社区的本命风格。',
+  traits:[['形态','像素块'],['边框','粗像素边'],['配色','高饱和亮色'],['气质','复古欢乐']],
+  font:'等宽/像素体', cases:['独立游戏','复古社区','像素艺术','玩具品牌'],
+  refs:['PICO-8','Game Boy','像素艺术站'],
+  fx:'', onAccent:'#2a0512',
+  ui:{ proportion:'70% · 像素大字',  layout:'像素导航 + 大字块 + 棋盘格装饰', edge:'3px 像素粗边 + 硬投影', motion:'闪烁、帧动画式切换', icon:'像素图标', avoid:'避免平滑曲线与抗锯齿感' },
+  vars:{ bg:'#0d0d1a', elev:'#17172a', inset:'#1e1e36', border:'#f5f5f5', text:'#f5f5ff', dim:'#9a9ab5', accent:'#ff6b9d', accent2:'#4ecdc4', radius:'0px', font:FONT_MONO },
+  palette:[['背景','#0d0d1a'],['主文字','#f5f5ff'],['粉','#ff6b9d'],['青','#4ecdc4']]
+},
+
+{
+  id:'ink', name:'国风水墨', en:'Ink Wash', cat:'编辑印刷', layout:'ink', extra:'article',
+  tags:['水墨','宣纸','书法','印章','留白'],
+  desc:'水墨入屏:宣纸底、墨色晕染、竖排文字与朱红印章。留白即呼吸,东方美学的深色表达。',
+  traits:[['材质','宣纸+墨晕'],['排版','竖排'],['符号','朱红印章'],['气质','静雅留白']],
+  font:'楷体/宋体衬线', cases:['国潮品牌','文化展陈','茶香器物','书画文创'],
+  refs:['书法网站','博物馆数字展'],
+  fx:'print', onAccent:'#f5ede0',
+  ui:{ proportion:'55% · 竖排大字',  layout:'宣纸底 + 墨晕笔触 + 竖排文字 + 印章', edge:'无边框,纸纹颗粒', motion:'墨晕缓缓弥散', icon:'印章/书法符号', avoid:'避免高饱和彩色与硬边框' },
+  vars:{ bg:'#171310', elev:'#201a15', inset:'#261f18', border:'#332a20', text:'#ece2cf', dim:'#9a8d74', accent:'#a04028', accent2:'#8a8f7e', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#171310'],['主文字','#ece2cf'],['朱砂','#a04028'],['石青','#8a8f7e']]
+},
+{
+  id:'cine', name:'电影感', en:'Cinematic', cat:'沉浸展示', layout:'cine', extra:'article',
+  tags:['宽银幕','字幕','胶片颗粒','海报','叙事'],
+  desc:'宽银幕电影美学:上下黑边、居中字幕式大标题、胶片颗粒。把首屏变成电影海报,叙事感极强。',
+  traits:[['布局','宽银幕黑边'],['标题','字幕式大字'],['材质','胶片颗粒'],['气质','叙事沉浸']],
+  font:'无衬线粗体 + 衬线混排', cases:['影视宣发','品牌大片','首屏故事','创意作品集'],
+  refs:['电影官网','A24 风','Letterboxd'],
+  fx:'noise', onAccent:'#1a0e08',
+  ui:{ proportion:'100% · 全屏字幕',  layout:'letterbox 黑边 + 居中字幕标题 + 片尾字幕', edge:'无边框,胶片颗粒', motion:'极慢淡入、字幕浮现', icon:'少用图标,用 ◀ ▶ 等符号', avoid:'避免元素堆叠破坏留白' },
+  vars:{ bg:'#080808', elev:'#121212', inset:'#181818', border:'#262626', text:'#f2ede4', dim:'#8d8d85', accent:'#c98a5e', accent2:'#e0b98f', radius:'0px', font:FONT_SANS },
+  palette:[['背景','#080808'],['主文字','#f2ede4'],['琥珀','#c98a5e']]
+},
+{
+  id:'construct', name:'构成主义', en:'Constructivism', cat:'艺术文化', layout:'construct', extra:'gallery',
+  tags:['对角线','红黄蓝','苏联','海报','动感'],
+  desc:'苏联构成主义:倾斜的对角线构图、粗体大字、红黄蓝几何块与放射线。动感、激进、宣传画式冲击力。',
+  traits:[['构图','对角线倾斜'],['配色','红黄蓝几何'],['元素','圆/三角/放射线'],['气质','动感激进']],
+  font:'超粗无衬线', cases:['设计工作室','文化海报','实验品牌','展览'],
+  refs:['El Lissitzky','Rodchenko','构成主义海报'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'70% · 对角线构图',  layout:'倾斜对角线构图 + 几何色块 + 放射线', edge:'色块锐边,硬投影', motion:'几何块旋转/位移,干脆', icon:'几何图形', avoid:'避免柔和渐变与过细字体' },
+  vars:{ bg:'#141210', elev:'#1e1b17', inset:'#262219', border:'#3a352c', text:'#f4f0e8', dim:'#a49a85', accent:'#d94f3d', accent2:'#e8b43c', accent3:'#4a6fa5', radius:'0px', font:FONT_SANS },
+  palette:[['背景','#141210'],['主文字','#f4f0e8'],['红','#d94f3d'],['黄','#e8b43c'],['蓝','#4a6fa5']]
+},
+{
+  id:'sidebar', name:'侧边栏应用', en:'Sidebar App', cat:'数字界面', layout:'sidebar', extra:'features',
+  tags:['后台','侧边导航','工具','效率','应用壳'],
+  desc:'经典应用壳布局:左侧固定导航 + 顶栏(搜索/操作)+ 内容区(指标、卡片、列表)。SaaS 后台与效率工具的骨架。',
+  traits:[['布局','侧栏+顶栏+内容'],['导航','常驻左侧'],['内容','卡片+列表'],['气质','高效专业']],
+  font:'无衬线 · 常规字重', cases:['管理后台','SaaS 工作台','项目管理','内部工具'],
+  refs:['Linear','Notion','AdminLTE'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'100% · 应用壳三区', layout:'左侧固定导航 + 顶栏 + 主内容(指标/卡片/列表)', edge:'1px 细边 + 弱投影,层级靠背景分档', motion:'列表行悬停高亮、面板切换', icon:'线性图标主导航', avoid:'避免信息过载;导航保持常驻' },
+  vars:{ bg:'#0d0f16', elev:'#151824', inset:'#1b2030', border:'#262d3f', text:'#e8ecf6', dim:'#8b95ab', accent:'#6d8dff', accent2:'#9db4ff', radius:'8px', font:FONT_SANS },
+  palette:[['背景','#0d0f16'],['面板','#151824'],['主文字','#e8ecf6'],['蓝','#6d8dff']]
+},
+{
+  id:'timeline', name:'时间线叙事', en:'Timeline', cat:'现代极简', layout:'timeline', extra:'article',
+  tags:['时间线','节点','历程','故事','纵向'],
+  desc:'纵向时间线版式:中轴线串起左右交替的节点卡片。讲历程、版本、路线图时,叙事的骨架本身就在讲故事。',
+  traits:[['布局','中轴+交错节点'],['结构','时间顺序'],['气质','线性叙事'],['留白','充足']],
+  font:'无衬线 + 衬线标题混排', cases:['品牌历程','版本路线图','项目日志','传记式主页'],
+  refs:['Apple 历程页','GitHub 时间线'],
+  fx:'', onAccent:'#04231c',
+  ui:{ proportion:'70% · 时间线为主', layout:'中轴线 + 左右交错的事件节点卡片', edge:'细边 + 节点圆点,无投影', motion:'滚动时节点依次点亮', icon:'节点圆点/序号', avoid:'避免节点过多失去节奏' },
+  vars:{ bg:'#0e0f12', elev:'#17181d', inset:'#1e2026', border:'#2a2c34', text:'#eef0f4', dim:'#9aa0ad', accent:'#4ec9b0', accent2:'#8fe3d0', radius:'10px', font:FONT_SANS },
+  palette:[['背景','#0e0f12'],['面板','#17181d'],['主文字','#eef0f4'],['青绿','#4ec9b0']]
+},
+{
+  id:'chat', name:'对话界面', en:'Chat UI', cat:'数字界面', layout:'chat', extra:'form',
+  tags:['聊天','气泡','消息','通讯','助手'],
+  desc:'消息对话版式:左右气泡 + 头像 + 底部输入栏。AI 助手、客服与社交产品的自然界面。',
+  traits:[['布局','气泡流'],['方向','进出分明'],['输入','底部常驻'],['气质','亲切实时']],
+  font:'无衬线 · 常规字重', cases:['AI 助手','在线客服','社交 IM','协作工具'],
+  refs:['Slack','ChatGPT','微信/WhatsApp'],
+  fx:'', onAccent:'#ffffff',
+  ui:{ proportion:'100% · 气泡消息流', layout:'顶部会话栏 + 气泡消息流(进/出)+ 底部输入栏', edge:'气泡圆角,无投影或轻投影', motion:'消息淡入、输入提示三点', icon:'头像/状态点', avoid:'避免气泡大小失衡;输入栏保持常驻' },
+  vars:{ bg:'#0d1017', elev:'#151a24', inset:'#1c222e', border:'#26303f', text:'#e9edf5', dim:'#8d98ad', accent:'#5b8cff', accent2:'#7dabff', radius:'12px', font:FONT_SANS },
+  palette:[['背景','#0d1017'],['面板','#151a24'],['主文字','#e9edf5'],['蓝','#5b8cff']]
+},
+{
+  id:'book', name:'书页章节', en:'Book / Chapter', cat:'编辑印刷', layout:'book', extra:'article',
+  tags:['书页','章节','阅读','窄列','页码'],
+  desc:'书页式版式:章节编号 + 居中窄阅读列 + 大留白 + 页码。把主页做成一本安静的书。',
+  traits:[['布局','窄阅读列'],['元素','章节号/页码'],['字体','衬线正文'],['气质','沉静阅读']],
+  font:'衬线正文 + 无衬线章节标', cases:['数字出版','长篇叙事','品牌手册','知识产品'],
+  refs:['书籍感网站','阅读类 App'],
+  fx:'', onAccent:'#1c1508',
+  ui:{ proportion:'50% · 阅读列为主', layout:'章节号 + 居中窄列正文 + 页脚页码', edge:'几乎无边框,发丝线点缀', motion:'缓慢淡入,翻页感', icon:'章节符号/页码', avoid:'避免卡片化与密集元素' },
+  vars:{ bg:'#10100d', elev:'#181712', inset:'#1f1e17', border:'#2e2b21', text:'#ece6d8', dim:'#9c927c', accent:'#c9a24b', accent2:'#e0c98a', radius:'0px', font:FONT_SERIF },
+  palette:[['背景','#10100d'],['主文字','#ece6d8'],['金','#c9a24b']]
+},
+{
+  id:'chrome', name:'镀铬金属', en:'Chrome / Metallic', cat:'沉浸展示', layout:'chrome', extra:'features',
+  tags:['金属','镀铬','高光','未来','质感'],
+  desc:'镀铬质感:金属渐变文字与高光圆盘,深底衬托下的银色流动。复古未来与高端科技的热门效果。',
+  traits:[['材质','金属渐变'],['高光','镜面反射'],['标题','镀铬字'],['气质','冷峻高级']],
+  font:'粗无衬线(镀铬填充)', cases:['硬件发布','高端科技','电竞外设','奢侈品数字化'],
+  refs:['Chrome 文字效果','Spline 金属渲染'],
+  fx:'', onAccent:'#0a0a12',
+  ui:{ proportion:'80% · 金属视觉为主', layout:'全屏深底 + 镀铬大标题 + 金属圆盘 + 高光带', edge:'无边框,靠高光与渐变定义', motion:'高光缓慢移动(金属反光)', icon:'金属质感图标', avoid:'避免大面积花哨;镀铬做主角就足够' },
+  vars:{ bg:'#0b0c12', elev:'#14161f', inset:'#1a1d28', border:'#2c3040', text:'#eef0f8', dim:'#8f97ab', accent:'#c0c8dd', accent2:'#8fa3c9', radius:'6px', font:FONT_SANS },
+  palette:[['背景','#0b0c12'],['主文字','#eef0f8'],['银','#c0c8dd'],['钢蓝','#8fa3c9']]
+},
+{
+  id:'holo', name:'全息投影', en:'Holographic', cat:'沉浸展示', layout:'holo', extra:'gallery',
+  tags:['全息','虹彩','渐变','投影','未来'],
+  desc:'全息虹彩:流动的彩虹渐变、悬浮光圈与扫描光,像未来的全息投影界面。Web3、科技与潮流品牌的视觉语言。',
+  traits:[['效果','虹彩渐变'],['元素','光圈/扫描光'],['配色','彩虹流动'],['气质','未来迷幻']],
+  font:'无衬线粗体 + 等宽点缀', cases:['Web3/NFT','科技发布','音乐现场','潮流品牌'],
+  refs:['Holographic 界面','虹彩设计'],
+  fx:'', onAccent:'#0d0414',
+  ui:{ proportion:'85% · 全息视觉', layout:'深紫黑底 + 虹彩渐变标题 + 悬浮光圈 + 扫描光带', edge:'虹彩描边,无投影', motion:'渐变流动、光圈旋转、扫描光扫过', icon:'全息线框图形', avoid:'避免文字被虹彩淹没;保持对比度' },
+  vars:{ bg:'#0c0814', elev:'#161026', inset:'#1d1533', border:'#3b2a5c', text:'#f2eefb', dim:'#a99ac4', accent:'#8b5cf6', accent2:'#22d3ee', accent3:'#f472b6', radius:'10px', font:FONT_SANS },
+  palette:[['背景','#0c0814'],['主文字','#f2eefb'],['紫','#8b5cf6'],['青','#22d3ee'],['粉','#f472b6']]
+}
+
+];
+
+/* ================= 渲染 ================= */
+const cardsEl = document.getElementById('cards');
+const compareBody = document.querySelector('#compare tbody');
+const compareUiBody = document.querySelector('#compareUi tbody');
+let favs = new Set(JSON.parse(localStorage.getItem('darkStyleFavs')||'[]'));
+let curCat = '全部';
+let onlyFav = false;
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function varsCss(s){
+  const L = [];
+  L.push('/* '+s.name+' '+s.en+' */');
+  L.push(':root {');
+  const map = {bg:'--bg',elev:'--elev',inset:'--inset',border:'--border',text:'--text',dim:'--dim',accent:'--accent',accent2:'--accent2',accent3:'--accent3',radius:'--radius',font:'--font'};
+  Object.keys(map).forEach(k=>{ if(s.vars[k]) L.push('  '+map[k]+': '+s.vars[k]+';'); });
+  L.push('  --on-accent: '+s.onAccent+';');
+  L.push('}');
+  return L.join('\n');
+}
+
+/* ===== 23 种完整主页模板 ===== */
+function mockHTML(s){
+  const mk = 'mk-'+s.layout;
+  const nav = (logo) => `<div class="mk-nav"><b>${logo}</b><span class="lnk">产品</span><span class="lnk">价格</span><span class="lnk">文档</span><span class="mbtn primary cta">开始使用</span></div>`;
+  const foot = `<div class="mk-foot"><span>© 2026 ${esc(s.name)}</span><span>${esc(s.en)}</span></div>`;
+  const T = {
+  swiss: `<div class="mock mk-swiss">${nav('ATELIER®')}
+    <div class="sw-hero">
+      <div class="mk-kick">GRAPHIC DESIGN — ZÜRICH</div>
+      <h3>FORM &amp; FUNCTION,<br>NOTHING ELSE.</h3>
+      <div class="sw-rule"></div>
+      <p>Precise. Clear. Timeless. A grid for everything — and nothing decorative in it.</p>
+      <div class="sw-actions"><span class="mbtn primary">View Work</span><span class="mbtn">Contact</span></div>
+    </div>
+    <div class="sw-data">
+      <div><b>012</b><span>PROJECTS</span></div>
+      <div><b>09</b><span>AWARDS</span></div>
+      <div><b>14</b><span>YEARS</span></div>
+    </div></div>`,
+  editorial: `<div class="mock mk-editorial">
+    <div class="ed-mast"><span>THE NOCTURNE REVIEW</span><span>No. 07 — WINTER</span></div>
+    <div class="ed-head"><h3>Darkness as a<br>Material</h3><div class="ed-meta">By A. Brandt · 12 min read · 4 chapters</div></div>
+    <div class="ed-cols">
+      <p>Most design follows light. Shadows are the afterthought. But there is a tradition — from Caravaggio to noir cinema — where darkness is the material itself, and light merely carves it.</p>
+      <p>In the digital night, we find the same logic: black is not the absence of design, but the ground on which attention is earned. Contrast is a discipline, not a default.</p>
+    </div>
+    <div class="ed-quote">Elegance is achieved when the eye has nothing left to remove.</div>
+    ${foot}</div>`,
+  print: `<div class="mock mk-print">
+    <span class="pr-mark tl"></span><span class="pr-mark tr"></span><span class="pr-mark bl"></span><span class="pr-mark br"></span>
+    <div class="pr-mast">TYPE DAILY — PRINT EDITION · Nº 001</div>
+    <h3 class="pr-title">The Ink<br>Persists</h3>
+    <div class="pr-stamp">EST.<br>1926</div>
+    <p class="pr-body">Set in metal type. Printed on recycled stock.<br>Imperfect on purpose — the warmth is in the grain.</p>
+    <div class="pr-foot">— COLOPHON 001 —</div></div>`,
+  bento: `<div class="mock mk-bento">${nav('◆ bento')}
+    <div class="bt-grid">
+      <div class="bt-tile bt-wide"><b>01</b><h4>Ship dark mode in minutes</h4><p>Design tokens, components &amp; live previews — one source of truth for every screen.</p><div class="bt-bars" style="margin-top:auto"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:92%"></i></div></div>
+      <div class="bt-tile bt-tall"><b>02</b><h4>Tokens</h4><p>Sync to code, versioned by default.</p></div>
+      <div class="bt-tile"><b>03</b><h4>Components</h4><p>42 ready out of the box.</p></div>
+      <div class="bt-tile"><b>04</b><h4>Dark</h4><p>Always on.</p></div>
+      <div class="bt-tile"><b>05</b><h4>Accessible</h4><p>WCAG AA verified.</p></div>
+    </div>
+    ${foot}</div>`,
+  split: `<div class="mock mk-split">
+    <div class="sp-left"><span class="sp-shape"></span><span class="sp-shape2"></span><div class="sp-type">50/<br>50</div></div>
+    <div class="sp-right">
+      <div class="sp-kicker">SPLIT-SCREEN</div>
+      <h3>Two sides,<br>one story</h3>
+      <p>Compare. Contrast. Choose your side. A homepage built on tension.</p>
+      <span class="sp-btn">Get Started</span>
+      <span class="sp-link">Read the case study →</span>
+    </div></div>`,
+  term: `<div class="mock mk-term">
+    <div class="mock-nav"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span style="margin-left:10px;color:var(--dim)">${esc(s.name)} — zsh</span></div>
+    <div class="term-body">
+      <div><span class="c">$ </span><span class="cmd">git clone dark-style</span></div>
+      <div><span class="c">Cloning into 'dark-style'... done</span></div>
+      <div><span class="c">$ </span><span class="cmd">npm run dev -- --theme ${esc(s.id)}</span></div>
+      <div><span class="ok">✓ compiled successfully in 124ms</span></div>
+      <div><span class="c">$ </span><span class="cmd">open http://localhost:5173</span><span class="caret"></span></div>
+    </div>
+    <div class="term-status"><span>branch: main</span><span>node v22 · npm 10</span><span>theme: ${esc(s.id)}</span></div></div>`,
+  glass: `<div class="mock mk-glass">
+    <div class="gl-nav"><b>◆ aurora</b><span class="gl-links">Home · Studio · Pricing</span><span>Sign in</span></div>
+    <div class="gl-hero">
+      <div class="gl-card gl-main"><span class="gl-ico"></span><h4>Sound, visualized</h4><p>Frosted glass meets light. Listen with your eyes — every track becomes a landscape.</p><div style="margin-top:16px"><span class="mbtn primary">Start listening</span></div></div>
+      <div class="gl-mini a"><b>88%</b><span>RETENTION</span></div>
+      <div class="gl-mini b"><b>4.9★</b><span>RATING</span></div>
+    </div></div>`,
+  neumorph: `<div class="mock mk-neumorph">
+    <div class="nm-nav"><span>nm</span><span>now playing · 02:41</span></div>
+    <div class="nm-body">
+      <div class="nm-knob"></div>
+      <div class="nm-tiles">
+        <div class="nm-tile"><b>01</b><span>FOCUS</span></div>
+        <div class="nm-tile"><b>02</b><span>CALM</span></div>
+        <div class="nm-tile"><b>03</b><span>SLEEP</span></div>
+      </div>
+      <div class="nm-slider"><i></i></div>
+    </div></div>`,
+  hud: `<div class="mock mk-hud">
+    <span class="hd-corner tl"></span><span class="hd-corner tr"></span><span class="hd-corner bl"></span><span class="hd-corner br"></span>
+    <div class="hd-top"><span>⟁ SYS.DARK//01</span><span class="hd-status">● ONLINE</span></div>
+    <div class="hd-body">
+      <div class="hd-list">
+        <div><span>CPU LOAD</span><b>86%</b><i><em style="width:86%"></em></i></div>
+        <div><span>MEMORY</span><b>64%</b><i><em style="width:64%"></em></i></div>
+        <div><span>NEON</span><b>98%</b><i><em style="width:98%"></em></i></div>
+      </div>
+      <div class="hd-read"><span class="hd-big">04:21:09</span><span>UTC+8 — NIGHT CITY</span></div>
+    </div>
+    <div class="hd-foot"><span>[ SCAN: OK ]</span><span>[ GRID: 4×4 ]</span><span>[ LINK: SECURE ]</span></div></div>`,
+  brutal: `<div class="mock mk-brutal">
+    <div class="br-top"><span class="br-sticker">SALE!</span><b>BRUTAL.CO</b><span class="br-btn">MENU</span></div>
+    <div class="br-hero">
+      <h3 class="br-title">BIG.<br>BOLD.<br>RAW.</h3>
+      <div class="br-btns"><span class="br-btn2 solid">BUY NOW</span><span class="br-btn2">LEARN</span></div>
+    </div>
+    <div class="br-marquee">HARD SHADOWS — THICK BORDERS — ZERO POLISH — HARD SHADOWS — THICK BORDERS —</div>
+    <div class="br-info"><div><b>120K</b><span>USERS</span></div><div><b>0</b><span>FRILLS</span></div><div><b>100%</b><span>ATTITUDE</span></div></div></div>`,
+  bauhaus: `<div class="mock mk-bauhaus">
+    <span class="bh-circle"></span><span class="bh-square"></span><span class="bh-triangle"></span>
+    <div class="bh-type">
+      <h3>FORM<br>FOLLOWS<br>FUNCTION</h3>
+      <p>BAUHAUS · 1919 — GEOMETRY IS MEANING</p>
+    </div>
+    <div class="bh-bar"></div></div>`,
+  deco: `<div class="mock mk-deco">
+    <div class="dc-fan"></div>
+    <div class="dc-center">
+      <div class="dc-kicker">— MAISON NOIR —</div>
+      <h3>L'ÉLÉGANCE<br>DU NOIR</h3>
+      <div class="dc-rule"></div>
+      <p>EST. 1925 · PARIS</p>
+      <span class="dc-diamond"></span>
+    </div>
+    <div class="dc-base"></div></div>`,
+  gothic: `<div class="mock mk-gothic">
+    <div class="gt-wrap">
+      <div class="gt-arch">
+        <span class="gt-cross">✦</span>
+        <h3>Nocturne</h3>
+        <p>In the dark,<br>we find form.</p>
+        <span class="gt-btn">Enter the Chapel</span>
+      </div>
+    </div>
+    <div class="gt-bar">— ORDO NOCTIS · MMXXVI —</div></div>`,
+  glitch: `<div class="mock mk-glitch">
+    <div class="glc-head"><h3 data-t="DIGITAL RUIN">DIGITAL<br>RUIN</h3></div>
+    <div class="glc-cols">
+      <div class="glc-col a">Channel A — the signal decays, pixel by pixel, until only noise remains legible. Order was always an illusion.</div>
+      <div class="glc-col b">Channel B — the noise is the message. Every frame a glitch, every glitch a beginning.</div>
+    </div>
+    <div class="glc-bar">▚ ERROR 404 — MEANING NOT FOUND</div></div>`,
+  acid: `<div class="mock mk-acid">
+    <span class="ac-blob b1"></span><span class="ac-blob b2"></span><span class="ac-blob b3"></span>
+    <div class="ac-type">
+      <h3>ACID<br>WAVE</h3>
+      <p>NIGHT CLUB · 04:00 · NO PHONES</p>
+      <span class="ac-btn">ADMIT ALL</span>
+    </div>
+    <div class="ac-halftone"></div>
+    <div class="ac-marquee">SOUR · ELECTRIC · UNDERGROUND · SOUR · ELECTRIC ·</div></div>`,
+  vapor: `<div class="mock mk-vapor">
+    <div class="vp-sun"></div><div class="vp-grid"></div>
+    <div class="vp-type">
+      <h3>DREAM<br>WAVE</h3>
+      <p>RETRO FUTURE · 1986</p>
+      <span class="mbtn primary">Enter</span>
+    </div>
+    <div class="vp-foot">MIDNIGHT FM · 88.8 MHZ</div></div>`,
+  space: `<div class="mock mk-space">
+    <div class="sp2-type">
+      <div class="mk-kick">MISSION 07 · ORBITAL</div>
+      <h3>DEEP<br>SPACE</h3>
+      <p>LOOK UP — THE VOID HAS A VOICE.</p>
+      <span class="mbtn primary">Launch</span>
+    </div>
+    <div class="sp2-card">O₂ 21% · 1.3 AU · 24h</div></div>`,
+  iso: `<div class="mock mk-iso">
+    <div class="iso-stars"></div><div class="iso-moon"></div>
+    <div class="iso-head">
+      <div class="iso-kicker">MONUMENT VALLEY — NIGHT</div>
+      <h3>Wander the<br>Silent City</h3>
+      <p>WHERE GEOMETRY LEARNS TO BREATHE</p>
+      <div class="iso-actions"><span class="mbtn primary">Enter</span><span class="mbtn">Listen</span></div>
+    </div>
+    <div class="iso-scene">
+      <div class="iso-b iso-tower"><i class="t"></i><i class="l"></i><i class="r"></i></div>
+      <div class="iso-stairs"><i></i><i></i><i></i></div>
+      <div class="iso-b iso-arch"><i class="t"></i><i class="l"></i><i class="r"></i></div>
+      <div class="iso-float"><div class="iso-fisle"></div><span class="iso-guy"></span></div>
+    </div>
+    <div class="iso-floor"></div><div class="iso-mist"></div>
+    <div class="iso-foot"><h3>MONUMENT</h3><p>CHAPTER I — THE QUIET</p></div>
+  </div>`,
+  pixel: `<div class="mock mk-pixel">
+    <div class="px-nav"><span>◆ PIXEL.GAME</span><span class="px-heart"></span></div>
+    <div class="px-hero">
+      <h3>8-BIT<br>NIGHTS</h3>
+      <p>INSERT COIN TO CONTINUE</p>
+      <span class="px-btn">▶ START</span>
+    </div>
+    <div class="px-art"></div>
+    <div class="px-foot">HI-SCORE 999,999 · CREDITS 02</div></div>`,
+  ink: `<div class="mock mk-ink">
+    <div class="ink-brush"></div>
+    <div class="ink-body"><div class="ink-vert"><h3>墨·夜</h3><p>运笔如风 · 留白即呼吸</p></div><span class="ink-seal">墨</span></div>
+    <div class="ink-foot">— 宣纸 · 夜砚 · 甲辰 —</div></div>`,
+  cine: `<div class="mock mk-cine">
+    <div class="cine-bar top"></div>
+    <div class="cine-body">
+      <div class="cine-kicker">A FILM BY DARK STUDIO</div>
+      <h3>MIDNIGHT<br>CHROMA</h3>
+      <div class="cine-meta">2H 14M · R · 2026</div>
+      <span class="cine-btn">▶ WATCH TRAILER</span>
+    </div>
+    <div class="cine-bar bottom"></div>
+    <div class="cine-cap">— FIN —</div></div>`,
+  construct: `<div class="mock mk-construct">
+    <div class="cs-shape1"></div><div class="cs-shape2"></div>
+    <div class="cs-body">
+      <div class="cs-kicker">СТРОЙ · 1923</div>
+      <h3>DYNAMIC<br>ORDER</h3>
+      <span class="cs-btn">BEAT THE WHITE</span>
+    </div>
+    <div class="cs-rays"></div></div>`,
+  sidebar: `<div class="mock mk-sidebar">
+    <aside class="sb-side"><div class="sb-logo">◆</div><div class="sb-item on"><span>◧</span>仪表盘</div><div class="sb-item"><span>◫</span>项目</div><div class="sb-item"><span>▤</span>任务</div><div class="sb-item"><span>⚙</span>设置</div><div class="sb-user">U</div></aside>
+    <div class="sb-main">
+      <div class="sb-top"><h4>仪表盘</h4><input class="ex-input" style="max-width:190px" placeholder="搜索…"><span class="mbtn primary">新建</span></div>
+      <div class="sb-stats"><div><b>12</b><span>项目</span></div><div><b>38</b><span>任务</span></div><div><b>92%</b><span>进度</span></div></div>
+      <div class="sb-cards"><div class="sb-card"><b>01</b><h5>设计系统</h5><p>已同步 42 个组件</p></div><div class="sb-card"><b>02</b><h5>深色主题</h5><p>对比度 AA 达标</p></div><div class="sb-card"><b>03</b><h5>发布准备</h5><p>本周五上线</p></div></div>
+    </div>
+  </div>`,
+  timeline: `<div class="mock mk-timeline">
+    <div class="tl-head"><div class="mk-kick">OUR JOURNEY</div><h3>Built, step<br>by step</h3><p>2019 — TODAY</p></div>
+    <div class="tl-axis"></div>
+    <div class="tl-item i1 l"><span class="tl-dot"></span><div class="tl-card"><b>2019</b><h5>起点</h5><p>一个深夜的想法。</p></div></div>
+    <div class="tl-item i2 r"><span class="tl-dot"></span><div class="tl-card"><b>2022</b><h5>成型</h5><p>第一版正式发布。</p></div></div>
+    <div class="tl-item i3 l"><span class="tl-dot"></span><div class="tl-card"><b>2026</b><h5>此刻</h5><p>百万用户同行。</p></div></div>
+  </div>`,
+  chat: `<div class="mock mk-chat">
+    <div class="ch-top"><span class="ch-ava"></span><div><b>夜航助手</b><span class="ch-on">● 在线</span></div><span class="mbtn">···</span></div>
+    <div class="ch-body">
+      <div class="ch-msg in"><div class="ch-bub">晚上好,想聊聊什么?</div><span class="ch-time">23:41</span></div>
+      <div class="ch-msg out"><div class="ch-bub">帮我看看这版主页设计</div><span class="ch-time">23:41</span></div>
+      <div class="ch-msg in"><div class="ch-bub">22 套方案都在手册里 👀</div><span class="ch-time">23:42</span></div>
+    </div>
+    <div class="ch-input"><input class="ex-input" placeholder="输入消息…"><span class="mbtn primary">发送</span></div>
+  </div>`,
+  book: `<div class="mock mk-book">
+    <div class="bk-head"><span class="bk-ch">CHAPTER ONE</span><h3>The Quiet<br>Geometry</h3><p class="bk-by">by A. Brandt · Nº 07</p></div>
+    <div class="bk-body"><p>It began with a line — drawn slowly, in the dark. A line that refused to end, and so became a shape; a shape that learned to cast a shadow.</p><div class="bk-quote">“Silence is the space between notes.”</div></div>
+    <div class="bk-foot"><span>© MMXXVI</span><span>— 7 —</span></div>
+  </div>`,
+  chrome: `<div class="mock mk-chrome">
+    <div class="cr-glow"></div>
+    <div class="cr-type"><div class="mk-kick">A METALLIC HOME</div><h3 class="cr-title">CHROME</h3><p>REFLECT THE FUTURE</p><span class="mbtn primary">See it in 3D</span></div>
+    <div class="cr-disc"></div>
+  </div>`,
+  holo: `<div class="mock mk-holo">
+    <div class="ho-rings"><i></i><i></i><i></i></div>
+    <div class="ho-type"><h3>HOLO<br>GRAPHIC</h3><p>IRIDESCENT · INTERFACE · FUTURE</p><span class="mbtn primary">Project</span></div>
+    <div class="ho-scan"></div>
+  </div>`
+
+  };
+  return (T[s.layout]||T.swiss).trim();
+}
+
+/* ===== 延伸页面:同款风格的另一种页面形态 ===== */
+function extraHTML(s){
+  const nav = `<div class="mock-nav"><span class="mock-logo">◆ ${esc(s.name)}</span><span class="mock-links"><span>产品</span><span>价格</span><span>文档</span></span><span class="mbtn primary">开始使用</span></div>`;
+  const footer = `<div class="ex-footer"><span>© 2026 ${esc(s.name)}</span><span>DARK STYLE GUIDE · ${esc(s.en)}</span></div>`;
+  const hero = `<div class="ex-hero"><div class="ex-kicker">${esc(s.en.toUpperCase())}</div><h3>${esc(s.name)} · 延伸页</h3><div class="ex-sub">同一套风格变量,换一种页面形态 —— 区块自动延续统一的气质。</div><span class="mbtn primary">立即体验</span></div>`;
+  const cards3 = (t)=>`<div class="mock-cards">${[0,1,2].map(i=>`<div class="mock-card">${t(i)}</div>`).join('')}</div>`;
+  const stats = `<div class="ex-stats"><div><b>2.4M</b><span>USERS</span></div><div><b>98%</b><span>UPTIME</span></div><div><b>42</b><span>COUNTRIES</span></div></div>`;
+  const chart = `<div class="ex-chart">${[35,55,42,70,58,88,66].map(x=>`<i style="height:${x}%"></i>`).join('')}</div>`;
+  const table = `<div class="ex-table"><div class="row"><b>项目</b><span>状态</span><span>更新</span></div><div class="row"><b>dark-style-guide</b><span class="ok">✓ 正常</span><span>2 分钟前</span></div><div class="row"><b>design-tokens</b><span class="ok">✓ 正常</span><span>1 小时前</span></div><div class="row"><b>comp-preview</b><span>待部署</span><span>昨天</span></div></div>`;
+  const quote = `<div class="ex-quote">“风格的一致性靠变量,风格的个性靠形态 —— 换页面不换气质。”</div>`;
+  const body = `<div class="ex-body"><p>延伸页用于观察同一风格在其他页面类型中的表现:间距、圆角、字体与强调色保持一致,布局骨架随页面目标变化。</p><p>深色下的层次来自背景 / 面板 / 内嵌三档明度,而非边框与投影。</p></div>`;
+  const form = `<div class="ex-form"><input class="ex-input" placeholder="输入邮箱开始试用"><span class="mbtn primary">提交</span></div>`;
+  const gallery = `<div class="ex-gallery">${[0,1,2,3,4,5].map(()=>`<div class="ex-tile"></div>`).join('')}</div>`;
+  const map = {
+    features: nav + hero + cards3(i=>`<b>0${i+1}</b><h4>${['核心能力','性能表现','生态集成'][i]}</h4><p>一句话说明该能力带来的价值。</p>`) + footer,
+    dashboard: nav + stats + chart + table + footer,
+    article: nav + hero + body + quote + footer,
+    pricing: nav + hero + cards3(i=>`<span class="price">¥${[0,59,199][i]}</span><h4>${['免费版','专业版','企业版'][i]}</h4><p>${['基础功能','全部功能','私有化部署'][i]}</p>`) + footer,
+    gallery: nav + hero + gallery + footer,
+    form: nav + hero + form + footer
+  };
+  return `<div class="mock mock-extra">${map[s.extra]||map.features}</div>`;
+}
+
+function cmpHTML(s){
+  return `
+    <div class="cmp">
+      <span class="cmp-label">Buttons 按钮</span>
+      <div class="cmp-row">
+        <button class="cmp-btn">主要按钮</button>
+        <button class="cmp-btn ghost">次要按钮</button>
+        <button class="cmp-btn danger">危险操作</button>
+      </div>
+      <span class="cmp-label">Form 表单</span>
+      <div class="cmp-row">
+        <input class="cmp-input" placeholder="请输入内容…">
+        <span class="cmp-switch on"></span>
+        <span class="cmp-badge">进行中</span>
+      </div>
+      <span class="cmp-label">Feedback 反馈</span>
+      <div class="cmp-row">
+        <div class="cmp-progress"><i style="width:65%"></i></div>
+        <span class="cmp-stat">65%</span>
+      </div>
+    </div>`;
+}
+
+function chipHTML(no,name){
+  const code = varsCss(name).replace(/^\/\*.*?\*\//,'').trim();
+  const traits = name.traits.map(t=>`<span class="trait"><b>${esc(t[0])}</b> ${esc(t[1])}</span>`).join('');
+  const palette = name.palette.map(p=>`
+    <div class="swatch" data-hex="${esc(p[1])}" title="点击复制 ${esc(p[1])}">
+      <span class="sq" style="background:${esc(p[1])}"></span>
+      <span class="nm">${esc(p[0])}</span>
+      <span class="hex">${esc(p[1])}</span>
+    </div>`).join('');
+  const cases = name.cases.map(c=>`<span class="chip2">${esc(c)}</span>`).join('');
+  const refs = name.refs.map(c=>`<span class="chip2">${esc(c)}</span>`).join('');
+  const cssSafe = esc(code);
+  const fxWrap = name.fx ? ' fx-'+name.fx.split(' ').join(' fx-') : '';
+  const uiRows = [
+    ['布局', name.ui.layout], ['hero 占比', name.ui.proportion||'—'], ['边框·阴影', name.ui.edge], ['动效', name.ui.motion],
+    ['图标', name.ui.icon], ['避免', name.ui.avoid]
+  ].map(r=>`<tr><td class="k">${r[0]}</td><td>${esc(r[1])}</td></tr>`).join('');
+  return `
+  <section class="style-card" id="${name.id}" style="--bg:${name.vars.bg};--elev:${name.vars.elev};--inset:${name.vars.inset};--border:${name.vars.border};--text:${name.vars.text};--dim:${name.vars.dim};--accent:${name.vars.accent};--accent2:${name.vars.accent2};--accent3:${name.vars.accent3||''};--radius:${name.vars.radius||'10px'};--font:${name.vars.font||''};--on-accent:${name.onAccent}">
+    <div class="sc-preview">
+      <div class="tabs">
+        <button class="tab on" data-t="page">首页预览</button>
+        <button class="tab" data-t="extra">延伸页面</button>
+        <button class="tab" data-t="cmp">组件样式</button>
+      </div>
+      <div class="tab-bodies${fxWrap}">
+        <div class="tb tb-page">${mockHTML(name)}</div>
+        <div class="tb tb-extra">${extraHTML(name)}</div>
+        <div class="tb tb-cmp">${cmpHTML(name)}</div>
+      </div>
+    </div>
+    <div class="sc-info">
+      <div class="info-main">
+        <div class="sc-head">
+          <span class="sc-no">${String(no).padStart(2,'0')}</span>
+          <span class="sc-name">${esc(name.name)}</span>
+          <span class="sc-en">${esc(name.en)}</span>
+          <span class="sc-cat">${name.cat}</span>
+          <button class="star ${favs.has(name.id)?'on':''}" data-id="${name.id}" title="收藏">${favs.has(name.id)?'★':'☆'}</button>
+        </div>
+        <p class="sc-desc">${esc(name.desc)}</p>
+        <div class="traits">${traits}</div>
+        <div class="ui-box">
+          <div class="ui-h">界面设计要点</div>
+          <table>${uiRows}</table>
+        </div>
+      </div>
+      <div class="info-side">
+        <div class="info-item"><span class="k">字体策略</span><span class="v">${esc(name.font)}</span></div>
+        <div class="palette">${palette}</div>
+        <div class="css-block">
+          <button class="copy-css" data-css="${cssSafe}" title="复制 CSS 变量">复制 CSS</button>
+          <pre><code><span class="cm">/* ${esc(name.name)} · ${esc(name.en)} */</span>
+:root {
+  <span class="cm">/* 基础色 */</span>
+  --bg: ${name.vars.bg};
+  --elev: ${name.vars.elev};
+  --inset: ${name.vars.inset||'—'};
+  --border: ${name.vars.border};
+  --text: ${name.vars.text};
+  --dim: ${name.vars.dim};
+  <span class="cm">/* 强调色 */</span>
+  --accent: ${name.vars.accent};
+  --accent2: ${name.vars.accent2};
+  --on-accent: ${name.onAccent};
+  <span class="cm">/* 圆角 / 字体 */</span>
+  --radius: ${name.vars.radius||'10px'};
+  --font: ${name.vars.font||''};
+}</code></pre>
+        </div>
+        <div class="info-grid">
+          <div class="info-item"><span class="k">适用场景</span><span class="v"><span class="chips-row">${cases}</span></span></div>
+          <div class="info-item"><span class="k">参考案例</span><span class="v"><span class="chips-row">${refs}</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function renderCards(){
+  const kw = document.getElementById('q').value.trim().toLowerCase();
+  let html = '', n = 0;
+  STYLES.forEach((s,i)=>{
+    if(curCat!=='全部' && s.cat!==curCat) return;
+    if(onlyFav && !favs.has(s.id)) return;
+    if(kw){
+      const hay = (s.name+' '+s.en+' '+s.cat+' '+s.layout+' '+s.tags.join(' ')+' '+s.desc+' '+s.cases.join(' ')+' '+s.refs.join(' ')+' '+s.palette.map(p=>p[1]).join(' ')+' '+Object.values(s.ui).join(' ')).toLowerCase();
+      if(!hay.includes(kw)) return;
+    }
+    html += chipHTML(i+1, s); n++;
+  });
+  cardsEl.innerHTML = html;
+  document.getElementById('cnt').textContent = n;
+  document.getElementById('empty').classList.toggle('show', n===0);
+}
+
+function renderCompare(){
+  compareBody.innerHTML = STYLES.map(s=>`
+    <tr>
+      <td><b>${esc(s.name)}</b> <span style="color:#6b7688">${esc(s.en)}</span></td>
+      <td>${s.palette.slice(0,4).map(p=>`<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${esc(p[1])};vertical-align:-1px;margin-right:4px"></span>${esc(p[0])}`).join(' · ')}</td>
+      <td>${esc(s.cases.slice(0,3).join('、'))}</td>
+      <td>${esc(s.refs.join(' / '))}</td>
+    </tr>`).join('');
+  compareUiBody.innerHTML = STYLES.map(s=>`
+    <tr>
+      <td><b>${esc(s.name)}</b></td>
+      <td>${esc(s.ui.layout)}</td>
+      <td>${esc(s.ui.proportion||'—')}</td>
+      <td>${esc(s.ui.edge)}</td>
+      <td>${esc(s.ui.motion)}</td>
+    </tr>`).join('');
+}
+
+/* ================= 交互 ================= */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'), 1600);
+}
+async function copyText(txt, msg){
+  try{ await navigator.clipboard.writeText(txt); toast(msg||'已复制'); }
+  catch(e){
+    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta);
+    ta.select(); try{ document.execCommand('copy'); toast(msg||'已复制'); }catch(_){ toast('复制失败,请手动选择'); }
+    ta.remove();
+  }
+}
+document.addEventListener('click', e=>{
+  const sw = e.target.closest('.swatch');
+  if(sw){ copyText(sw.dataset.hex, '已复制颜色 ' + sw.dataset.hex); return; }
+  const cc = e.target.closest('.copy-css');
+  if(cc){ copyText(cc.dataset.css, '已复制 CSS 变量'); return; }
+  const tab = e.target.closest('.tab');
+  if(tab){
+    const panel = tab.closest('.sc-preview');
+    panel.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t===tab));
+    const bodies = panel.querySelector('.tab-bodies');
+    bodies.classList.remove('show-cmp','show-extra');
+    if(tab.dataset.t==='cmp') bodies.classList.add('show-cmp');
+    if(tab.dataset.t==='extra') bodies.classList.add('show-extra');
+    return;
+  }
+  const st = e.target.closest('.star');
+  if(st){
+    const id = st.dataset.id;
+    if(favs.has(id)){ favs.delete(id); } else { favs.add(id); }
+    localStorage.setItem('darkStyleFavs', JSON.stringify([...favs]));
+    st.textContent = favs.has(id)?'★':'☆'; st.classList.toggle('on', favs.has(id));
+    toast(favs.has(id)?'已收藏':'已取消收藏');
+  }
+});
+
+const catsEl = document.getElementById('cats');
+CATS.forEach(c=>{
+  const b = document.createElement('button');
+  b.className = 'chip'+(c==='全部'?' on':'');
+  b.textContent = c + (c!=='全部'?` ${STYLES.filter(s=>s.cat===c).length}`:'');
+  b.onclick = ()=>{ curCat=c; document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); renderCards(); };
+  catsEl.appendChild(b);
+});
+document.getElementById('catCnt').textContent = CATS.length-1;
+document.getElementById('favToggle').onclick = function(){
+  onlyFav = !onlyFav; this.classList.toggle('on', onlyFav);
+  this.textContent = onlyFav?'★ 收藏 ('+favs.size+')':'☆ 只看收藏';
+  renderCards();
+};
+document.getElementById('q').addEventListener('input', renderCards);
+
+renderCards();
+renderCompare();
+</script>
+</body>
+</html>
