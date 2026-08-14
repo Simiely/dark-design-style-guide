@@ -14,7 +14,7 @@ $owner  = 'Simiely'
 $repo   = 'dark-design-style-guide'
 $dir    = $PSScriptRoot
 $branch = 'main'
-$files  = @('index.html','README.md','AGENTS.md','DEVELOPMENT.md','CHANGELOG.md')
+$files  = @('dark-homepage-designs.html','dark-homepage-designs.md','README.md','AGENTS.md','DEVELOPMENT.md','CHANGELOG.md')
 
 $headers = @{
   'Authorization'        = "Bearer $Token"
