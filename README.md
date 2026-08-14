@@ -8,12 +8,12 @@
 
 | 页面 | 内容 |
 |---|---|
-| `index.html` | 深色主页设计风格手册:28 种风格的完整主页方案 / 延伸页 / 组件 / 色板 / CSS 变量(详见下文) |
+| `dark-homepage-designs.html` | 深色主页设计风格手册:28 种风格的完整主页方案 / 延伸页 / 组件 / 色板 / CSS 变量(速查:同目录 `dark-homepage-designs.md`) |
 | *(后续新增)* | 新收集的风格或主题,各自独立成 HTML,在此登记 |
 
 ## 这个 HTML 里有什么
 
-`index.html` 是一个零依赖、可离线双击打开的单文件手册,收录 **28 种深色设计风格**。每种风格包含:
+`dark-homepage-designs.html` 是一个零依赖、可离线双击打开的单文件手册,收录 **28 种深色设计风格**。每种风格包含:
 
 ### 1. 完整主页设计方案(首页预览)
 每种风格都有一套**独立构图的主页设计稿**——布局骨架、hero 占比、页面形式各不相同:分屏 50/50、全屏终端、HUD 读条、杂志双栏、Bento 砖块、等距场景、哥特尖拱……不是同一个模板换颜色。
@@ -57,26 +57,30 @@
 
 ## 使用
 
-- 本地:双击 `index.html` 直接在浏览器打开,完全离线可用
+- 本地:双击 `dark-homepage-designs.html` 直接在浏览器打开,完全离线可用
+- 快速查风格:看同目录 `dark-homepage-designs.md`(按场景定位风格,附色值)
 - 网页:拖进浏览器,或部署到任意静态托管即可
 
 ## 文件结构
 
 ```
-index.html         — 风格手册页(28 种深色主页设计方案,数据驱动,零依赖)
-*.html             — 后续新增的收集页面,每主题一个 HTML
-README.md          — 本文件(用户 / 访客,含页面索引)
-AGENTS.md          — AI / 未来的你(架构、约定、常见坑)
-DEVELOPMENT.md     — 开发者(架构说明、关键问题一坑一篇)
-CHANGELOG.md       — 版本变更记录
-push-to-github.ps1 — 一键推送脚本(需 GitHub PAT)
+dark-homepage-designs.html — 风格手册页(28 种深色主页设计方案,数据驱动,零依赖)
+dark-homepage-designs.md   — 该页速查文档(场景定位 + 全部风格色值表)
+*.html                     — 后续新增的收集页面,每主题一个 HTML
+*.md                       — 每个 HTML 配一份同名速查文档
+README.md                  — 本文件(用户 / 访客,含页面索引)
+AGENTS.md                  — AI / 未来的你(架构、约定、常见坑)
+DEVELOPMENT.md             — 开发者(架构说明、关键问题一坑一篇)
+CHANGELOG.md               — 版本变更记录
+push-to-github.ps1         — 一键推送脚本(需 GitHub PAT)
 ```
 
 ## 新增一个 HTML 页面
 
-1. 新建 `xxx.html`(零依赖单文件,参考 `index.html` 的结构)
-2. 在本文档「页面索引」登记一行
-3. 运行推送脚本上传(会自动更新已存在的文件)
+1. 新建 `xxx.html`(零依赖单文件,参考 `dark-homepage-designs.html` 的结构)
+2. 配一份同名的 `xxx.md` 速查文档
+3. 在本文档「页面索引」登记一行
+4. 运行推送脚本上传(会自动更新已存在的文件)
 
 ## 文档规范
 
