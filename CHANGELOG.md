@@ -1,4 +1,11 @@
-# CHANGELOG.md · 深色设计风格手册
+# CHANGELOG.md · 深色设计风格收集库
+
+## [1.1.0] - 2026-08-15
+
+结构升级:仓库定位为**多 HTML 收集库**(每主题一个 HTML + 同名 md 速查)。
+- `index.html` 更名为 `dark-homepage-designs.html`,配套新增速查文档 `dark-homepage-designs.md`(按场景定位风格 + 28 种风格色值/布局/场景总表)。
+- README 增加「页面索引」表与「新增一个 HTML 页面」流程;AGENTS / DEVELOPMENT 同步更新。
+- 修正 HTML 内残留旧数字文案(23 种 → 28 种)。
 
 ## [1.0.0] - 2026-08-15
 
