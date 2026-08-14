@@ -1,11 +1,13 @@
-# DEVELOPMENT.md · 深色设计风格手册
+# DEVELOPMENT.md · 深色设计风格收集库
 
 > 开发者笔记:架构说明 + 关键问题一坑一篇。
 
 ## 架构总览
 
+当前主页面 `dark-homepage-designs.html`(28 种深色主页风格);后续新主题各自独立 HTML + 同名 md 速查。
+
 ```
-index.html
+dark-homepage-designs.html
 ├── <style>  ── shell(顶栏/搜索/收藏) + 28 个 mk-* 主页模板 + fx 特效 + 延伸页区块 + 组件 + 信息区
 └── <script>
     ├── CATS / STYLES      ── 风格数据(唯一数据源)
