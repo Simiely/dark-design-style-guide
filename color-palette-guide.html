@@ -1099,9 +1099,11 @@ colSwitch.querySelectorAll('button').forEach(btn => {
 function applyCols(cols) {
   colSwitch.querySelectorAll('button').forEach(b =>
     b.classList.toggle('active', b.dataset.cols === cols));
-  const cls = cols === 'auto' ? '' : ` cols-${cols}`;
+  const cls = cols === 'auto' ? '' : 'cols-' + cols;
   document.querySelectorAll('.palette-grid').forEach(g => {
-    g.className = 'palette-grid' + cls;
+    // 只更新列数相关 class，保留其他状态 class（修复：旧代码 g.className= 会覆盖丢失其他 class）
+    g.classList.remove('cols-1', 'cols-2', 'cols-4');
+    if (cls) g.classList.add(cls);
   });
 }
 
@@ -1123,7 +1125,8 @@ moods.forEach((mood, i) => {
   Object.entries(mood.usecases).forEach(([usecase, palettes]) => {
     html += `<div class="usecase-section">`;
     html += `<div class="usecase-title"><span class="icon">${usecaseIcons[usecase]||'·'}</span>${usecase}</div>`;
-    html += `<div class="palette-grid">`;
+    // 动态生成的 grid 带上当前列数 class（修复：旧代码不带，初始加载时 localStorage 记忆的列数不生效，显示默认 auto-fill）
+    html += `<div class="palette-grid${currentCols === 'auto' ? '' : ' cols-' + currentCols}">`;
 
     palettes.forEach(p => {
       const proportions = [30, 25, 20, 15, 10].slice(0, p.colors.length);
