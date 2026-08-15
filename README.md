@@ -12,6 +12,15 @@
 | [`color-palette-guide.html`](./color-palette-guide.html) | 配色使用速查表——按情绪风格 × 用途场景分类，每套配色含深 / 浅双色调主页示意 | 242 套配色 · 480+ 版示意 · 77KB |
 | *(后续新增)* | 新收集的主题，各自独立成 HTML，在此登记 | — |
 
+## 在线访问
+
+> GitHub Pages：https://simiely.github.io/dark-design-style-guide/
+
+| 页面 | 在线地址 |
+|---|---|
+| 深色主页风格手册 | https://simiely.github.io/dark-design-style-guide/dark-homepage-designs.html |
+| 配色使用速查表 | https://simiely.github.io/dark-design-style-guide/color-palette-guide.html |
+
 ---
 
 ## dark-homepage-designs.html
