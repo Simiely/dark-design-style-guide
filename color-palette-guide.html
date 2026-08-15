@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>配色使用表 — 情绪风格 × 用途场景 · 深浅双版主页示意</title>
+<style>
+:root {
+  --bg: #0D1117;
+  --bg-card: #161B22;
+  --bg-hover: #1C2128;
+  --border: #30363D;
+  --text: #E6EDF3;
+  --text-muted: #8B949E;
+  --text-dim: #6E7681;
+  --accent: #58A6FF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 14px;
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 40px 24px; }
+header { text-align: center; margin-bottom: 40px; }
+header h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+header p { color: var(--text-muted); font-size: 15px; }
+.classification-info {
+  display: flex; justify-content: center; gap: 12px; margin-top: 16px; flex-wrap: wrap;
+}
+.classification-info span {
+  padding: 4px 14px; border-radius: 20px; font-size: 13px;
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
+}
+.classification-info b { color: var(--accent); }
+
+/* Tab navigation */
+.tabs {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px;
+  border-bottom: 1px solid var(--border); padding-bottom: 0;
+}
+.tab {
+  padding: 10px 16px; cursor: pointer; border-radius: 8px 8px 0 0;
+  font-size: 14px; font-weight: 500; color: var(--text-muted);
+  border: 1px solid transparent; border-bottom: none;
+  transition: all 0.2s; white-space: nowrap; user-select: none;
+}
+.tab:hover { color: var(--text); background: var(--bg-hover); }
+.tab.active {
+  color: var(--text); background: var(--bg-card);
+  border-color: var(--border); border-bottom-color: var(--bg-card);
+  margin-bottom: -1px;
+}
+.tab .dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 6px; vertical-align: middle;
+}
+
+/* Tab content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Mood header */
+.mood-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+  padding: 20px 24px; border-radius: 12px; background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.mood-number {
+  font-size: 36px; font-weight: 700; color: var(--text-dim); min-width: 48px;
+}
+.mood-info h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.mood-info p { color: var(--text-muted); font-size: 13px; }
+
+/* Use case section */
+.usecase-section { margin-bottom: 36px; }
+.usecase-title {
+  font-size: 15px; font-weight: 600; margin-bottom: 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.usecase-title .icon {
+  width: 20px; height: 20px; border-radius: 4px; background: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--bg);
+}
+
+/* Palette grid */
+.palette-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(580px, 1fr)); gap: 20px;
+}
+.palette-grid.cols-1 { grid-template-columns: 1fr; }
+.palette-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.palette-grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.palette-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; transition: border-color 0.2s;
+}
+.palette-card:hover { border-color: var(--text-dim); }
+.palette-header {
+  padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
+}
+.palette-name { font-size: 14px; font-weight: 600; }
+.palette-tags { display: flex; gap: 6px; }
+.palette-tag {
+  font-size: 11px; padding: 2px 8px; border-radius: 10px;
+  background: var(--bg); color: var(--text-muted); border: 1px solid var(--border);
+}
+
+/* Color swatches */
+.swatches { display: flex; height: 56px; }
+.swatch {
+  flex: 1; display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 4px; cursor: pointer; transition: flex 0.3s; position: relative;
+}
+.swatch:hover { flex: 2; }
+.swatch-hex {
+  font-size: 10px; font-family: "SF Mono", "Fira Code", monospace;
+  opacity: 0; transition: opacity 0.2s; padding: 2px 6px; border-radius: 4px;
+  white-space: nowrap;
+}
+.swatch:hover .swatch-hex { opacity: 1; }
+
+/* Palette details */
+.palette-body { padding: 14px 18px; }
+.palette-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+.palette-hex-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.hex-chip {
+  font-size: 11px; font-family: "SF Mono", "Fira Code", monospace;
+  padding: 3px 8px; border-radius: 6px; cursor: pointer;
+  background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+  transition: all 0.15s;
+}
+.hex-chip:hover { color: var(--text); border-color: var(--text-dim); }
+.hex-chip .dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 2px;
+  margin-right: 5px; vertical-align: middle;
+}
+
+/* Proportion bar */
+.proportion-bar {
+  display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 10px;
+}
+
+/* ============ Mockup area (主页示意 · 大尺寸直出) ============ */
+.mock-area {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 14px 18px 18px;
+}
+.mock-area-title {
+  font-size: 11px; color: var(--text-dim); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px;
+}
+.mock-area-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.mock-wrap { display: flex; flex-direction: column; gap: 16px; }
+.mock-col { width: 100%; }
+.mock-label {
+  font-size: 12px; color: var(--text-muted); margin-bottom: 7px;
+  display: flex; align-items: center; gap: 7px; font-weight: 500;
+}
+.mock-label .mock-dot {
+  width: 12px; height: 12px; border-radius: 3px;
+  border: 1px solid var(--border);
+}
+.mock {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--mbg);
+  font-size: 13px; line-height: 1.4;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+/* browser chrome */
+.mock-chrome {
+  height: 26px; background: var(--msurf);
+  display: flex; align-items: center; gap: 5px; padding: 0 12px;
+  border-bottom: 1px solid rgba(128,128,128,0.15);
+}
+.mock-chrome i { width: 8px; height: 8px; border-radius: 50%; background: var(--mmuted); opacity: 0.45; }
+.mock-chrome i:first-child { opacity: 0.7; }
+.mock-url {
+  margin-left: 10px; font-size: 10px; color: var(--mmuted);
+  background: var(--mbg); padding: 2px 14px; border-radius: 6px;
+}
+/* nav */
+.mock-nav {
+  display: flex; align-items: center; padding: 12px 18px; background: var(--mbg);
+}
+.mock-logo { width: 14px; height: 14px; border-radius: 4px; background: var(--mac); }
+.mock-nav-items { display: flex; gap: 12px; margin-left: 18px; flex: 1; align-items: center; }
+.mock-nav-items span {
+  width: 38px; height: 6px; border-radius: 3px; background: var(--mmuted); opacity: 0.55;
+}
+.nav-btn {
+  padding: 5px 14px; border-radius: 6px; background: var(--mac);
+  color: var(--mat); font-size: 11px; font-weight: 600;
+}
+/* hero */
+.mock-hero { padding: 22px 20px 18px; background: var(--mbg); }
+.mock-badge {
+  display: inline-block; font-size: 10px; font-weight: 600; color: var(--mac);
+  border: 1px solid var(--mac); border-radius: 8px; padding: 2px 10px; opacity: 0.9;
+}
+.mock-title {
+  font-size: 21px; font-weight: 700; color: var(--mtext);
+  line-height: 1.3; margin: 10px 0 6px; letter-spacing: 0.5px;
+}
+.mock-sub { font-size: 12px; color: var(--mmuted); line-height: 1.5; }
+.mock-btns { display: flex; gap: 8px; margin-top: 14px; }
+.btn-p {
+  padding: 6px 16px; border-radius: 6px; background: var(--mac);
+  color: var(--mat); font-size: 11px; font-weight: 600;
+}
+.btn-g {
+  padding: 6px 16px; border-radius: 6px; border: 1px solid var(--mmuted);
+  color: var(--mtext); font-size: 11px; opacity: 0.9;
+}
+/* cards */
+.mock-cards { display: flex; gap: 10px; padding: 0 20px 20px; background: var(--mbg); }
+.mock-card {
+  flex: 1; background: var(--msurf); border-radius: 8px; padding: 12px;
+  border: 1px solid rgba(128,128,128,0.12);
+}
+.mc-icon { display: block; width: 16px; height: 16px; border-radius: 4px; background: var(--mac); margin-bottom: 8px; }
+.mock-card.c2 .mc-icon { background: var(--mac2); }
+.mock-card.c3 .mc-icon { background: var(--mmuted); }
+.mc-t { height: 6px; width: 72%; background: var(--mtext); border-radius: 3px; opacity: 0.85; margin-bottom: 5px; }
+.mc-d { height: 4px; width: 90%; background: var(--mmuted); border-radius: 2px; opacity: 0.55; margin-bottom: 4px; }
+.mc-d:last-child { width: 60%; margin-bottom: 0; }
+/* footer strip */
+.mock-foot {
+  height: 24px; background: var(--msurf);
+  display: flex; align-items: center; gap: 10px; padding: 0 16px;
+  border-top: 1px solid rgba(128,128,128,0.12);
+}
+.mock-foot .fl { width: 30px; height: 4px; border-radius: 2px; background: var(--mmuted); opacity: 0.5; }
+.mock-foot .fc { font-size: 9px; color: var(--mmuted); opacity: 0.8; }
+
+/* Footer */
+footer {
+  text-align: center; padding: 40px 0 20px; color: var(--text-dim); font-size: 12px;
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+  padding: 10px 24px; border-radius: 8px; font-size: 13px;
+  background: var(--accent); color: var(--bg); font-weight: 500;
+  opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1000;
+}
+.toast.show { opacity: 1; }
+
+/* Column switcher */
+.col-switch {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 1px solid var(--border); border-radius: 8px; padding: 3px;
+  background: var(--bg-card);
+}
+.col-switch .cs-label {
+  font-size: 12px; color: var(--text-muted); padding: 0 8px 0 6px; user-select: none;
+}
+.col-switch button {
+  width: 30px; height: 26px; border: none; border-radius: 5px; cursor: pointer;
+  background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600;
+  transition: all 0.15s;
+}
+.col-switch button:hover { color: var(--text); background: var(--bg-hover); }
+.col-switch button.active {
+  background: var(--accent); color: var(--bg);
+}
+.tabs-row {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+  margin-bottom: 32px; flex-wrap: wrap;
+}
+.tabs-row .tabs { margin-bottom: 0; }
+
+/* Tag filter */
+.tag-filter {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-bottom: 24px; padding: 12px 14px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+}
+.tf-label { font-size: 12px; color: var(--text-muted); margin-right: 2px; user-select: none; }
+.tf-chip {
+  border: 1px solid var(--border); background: var(--bg); color: var(--text-muted);
+  font-size: 12px; padding: 3px 10px; border-radius: 12px; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.tf-chip i { font-style: normal; opacity: 0.55; font-size: 11px; margin-left: 2px; }
+.tf-chip:hover { color: var(--text); border-color: var(--text-dim); }
+.tf-chip.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.tf-chip.active i { opacity: 0.8; }
+.tf-count { font-size: 12px; color: var(--text-dim); margin-left: auto; }
+.palette-tag { cursor: pointer; }
+.palette-tag:hover { color: var(--text); border-color: var(--text-dim); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .palette-grid, .palette-grid.cols-2, .palette-grid.cols-4 { grid-template-columns: 1fr; }
+  .container { padding: 20px 12px; }
+  .mock-wrap { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>配色使用表</h1>
+    <p>常用配色方案速查 — 按情绪风格分类，按用途场景细分 · 每套含深/浅双版主页示意</p>
+    <div class="classification-info">
+      <span>主类：<b>情绪 / 风格</b>（10 类）</span>
+      <span>子类：<b>用途场景</b>（6 类）</span>
+      <span>共 <b>10 × 6 = 60</b> 个组合节点</span>
+      <span>含 <b>240+</b> 套配色 · <b>480+</b> 版主页示意</span>
+    </div>
+  </header>
+
+  <div class="tabs-row">
+    <div class="tabs" id="tabs"></div>
+    <div class="col-switch" id="colSwitch" title="切换每行显示的列数">
+      <span class="cs-label">列数</span>
+      <button data-cols="1">1</button>
+      <button data-cols="2">2</button>
+      <button data-cols="4">4</button>
+    </div>
+  </div>
+  <div class="tag-filter" id="tagFilter"></div>
+  <div id="content"></div>
+
+  <footer>
+    顶部标签栏可按标签筛选配色（如「科技」「企业官网」） · 右上角可切换每行 1 / 2 / 4 列（自动记忆选择） · 每套配色自动派生「浅色调 / 深色调」两版大尺寸主页示意 · 点击色块或 HEX 值可复制色号
+  </footer>
+</div>
+<div class="toast" id="toast">已复制到剪贴板</div>
+
+<script>
+const moods = [
+  {
+    id: 1, name: "平静 / 宁静", color: "#85B7EB",
+    desc: "柔和蓝绿、低饱和中性色，传递安全感与专业感",
+    usecases: {
+      "网站": [
+        { name: "晨雾蓝灰", tags: ["科技", "企业官网"], colors: ["#F0F4F8","#D9E2EC","#ABC3D3","#486581","#243B53"], desc: "由浅到深的蓝灰渐变，适合企业官网主视觉，传递冷静与信任" },
+        { name: "鼠尾草绿", tags: ["健康", "环保"], colors: ["#F5F7F2","#E2EAE3","#B5C9B8","#6B8E7A","#2C4A3E"], desc: "低饱和绿色系，适合健康/环保类网站，自然不刺眼" },
+        { name: "薄雾青灰", tags: ["SaaS", "工具"], colors: ["#EDF2F7","#E2E8F0","#A0AEC0","#4A5568","#2D3748"], desc: "经典 SaaS 配色，中性灰+青灰层次，信息密度高的页面首选" }
+      ],
+      "App": [
+        { name: "静谧蓝", tags: ["效率工具", "阅读"], colors: ["#EEF2F6","#C5D5E4","#8FA8C5","#4A6FA5","#1E3A5F"], desc: "阅读类/效率类 App 常用配色，降低视觉疲劳" },
+        { name: "苔藓绿", tags: ["健康", "冥想"], colors: ["#F8F6F0","#DDD8CC","#A8B5A0","#5A7B5A","#2D4A2D"], desc: "冥想/健康类 App 首选，自然柔和" }
+      ],
+      "品牌Logo": [
+        { name: "信赖蓝", tags: ["金融", "科技"], colors: ["#E8EEF4","#A4C2DB","#5B8BB5","#2E5C8A"], desc: "经典金融科技 Logo 配色，稳重可信" },
+        { name: "有机绿", tags: ["环保", "农业"], colors: ["#F2F0EB","#C4D4C0","#7A9B7E","#3D5A40"], desc: "环保/有机品牌 Logo 常用色" }
+      ],
+      "海报": [
+        { name: "冰川渐变", tags: ["发布会", "科技展"], colors: ["#F0F5FA","#D0E0EF","#9BB8D5","#4E7BA3","#1A3A5C"], desc: "科技发布会海报常用，冷色调渐变制造空间感" },
+        { name: "静谧森林", tags: ["公益", "自然"], colors: ["#F5F3EF","#DDE5DC","#A5BBA8","#5E8068","#2A3F2D"], desc: "公益/环保主题海报，平静而有深度" }
+      ],
+      "包装": [
+        { name: "霜白", tags: ["护肤", "个护"], colors: ["#F4F6F8","#E1E8EE","#B3C5D4","#6B8AAA","#3A5068"], desc: "护肤品牌包装常用，清爽干净" },
+        { name: "鼠尾草", tags: ["有机食品", "茶叶"], colors: ["#F0F2ED","#D5DCD2","#A3B5A5","#5F7A62","#324234"], desc: "有机食品/茶叶包装，天然质朴" }
+      ],
+      "社交媒体": [
+        { name: "专业蓝", tags: ["B2B", "LinkedIn"], colors: ["#EBF1F7","#C3D6E8","#8CAECC","#5181B0","#2A4A6E"], desc: "B2B/LinkedIn 运营配图，专业沉稳" },
+        { name: "清新绿", tags: ["健康", "生活"], colors: ["#F3F1EC","#C8D5C0","#8FAA86","#567355","#2D3F2B"], desc: "健康生活类社交媒体，清新自然" }
+      ]
+    }
+  },
+  {
+    id: 2, name: "活力 / 动感", color: "#F0997B",
+    desc: "高饱和、强对比、暖色为主，吸引注意力、激发情绪",
+    usecases: {
+      "网站": [
+        { name: "彩虹能量", tags: ["儿童", "教育"], colors: ["#FF6B6B","#FFD93D","#6BCB77","#4D96FF","#2C2C2C"], desc: "多色高饱和搭配，适合儿童教育/创意类网站" },
+        { name: "暖焰", tags: ["电商", "促销"], colors: ["#FF4757","#FFA502","#FF6348","#2F3542","#F1F2F6"], desc: "红橙暖色系+深色文字，电商促销页常用" },
+        { name: "夏日缤纷", tags: ["旅游", "生活"], colors: ["#FF6B6B","#FFE66D","#4ECDC4","#1A535C","#F7FFF7"], desc: "明亮夏日感，旅游/生活类网站活力之选" }
+      ],
+      "App": [
+        { name: "撞色方块", tags: ["社交", "音乐"], colors: ["#FF5E5B","#FFD400","#00B2A9","#1B1B3A","#F5F5F5"], desc: "高对比撞色，适合音乐/社交类 App 功能区块" },
+        { name: "果汁色", tags: ["美食", "外卖"], colors: ["#FF6B6B","#FFA500","#FFD93D","#4ECDC4","#1A535C"], desc: "美食/外卖 App 常用，刺激食欲与点击欲" }
+      ],
+      "品牌Logo": [
+        { name: "活力四色", tags: ["媒体", "娱乐"], colors: ["#FF3366","#FF9F1C","#2EC4B6","#011627"], desc: "媒体娱乐品牌 Logo，辨识度极高" },
+        { name: "国民撞色", tags: ["运动", "潮牌"], colors: ["#E63946","#F1FAEE","#A8DADC","#457B9D"], desc: "运动潮牌 Logo 配色，红蓝撞色经典" }
+      ],
+      "海报": [
+        { name: "暖渐变", tags: ["活动", "派对"], colors: ["#F94144","#F3722C","#F8961E","#F9C74F","#277DA1"], desc: "暖色渐变系，活动/派对海报首选" },
+        { name: "霓虹彩虹", tags: ["音乐节", "创意"], colors: ["#FF006E","#FB5607","#FFBE0B","#3A86FF","#8338EC"], desc: "高饱和五色，音乐节/创意活动海报吸睛利器" }
+      ],
+      "包装": [
+        { name: "趣味五色", tags: ["零食", "饮料"], colors: ["#FF595E","#FFCA3A","#8AC926","#1982C4","#6A4C93"], desc: "零食/饮料包装，五色搭配趣味感强" },
+        { name: "明亮混搭", tags: ["文具", "玩具"], colors: ["#EF476F","#FFD166","#06D6A0","#118AB2","#073B4C"], desc: "文具/玩具包装，活力满满吸引儿童" }
+      ],
+      "社交媒体": [
+        { name: "玫红能量", tags: ["美妆", "时尚"], colors: ["#FF0A54","#FF477E","#FF7096","#FF85A1","#F1FAEE"], desc: "玫红渐变系，美妆/时尚类社媒配图" },
+        { name: "电光紫", tags: ["科技", "潮流"], colors: ["#F72585","#B5179E","#7209B7","#4361EE","#4CC9F0"], desc: "紫蓝电光色，科技/潮流类社媒视觉" }
+      ]
+    }
+  },
+  {
+    id: 3, name: "奢华 / 高端", color: "#ED93B1",
+    desc: "深色宝石色搭配金色/黑色，营造尊贵与品质感",
+    usecases: {
+      "网站": [
+        { name: "黑金经典", tags: ["珠宝", "腕表"], colors: ["#0D0D0D","#1A1A2E","#16213E","#C9A96E","#E8E8E8"], desc: "黑底+金色点缀，珠宝腕表品牌官网标配" },
+        { name: "深棕金", tags: ["皮具", "红酒"], colors: ["#1B1B1B","#3D2C2E","#8B6F47","#D4AF37","#F5F5DC"], desc: "深棕+香槟金，皮具/红酒品牌高端感" }
+      ],
+      "App": [
+        { name: "青铜奢华", tags: ["奢侈品", "会员"], colors: ["#141414","#2C2C2C","#8B7355","#C19A6B","#FFFFFF"], desc: "奢侈品/高端会员 App 配色，低调奢华" },
+        { name: "皇家紫金", tags: ["酒店", "高端服务"], colors: ["#0F0F1A","#1A1A2E","#4A3F6B","#BFA181","#E5E5E5"], desc: "深紫+米金，高端酒店/服务品牌首选" }
+      ],
+      "品牌Logo": [
+        { name: "极简黑金", tags: ["奢侈品", "时尚"], colors: ["#000000","#D4AF37","#FFFFFF"], desc: "黑+金+白三色，奢侈品 Logo 最经典配色" },
+        { name: "香槟金", tags: ["美妆", "护肤"], colors: ["#1C1C1C","#9C7C38","#C5A572","#F5E6CE"], desc: "香槟金渐变，美妆护肤高端线 Logo" }
+      ],
+      "海报": [
+        { name: "酒红金", tags: ["晚宴", "典礼"], colors: ["#0A0A0A","#1A1A1A","#8B0000","#C9A96E","#FFFFFF"], desc: "深红+金色，晚宴/颁奖典礼海报" },
+        { name: "巧克力金", tags: ["巧克力", "高端食品"], colors: ["#0D1117","#1B2430","#5B3A29","#D4AF37","#F0E6D2"], desc: "深巧克力+金，高端食品/巧克力海报" }
+      ],
+      "包装": [
+        { name: "礼盒黑金", tags: ["礼品", "香水"], colors: ["#000000","#1A1A1A","#8B7355","#D4AF37","#FFF8E7"], desc: "黑金礼盒包装，香水/礼品首选" },
+        { name: "酒庄深色", tags: ["红酒", "烈酒"], colors: ["#1B1B1B","#2E1F2E","#6B4423","#C9A96E","#F5F0E1"], desc: "深色+金色酒标，红酒/烈酒包装经典" }
+      ],
+      "社交媒体": [
+        { name: "金色单色调", tags: ["珠宝", "腕表"], colors: ["#0D0D0D","#C9A96E","#E8D5B5","#FFFFFF"], desc: "珠宝腕表社媒配图，黑金主调" },
+        { name: "深蓝金", tags: ["金融", "高端理财"], colors: ["#1A1A2E","#16213E","#C9A96E","#E94560"], desc: "深蓝+金色+红色点缀，金融高端理财社媒" }
+      ]
+    }
+  },
+  {
+    id: 4, name: "极简 / 现代", color: "#B4B2A9",
+    desc: "黑白灰为主+单一强调色，干净利落、信息聚焦",
+    usecases: {
+      "网站": [
+        { name: "苹果风", tags: ["科技", "产品"], colors: ["#FFFFFF","#F5F5F5","#E0E0E0","#333333","#007AFF"], desc: "白底+蓝强调色，Apple 官网经典风格" },
+        { name: "极简蓝灰", tags: ["SaaS", "工具"], colors: ["#FAFAFA","#F0F0F0","#C8C8C8","#1A1A1A","#4A90D9"], desc: "灰底+蓝点缀，SaaS/工具类网站极简风格" }
+      ],
+      "App": [
+        { name: "iOS 清爽", tags: ["效率", "工具"], colors: ["#FFFFFF","#F7F7F7","#E5E5E5","#333333","#007AFF"], desc: "iOS 系统风格，白底+蓝色交互色" },
+        { name: "Material 灰青", tags: ["Android", "工具"], colors: ["#FAFAFA","#EEEEEE","#BDBDBD","#212121","#00BCD4"], desc: "Material Design 风格，灰+青色强调" }
+      ],
+      "品牌Logo": [
+        { name: "纯黑白", tags: ["设计", "摄影"], colors: ["#000000","#FFFFFF"], desc: "纯黑白 Logo，设计/摄影/建筑品牌常用" },
+        { name: "极简红", tags: ["媒体", "出版"], colors: ["#1A1A1A","#E53935"], desc: "黑+红两色，媒体/出版 Logo 极简有力" }
+      ],
+      "海报": [
+        { name: "瑞士风", tags: ["展览", "建筑"], colors: ["#FFFFFF","#F5F5F5","#333333","#007AFF"], desc: "瑞士国际主义风格，大量留白+网格+蓝色" },
+        { name: "极简青绿", tags: ["科技", "环保"], colors: ["#FAFAFA","#1A1A1A","#00BFA5"], desc: "白+黑+青绿，科技/环保海报极简风格" }
+      ],
+      "包装": [
+        { name: "极简白盒", tags: ["电子产品", "家居"], colors: ["#FFFFFF","#F0F0F0","#C0C0C0","#2C2C2C"], desc: "白盒+黑字，电子产品/家居极简包装" },
+        { name: "灰蓝素雅", tags: ["文具", "生活"], colors: ["#FAFAFA","#ECECEC","#1A1A1A","#4A6FA5"], desc: "浅灰+黑+蓝点缀，文具/生活品牌包装" }
+      ],
+      "社交媒体": [
+        { name: "白底红点", tags: ["科技", "产品"], colors: ["#FFFFFF","#F5F5F5","#1A1A1A","#E94560"], desc: "白底+红色强调，科技产品社媒配图" },
+        { name: "极简青", tags: ["设计", "创意"], colors: ["#FAFAFA","#1A1A1A","#00BFA5"], desc: "白+黑+青绿，设计师/创意人社媒" }
+      ]
+    }
+  },
+  {
+    id: 5, name: "温暖 / 舒适", color: "#FAC775",
+    desc: "大地色、暖棕橙、米色系，营造温馨、亲切、踏实感",
+    usecases: {
+      "网站": [
+        { name: "咖啡馆", tags: ["餐饮", "咖啡"], colors: ["#FFF8F0","#F5E6D3","#D4A574","#8B5E3C","#3E2723"], desc: "咖啡色系，咖啡店/烘焙品牌网站首选" },
+        { name: "暖木色", tags: ["家居", "家具"], colors: ["#FDF5E6","#E8D5B5","#C19A6B","#6B4423","#2E1A0E"], desc: "暖木色调，家居/家具品牌网站" }
+      ],
+      "App": [
+        { name: "温馨棕", tags: ["美食", "社区"], colors: ["#FFF9F2","#F0E0D0","#D2A679","#8B6B4A","#3B2A1A"], desc: "美食社区 App，暖棕色调增进食欲与亲切感" },
+        { name: "蜂蜜暖", tags: ["阅读", "音频"], colors: ["#FBF3E5","#E6C9A3","#B8860B","#654321","#2A1A0A"], desc: "蜂蜜金色系，阅读/音频类 App 温暖护眼" }
+      ],
+      "品牌Logo": [
+        { name: "大地色", tags: ["咖啡", "烘焙"], colors: ["#F5E6D3","#D4A574","#8B5E3C","#3E2723"], desc: "咖啡/烘焙品牌 Logo 常用大地色" },
+        { name: "暖棕调", tags: ["手工", "皮具"], colors: ["#E8D5B5","#C19A6B","#6B4423"], desc: "手工/皮具品牌 Logo，质朴温暖" }
+      ],
+      "海报": [
+        { name: "日落暖", tags: ["活动", "市集"], colors: ["#FFF3E0","#FFCC80","#FF8A65","#5D4037","#3E2723"], desc: "日落渐变+深棕，市集/活动海报温暖感" },
+        { name: "铁锈红", tags: ["手工艺", "复古"], colors: ["#F5E6D3","#D4A574","#A0522D","#3E2723","#1A0E08"], desc: "铁锈红+大地色，手工艺/复古主题海报" }
+      ],
+      "包装": [
+        { name: "牛皮纸", tags: ["手作", "食品"], colors: ["#FDF5E6","#E8D5B5","#C19A6B","#8B5E3C","#3E2723"], desc: "牛皮纸质感包装，手作/手工食品" },
+        { name: "烘焙暖", tags: ["面包", "甜点"], colors: ["#FFF8F0","#F0E0D0","#D2A679","#6B4423","#2E1A0E"], desc: "烘焙暖色，面包店/甜点品牌包装" }
+      ],
+      "社交媒体": [
+        { name: "暖色信息流", tags: ["美食", "生活"], colors: ["#FFF3E0","#FFE0B2","#FFAB91","#8D6E63","#3E2723"], desc: "美食/生活类社媒配图，温暖亲切" },
+        { name: "舒适大地", tags: ["家居", "植物"], colors: ["#F5E6D3","#DEB887","#A0522D","#5D4037"], desc: "家居/植物类社媒，大地色系舒适感" }
+      ]
+    }
+  },
+  {
+    id: 6, name: "浪漫 / 柔和", color: "#D4537E",
+    desc: "粉彩、腮红色、淡紫，营造甜蜜、温柔、梦幻感",
+    usecases: {
+      "网站": [
+        { name: "腮红玫瑰", tags: ["婚庆", "美妆"], colors: ["#FFF5F7","#FFE4EC","#FFB3C6","#E8788E","#B23A48"], desc: "粉到玫红渐变，婚庆/美妆品牌网站" },
+        { name: "薰衣草梦", tags: ["香氛", "SPA"], colors: ["#FAF3F5","#F0D4E0","#D4A5C0","#9B6B8E","#5C3A52"], desc: "淡紫粉系，香氛/SPA 品牌梦幻感" }
+      ],
+      "App": [
+        { name: "粉色少女", tags: ["社交", "购物"], colors: ["#FFF0F5","#FFD6E0","#FFAFC5","#E84A7F","#8B2D5C"], desc: "粉色系购物/社交 App，年轻女性用户" },
+        { name: "柔紫调", tags: ["日记", "心情"], colors: ["#F9F0F4","#E8C5D4","#C992AD","#8B5E7E","#4A2D44"], desc: "柔和紫粉，日记/心情记录类 App" }
+      ],
+      "品牌Logo": [
+        { name: "玫瑰三色", tags: ["花艺", "婚庆"], colors: ["#FFB3C6","#E8788E","#B23A48"], desc: "粉+玫红+酒红，花艺/婚庆品牌 Logo" },
+        { name: "薰衣草粉", tags: ["香氛", "个护"], colors: ["#F0D4E0","#9B6B8E","#5C3A52"], desc: "淡紫粉，香氛/个护品牌柔和 Logo" }
+      ],
+      "海报": [
+        { name: "情人节粉", tags: ["节日", "促销"], colors: ["#FFE4EC","#FFB3C6","#FF8FAB","#C9184A","#590D22"], desc: "粉到深红渐变，情人节/520 促销海报" },
+        { name: "梦幻薰衣草", tags: ["婚礼", "邀请函"], colors: ["#F8E1E7","#E8B4BC","#D4A5C0","#9B6B8E","#4A2D44"], desc: "梦幻粉紫，婚礼邀请函/婚纱海报" }
+      ],
+      "包装": [
+        { name: "礼物粉", tags: ["礼品", "甜品"], colors: ["#FFF5F7","#FFE4EC","#FFB3C6","#E8788E"], desc: "粉色礼盒包装，甜品/礼品首选" },
+        { name: "优雅玫瑰", tags: ["香水", "蜡烛"], colors: ["#FAF3F5","#F0D4E0","#C992AD","#5C3A52"], desc: "深粉+紫调，香水/香薰蜡烛包装" }
+      ],
+      "社交媒体": [
+        { name: "粉色信息流", tags: ["美妆", "穿搭"], colors: ["#FFE4EC","#FFB3C6","#FF8FAB","#FFC2D1","#FFE5EC"], desc: "全粉系，美妆/穿搭社媒配图" },
+        { name: "柔和美学", tags: ["生活", "摄影"], colors: ["#F8E1E7","#E8B4BC","#D4A5C0","#9B6B8E"], desc: "柔和粉紫，生活美学/摄影类社媒" }
+      ]
+    }
+  },
+  {
+    id: 7, name: "复古 / 怀旧", color: "#97C459",
+    desc: "褪色暖调、低饱和黄棕色，带年代感与故事感",
+    usecases: {
+      "网站": [
+        { name: "70s 大地", tags: ["复古品牌", "手作"], colors: ["#F4ECD8","#D4B996","#A07855","#6B4423","#3E2723"], desc: "70 年代大地色系，复古品牌/手作网站" },
+        { name: "棕褐色调", tags: ["古董", "收藏"], colors: ["#E8DCC8","#C9B896","#8B7355","#5D4037","#2E1A0E"], desc: "棕褐褪色感，古董/收藏品网站" }
+      ],
+      "App": [
+        { name: "芥末复古", tags: ["二手", "跳蚤市场"], colors: ["#F5EDE0","#DCC9A8","#B08B5F","#6B4E2E","#3B2A1A"], desc: "芥末黄+棕，二手/跳蚤市场 App" },
+        { name: "复古金棕", tags: ["黑胶", "音乐"], colors: ["#E8D5B7","#C9A96E","#8B6F47","#5D4037","#2E1A0E"], desc: "金棕色调，黑胶/复古音乐 App" }
+      ],
+      "品牌Logo": [
+        { name: "复古徽章", tags: ["精酿", "咖啡"], colors: ["#D4B996","#A07855","#6B4423","#3E2723"], desc: "精酿啤酒/咖啡品牌复古徽章 Logo" },
+        { name: "古董色", tags: ["手工艺", "皮具"], colors: ["#C9B896","#8B7355","#5D4037"], desc: "古董做旧感，手工艺/皮具品牌" }
+      ],
+      "海报": [
+        { name: "复古火焰", tags: ["音乐节", "派对"], colors: ["#E85D04","#DC2F02","#9D0208","#370617","#FFBA08"], desc: "橙红火焰+深色底+金色点缀，复古音乐节海报" },
+        { name: "旧报纸", tags: ["展览", "讲座"], colors: ["#F4ECD8","#D4B996","#A07855","#6B4423","#3E2723"], desc: "旧报纸质感，展览/讲座/文艺活动海报" }
+      ],
+      "包装": [
+        { name: "牛皮复古", tags: ["咖啡豆", "茶叶"], colors: ["#F0E4D0","#D4B996","#A07855","#6B4423"], desc: "牛皮纸+复古印刷感，咖啡豆/茶叶包装" },
+        { name: "旧纸感", tags: ["手作", "干货"], colors: ["#E8DCC8","#C9B896","#8B7355","#5D4037"], desc: "做旧纸质感，手作食品/干货包装" }
+      ],
+      "社交媒体": [
+        { name: "复古滤镜", tags: ["摄影", "旅行"], colors: ["#F4ECD8","#D4B996","#A07855","#6B4423","#3E2723"], desc: "复古胶片色调，旅行/摄影社媒配图" },
+        { name: "复古撞色", tags: ["音乐", "潮流"], colors: ["#E85D04","#DC2F02","#9D0208","#FFBA08","#F4ECD8"], desc: "橙红撞色，复古音乐/潮流文化社媒" }
+      ]
+    }
+  },
+  {
+    id: 8, name: "暗黑 / 深邃", color: "#7F77DD",
+    desc: "深色底+高对比点缀色，酷感、专业、沉浸式体验",
+    usecases: {
+      "网站": [
+        { name: "GitHub 暗色", tags: ["开发者", "工具"], colors: ["#0D1117","#161B22","#21262D","#58A6FF","#F0F6FC"], desc: "开发者社区暗色主题，深底+蓝强调" },
+        { name: "Material 暗色", tags: ["工具", "平台"], colors: ["#0A0A0A","#1A1A1A","#2D2D2D","#BB86FC","#E1E1E1"], desc: "Material Design 暗色，深灰+紫色强调" }
+      ],
+      "App": [
+        { name: "暗色模式", tags: ["效率", "工具"], colors: ["#121212","#1E1E1E","#2C2C2C","#BB86FC","#03DAC6"], desc: "标准暗色模式，紫+青绿双强调色" },
+        { name: "开发者暗色", tags: ["代码", "技术"], colors: ["#0D1117","#161B22","#30363D","#58A6FF","#8B949E"], desc: "代码编辑器/技术类 App 暗色风格" }
+      ],
+      "品牌Logo": [
+        { name: "暗黑奢华", tags: ["高端", "潮流"], colors: ["#0A0A0A","#1A1A1A","#C9A96E","#FFFFFF"], desc: "黑+金+白，高端潮流品牌 Logo" },
+        { name: "暗色科技", tags: ["AI", "区块链"], colors: ["#0D1117","#58A6FF","#F0F6FC"], desc: "深蓝底+亮蓝+白，科技品牌 Logo" }
+      ],
+      "海报": [
+        { name: "暗黑戏剧", tags: ["电影", "演出"], colors: ["#0A0A0A","#1A0A0A","#8B0000","#FFD700","#FFFFFF"], desc: "黑底+酒红+金，电影/演出海报戏剧感" },
+        { name: "暗色强调", tags: ["科技", "产品"], colors: ["#0D1117","#1A1A2E","#E94560","#F5F5F5"], desc: "深色底+红色强调，科技产品发布会海报" }
+      ],
+      "包装": [
+        { name: "暗黑礼盒", tags: ["高端", "限量"], colors: ["#0A0A0A","#1A1A1A","#C9A96E","#FFF8E7"], desc: "黑金礼盒，高端限量版产品包装" },
+        { name: "暗色大胆", tags: ["潮牌", "街头"], colors: ["#0D0D0D","#1B1B1B","#8B0000","#FFFFFF"], desc: "黑+红+白，潮牌/街头风包装" }
+      ],
+      "社交媒体": [
+        { name: "暗色科技风", tags: ["科技", "数码"], colors: ["#0D1117","#161B22","#58A6FF","#F0F6FC"], desc: "深色底+蓝色，科技/数码社媒配图" },
+        { name: "霓虹暗色", tags: ["游戏", "潮流"], colors: ["#0A0A0A","#BB86FC","#03DAC6","#E1E1E1"], desc: "深底+紫青霓虹，游戏/潮流社媒" }
+      ]
+    }
+  },
+  {
+    id: 9, name: "赛博 / 未来", color: "#1D9E75",
+    desc: "暗底霓虹、电光紫青，未来感、科技感、虚拟现实",
+    usecases: {
+      "网站": [
+        { name: "赛博霓虹", tags: ["Web3", "游戏"], colors: ["#0A0E27","#1A1A40","#8B5FBF","#00FFF5","#FF00FF"], desc: "深紫底+青/品红霓虹，Web3/游戏网站" },
+        { name: "电光紫", tags: ["AI", "科技"], colors: ["#0D0221","#190B28","#00E0FF","#FF2E63","#FFFFFF"], desc: "深底+电光青/热粉，AI/前沿科技网站" }
+      ],
+      "App": [
+        { name: "霓虹应用", tags: ["游戏", "社交"], colors: ["#0A0A1A","#1A0A2E","#533483","#E94560","#00FFF5"], desc: "暗底+品红/青霓虹，游戏/社交 App" },
+        { name: "未来辉光", tags: ["AI", "元宇宙"], colors: ["#0D0221","#26072E","#7C3AED","#06FFA5","#FFFFFF"], desc: "深紫底+紫/荧光绿，AI/元宇宙 App" }
+      ],
+      "品牌Logo": [
+        { name: "赛博三色", tags: ["科技", "游戏"], colors: ["#0A0E27","#00FFF5","#FF00FF"], desc: "深底+青+品红，科技/游戏品牌 Logo" },
+        { name: "电光强调", tags: ["AI", "未来"], colors: ["#0D0221","#FF2E63","#08D9D6"], desc: "深底+热粉/青绿，AI/未来科技 Logo" }
+      ],
+      "海报": [
+        { name: "Synthwave", tags: ["音乐", "派对"], colors: ["#0A0E27","#1A1A40","#533483","#E94560","#00FFF5"], desc: "合成波风格，深紫+品红+青，音乐节/电子派对海报" },
+        { name: "RGB 霓虹", tags: ["游戏", "电竞"], colors: ["#0D0221","#190B28","#FF00FF","#00FFFF","#FFFF00"], desc: "品红+青+黄三色霓虹，电竞/游戏海报" }
+      ],
+      "包装": [
+        { name: "赛博盒", tags: ["数码", "外设"], colors: ["#0A0A1A","#533483","#E94560","#00FFF5"], desc: "暗色+霓虹点缀，数码/电竞外设包装" },
+        { name: "未来包装", tags: ["潮玩", "限量"], colors: ["#0D0221","#7C3AED","#06FFA5"], desc: "深紫+荧光绿，潮玩/限量版包装" }
+      ],
+      "社交媒体": [
+        { name: "霓虹信息流", tags: ["游戏", "科技"], colors: ["#0A0E27","#8B5FBF","#00FFF5","#FF00FF"], desc: "暗底霓虹色，游戏/科技社媒配图" },
+        { name: "电光社交", tags: ["潮流", "音乐"], colors: ["#0D0221","#FF2E63","#08D9D6","#FFFFFF"], desc: "深底+热粉/青绿，潮流音乐社媒" }
+      ]
+    }
+  },
+  {
+    id: 10, name: "自然 / 清新", color: "#639922",
+    desc: "绿色系、有机大地色，传达健康、环保、生命力",
+    usecases: {
+      "网站": [
+        { name: "森林清新", tags: ["环保", "有机"], colors: ["#F0F7F0","#D4E8D4","#8FBC8F","#4F7943","#2D4A2D"], desc: "绿色渐变系，环保/有机品牌网站" },
+        { name: "鼠尾草有机", tags: ["健康", "生活"], colors: ["#F5F9F0","#DCE8D0","#A0C8A0","#5B8A5B","#2A4D2A"], desc: "低饱和绿色，健康生活类网站" }
+      ],
+      "App": [
+        { name: "Material 绿", tags: ["健康", "运动"], colors: ["#E8F5E9","#C8E6C9","#81C784","#388E3C","#1B5E20"], desc: "Material Design 绿色系，健康/运动 App" },
+        { name: "生态绿", tags: ["环保", "回收"], colors: ["#F0F7F0","#D4E8D4","#7FB07F","#3D6B3D","#1A3A1A"], desc: "环保/回收类 App，生态绿色调" }
+      ],
+      "品牌Logo": [
+        { name: "绿色徽章", tags: ["有机", "农业"], colors: ["#8FBC8F","#4F7943","#2D4A2D"], desc: "三绿渐变，有机/农业品牌 Logo" },
+        { name: "有机绿", tags: ["环保", "天然"], colors: ["#A0C8A0","#5B8A5B","#2A4D2A"], desc: "自然绿色，环保/天然品牌 Logo" }
+      ],
+      "海报": [
+        { name: "绿色渐变", tags: ["环保", "公益"], colors: ["#E8F5E9","#A5D6A7","#66BB6A","#2E7D32","#1B5E20"], desc: "绿色渐变，环保公益主题海报" },
+        { name: "清新绿", tags: ["健康", "食品"], colors: ["#F0F7F0","#B5D8B5","#6BA66B","#3A6B3A","#1D3A1D"], desc: "清新绿色系，健康食品/有机生活海报" }
+      ],
+      "包装": [
+        { name: "环保盒", tags: ["有机食品", "茶叶"], colors: ["#F5F9F0","#DCE8D0","#8FBC8F","#4F7943"], desc: "浅绿+深绿，有机食品/茶叶环保包装" },
+        { name: "绿色包装", tags: ["生鲜", "果蔬"], colors: ["#E8F5E9","#C8E6C9","#66BB6A","#2E7D32"], desc: "绿色系，生鲜/果蔬品牌包装" }
+      ],
+      "社交媒体": [
+        { name: "自然信息流", tags: ["环保", "生活"], colors: ["#E8F5E9","#A5D6A7","#66BB6A","#2E7D32","#1B5E20"], desc: "全绿系，环保/自然生活社媒配图" },
+        { name: "有机美学", tags: ["植物", "花艺"], colors: ["#F0F7F0","#B5D8B5","#6BA66B","#3A6B3A"], desc: "柔和绿色，植物/花艺社媒美学" }
+      ]
+    }
+  }
+];
+
+/* ============ 扩展配色：每格再补 2 套，拉宽色相与调性 ============ */
+const extraPalettes = {
+  0: { // 平静 / 宁静
+    "网站": [
+      { name: "冰川青雾", tags: ["科技","健康"], colors: ["#F2F7F8","#CBE3E6","#8FBFC6","#3D7B85","#1A3D44"], desc: "冰川青到深松绿的渐变，清冷通透，适合科技/健康类官网" },
+      { name: "暮色蓝", tags: ["科技","金融"], colors: ["#EEF2F7","#C4D2E3","#7E9BC2","#3B5878","#1B2D44"], desc: "黄昏天空蓝灰，沉稳专业，金融/企业官网通用" },
+    ],
+    "App": [
+      { name: "雾松灰", tags: ["健康","生活"], colors: ["#F4F5F3","#DDE3DE","#A8B8AE","#5C7268","#2E3B36"], desc: "雾凇般的灰绿，护眼柔和，健康/冥想类 App 首选" },
+      { name: "月白瓷", tags: ["家居","文化"], colors: ["#FAFBFC","#E4E8EC","#B9C4CE","#6B7C8C","#33414F"], desc: "月白与瓷青，素雅留白感强，适合生活方式类 App" },
+    ],
+    "品牌Logo": [
+      { name: "湖畔静蓝", tags: ["科技","环保"], colors: ["#E8F1F4","#B0CCD6","#5E8FA0","#2C5666","#14323D"], desc: "湖水蓝灰，低饱和宁静，环保/科技品牌识别度高" },
+      { name: "浅薰衣草", tags: ["美妆","健康"], colors: ["#F5F2F8","#DCD3E8","#A792C4","#6B5189","#3A2A4D"], desc: "淡薰衣草紫灰，舒缓助眠感，美妆/个护品牌" },
+    ],
+    "海报": [
+      { name: "雪原蓝", tags: ["科技","旅游"], colors: ["#F0F6FA","#C9DDE8","#7FA8BE","#3D6680","#1A3344"], desc: "雪原与远天蓝，冷净开阔，科技/旅游类海报" },
+      { name: "青瓷静默", tags: ["文化","家居"], colors: ["#F1F4F0","#CFDDD2","#94B0A0","#527868","#28382F"], desc: "青瓷绿灰，东方静谧感，文创/家居海报" },
+    ],
+    "包装": [
+      { name: "云母灰蓝", tags: ["美妆","个护"], colors: ["#F3F5F7","#D2DAE0","#9AAAB4","#5A6E7A","#2C3A44"], desc: "云母片般微闪灰蓝，高端个护/美妆包装" },
+      { name: "静水苔", tags: ["环保","食品"], colors: ["#EFF3EE","#CFDAD0","#93AA98","#55705F","#293830"], desc: "静水苔绿，自然有机感，有机食品/环保包装" },
+    ],
+    "社交媒体": [
+      { name: "晨曦蓝雾", tags: ["生活","健康"], colors: ["#F2F6FA","#D0DEEA","#92B0C6","#4E7390","#26425A"], desc: "清晨蓝雾，平静治愈，生活/健康类社媒配图" },
+      { name: "薄荷雾灰", tags: ["健康","美妆"], colors: ["#F1F6F4","#D2E1DB","#9BC0B4","#5C8979","#2E4A42"], desc: "薄荷雾感灰绿，清爽不刺激，健康/美妆社媒" },
+    ],
+  },
+  1: { // 活力 / 动感
+    "网站": [
+      { name: "热带果橙", tags: ["电商","食品"], colors: ["#FFF6EE","#FFD9A8","#FF8C42","#E8451C","#7A1A06"], desc: "热带水果橙红，食欲与活力并存，电商/食品官网" },
+      { name: "电光黄绿", tags: ["科技","运动"], colors: ["#FAFFE6","#DFFF66","#A4D900","#5C8A00","#2A4400"], desc: "高能黄绿，年轻电光感，科技/运动类官网" },
+    ],
+    "App": [
+      { name: "番茄红弹", tags: ["电商","美食"], colors: ["#FFF1EE","#FFC1B0","#FF5C3A","#C81E0E","#5C0600"], desc: "番茄红高饱和，点击欲强，电商/外卖类 App" },
+      { name: "霓虹珊瑚", tags: ["社交","美妆"], colors: ["#FFF5F2","#FFD0C2","#FF6B5C","#D62A2A","#5C1010"], desc: "珊瑚粉橙，活力社交感，美妆/社交 App" },
+    ],
+    "品牌Logo": [
+      { name: "节日橙", tags: ["活动","电商"], colors: ["#FFF3E0","#FFB347","#FF6B1A","#CC3300","#661A00"], desc: "节日暖橙，热情醒目，活动/电商品牌" },
+      { name: "柠檬黄黑", tags: ["科技","潮流"], colors: ["#FFFB00","#FFE600","#FFD000","#1A1A1A","#000000"], desc: "高对比柠檬黄+黑，潮酷科技感，潮牌/科技 Logo" },
+    ],
+    "海报": [
+      { name: "西瓜撞色", tags: ["美食","活动"], colors: ["#FFE5EC","#FF8FA3","#E63946","#1D3557","#0D1B2A"], desc: "西瓜红撞深蓝，视觉冲击极强，美食/活动海报" },
+      { name: "能量渐变", tags: ["运动","科技"], colors: ["#FF6B6B","#FF8E53","#FEA444","#FFD166","#06D6A0"], desc: "暖到冷的能量渐变，运动/科技发布会海报" },
+    ],
+    "包装": [
+      { name: "糖果罐", tags: ["食品","儿童"], colors: ["#FFE66D","#FF6B6B","#4ECDC4","#1A535C","#F7FFF7"], desc: "四色糖果拼，活泼童趣，零食/儿童食品包装" },
+      { name: "熔岩橙红", tags: ["食品","运动"], colors: ["#FFE8D6","#FFAB76","#FF5722","#C1351A","#5C1404"], desc: "熔岩橙红渐变，热力四射，能量食品/运动补剂" },
+    ],
+    "社交媒体": [
+      { name: "日落派对", tags: ["社交","活动"], colors: ["#FFEAA7","#FAB1A0","#E17055","#D63031","#6C5CE7"], desc: "日落暖色撞紫，派对氛围拉满，社交/活动配图" },
+      { name: "果汁飞溅", tags: ["美食","电商"], colors: ["#FFF3B0","#FF8C42","#E63946","#06A77D","#1A535C"], desc: "果汁四色，鲜明食欲感，美食/电商社媒" },
+    ],
+  },
+  2: { // 奢华 / 高端
+    "网站": [
+      { name: "墨绿鎏金", tags: ["奢侈品","家居"], colors: ["#F5F2EC","#D4C9A8","#8C7A4F","#2D4A3A","#0F1F18"], desc: "墨绿底+鎏金线，低调奢华，奢侈品/高端家居官网" },
+      { name: "酒红铂金", tags: ["奢侈品","婚庆"], colors: ["#FBF8F4","#E8D5C4","#B8860B","#722F37","#2B0F12"], desc: "酒红+暗金，雍容华贵，奢侈品/婚庆官网" },
+    ],
+    "App": [
+      { name: "深蓝铂金", tags: ["金融","奢侈品"], colors: ["#0F1B2D","#1B3A5C","#3B6E9C","#C9A86A","#F5E6C8"], desc: "深蓝铂金，金融/奢侈品 App 的尊贵感" },
+      { name: "黑曜紫金", tags: ["美妆","奢侈品"], colors: ["#0D0B14","#2A1B3D","#4A2E6B","#C9A227","#EDE0B0"], desc: "黑曜紫+暗金，神秘奢华，高端美妆 App" },
+    ],
+    "品牌Logo": [
+      { name: "紫罗兰金", tags: ["奢侈品","美妆"], colors: ["#FBF7F0","#E0CFA8","#9B7BA8","#4A2E6B","#1A0F2E"], desc: "紫罗兰撞金，优雅神秘，奢侈品/美妆 Logo" },
+      { name: "炭黑赤金", tags: ["奢侈品","腕表"], colors: ["#1A1A1A","#2D2D2D","#8B0000","#C9A227","#F5E6C8"], desc: "炭黑+赤+金，硬朗贵气，腕表/奢侈品 Logo" },
+    ],
+    "海报": [
+      { name: "暗夜宝石", tags: ["奢侈品","活动"], colors: ["#0D0D0D","#1B2A4A","#0F4C3A","#8B0000","#C9A227"], desc: "暗夜多宝石色，深邃华贵，奢侈品发布会海报" },
+      { name: "深褐铜金", tags: ["皮具","奢侈品"], colors: ["#F5EFE6","#D4B896","#8B6914","#5C3A1E","#2B1A0F"], desc: "深褐铜金，复古皮具质感，皮具/奢侈品海报" },
+    ],
+    "包装": [
+      { name: "黑金典藏", tags: ["奢侈品","礼品"], colors: ["#0A0A0A","#1C1C1C","#C9A227","#E8D094","#F8F0D8"], desc: "纯黑+金线，典藏级包装，高端礼品/奢侈品" },
+      { name: "酒红烫金", tags: ["红酒","奢侈品"], colors: ["#F8F0E8","#D4AF37","#722F37","#3D0F12","#1A0506"], desc: "酒红烫金，红酒/高端礼盒包装经典" },
+    ],
+    "社交媒体": [
+      { name: "午夜金辉", tags: ["奢侈品","珠宝"], colors: ["#0D0D12","#1E1E2E","#C9A227","#F5E6C8","#E8D5A0"], desc: "午夜深底+金辉，珠宝/奢侈品社媒质感" },
+      { name: "墨绿金叶", tags: ["奢侈品","家居"], colors: ["#0F1F18","#1E3A2E","#C9A227","#E0CFA8","#F5F2EC"], desc: "墨绿金叶纹，高端家居/奢侈品社媒配图" },
+    ],
+  },
+  3: { // 极简 / 现代
+    "网站": [
+      { name: "纯白靛", tags: ["科技","设计"], colors: ["#FFFFFF","#F4F4F6","#E0E0E6","#1A1A2E","#3D5AFE"], desc: "纯白+靛蓝单点强调，极致克制，科技/设计官网" },
+      { name: "暖白赭", tags: ["家居","文化"], colors: ["#FDFCFA","#F0EBE0","#D9CFB8","#4A3F2F","#A0522D"], desc: "暖白+赭石一点，温润极简，家居/文创官网" },
+    ],
+    "App": [
+      { name: "冷灰青", tags: ["科技","效率"], colors: ["#F8FAFC","#E2E8F0","#94A3B8","#1E293B","#0EA5E9"], desc: "冷灰+青强调，工具型 App 的克制现代感" },
+      { name: "暖灰橙", tags: ["效率","生活"], colors: ["#FAFAF8","#EDEAE3","#B8B0A0","#3D3D3D","#FF6B35"], desc: "暖灰+橙点缀，效率/生活类 App 的现代温度" },
+    ],
+    "品牌Logo": [
+      { name: "纸白朱砂", tags: ["文化","设计"], colors: ["#FBFAF6","#E8E4D8","#1A1A1A","#E63946","#0D0D0D"], desc: "和纸白+朱砂一点，东方极简，文创/设计 Logo" },
+      { name: "炭灰蓝点", tags: ["科技","商务"], colors: ["#F5F5F5","#D9D9D9","#1A1A1A","#2563EB","#0D0D0D"], desc: "炭灰+蓝点，冷峻现代，科技/商务 Logo" },
+    ],
+    "海报": [
+      { name: "留白红", tags: ["设计","活动"], colors: ["#FFFFFF","#F0F0F0","#1A1A1A","#FF3B30","#0D0D0D"], desc: "大留白+红一点，瑞士风极简海报" },
+      { name: "网格灰绿", tags: ["设计","科技"], colors: ["#FAFBFA","#E0E6E0","#9CA89C","#2D3D2D","#52B788"], desc: "网格灰+绿强调，现代设计/科技海报" },
+    ],
+    "包装": [
+      { name: "素白墨线", tags: ["文化","家居"], colors: ["#FDFDFB","#EDEAE2","#C9C2B0","#1A1A1A","#3D3D3D"], desc: "素白+墨线，极简留白，文创/家居包装" },
+      { name: "牛皮纸黑", tags: ["食品","文化"], colors: ["#E8DCC4","#D4C4A0","#A0875C","#2B2B2B","#000000"], desc: "牛皮纸+纯黑字，手作极简，食品/文创包装" },
+    ],
+    "社交媒体": [
+      { name: "极简单色", tags: ["设计","科技"], colors: ["#FFFFFF","#F2F2F2","#E0E0E0","#1A1A1A","#3B82F6"], desc: "白灰+蓝单强调，极简社媒配图模板" },
+      { name: "米白橄榄", tags: ["家居","生活"], colors: ["#FAF8F2","#EDE7D6","#C2B280","#5C5C3D","#3D4A2A"], desc: "米白+橄榄，自然极简，家居/生活社媒" },
+    ],
+  },
+  4: { // 温暖 / 舒适
+    "网站": [
+      { name: "焦糖拿铁", tags: ["美食","家居"], colors: ["#FBF3E4","#E8C9A0","#C08552","#7A4A23","#3D2410"], desc: "焦糖拿铁渐变，温暖治愈，咖啡/家居官网" },
+      { name: "暖砂赤陶", tags: ["家居","文化"], colors: ["#F5EBDD","#E0C09A","#C1775A","#7A4A2F","#3D2418"], desc: "暖砂赤陶，地中海暖意，家居/文创官网" },
+    ],
+    "App": [
+      { name: "栗木暖棕", tags: ["家居","美食"], colors: ["#F8EFE3","#DDB993","#A0734A","#5C3A1E","#2B1A0F"], desc: "栗木暖棕，木质温度感，家居/美食类 App" },
+      { name: "蜜糖橘棕", tags: ["美食","生活"], colors: ["#FFF3E0","#FFCC80","#E89B3A","#8B5A1A","#3D2810"], desc: "蜜糖橘棕，甜蜜暖意，美食/生活 App" },
+    ],
+    "品牌Logo": [
+      { name: "红土陶", tags: ["家居","文化"], colors: ["#F0E4D4","#D4A574","#B56A3D","#7A3D1E","#3D1F0F"], desc: "红土陶质感，质朴温暖，家居/手作品牌" },
+      { name: "暖陶橘", tags: ["美食","家居"], colors: ["#FFF0E0","#FFB37A","#E8742C","#9C3D0E","#4D1E05"], desc: "暖陶橘，窑火温度，美食/家居品牌" },
+    ],
+    "海报": [
+      { name: "秋日暖棕", tags: ["美食","活动"], colors: ["#FBE8CE","#E8A96A","#B56A2D","#7A3D14","#3D1F0A"], desc: "秋日暖棕调，丰收温度，美食/活动海报" },
+      { name: "炉火橙红", tags: ["家居","美食"], colors: ["#FFE8D0","#FFA866","#E84A1A","#8B2A0A","#3D1205"], desc: "炉火橙红，壁炉暖意，家居/美食海报" },
+    ],
+    "包装": [
+      { name: "枫糖纸", tags: ["食品","文化"], colors: ["#F5E6CC","#D4A85A","#9C6B2A","#5C3D14","#2B1E0A"], desc: "枫糖牛皮纸，手作温度，食品/文创包装" },
+      { name: "暖麻绳", tags: ["家居","食品"], colors: ["#F0E8D8","#D4C4A0","#A0875C","#6B5234","#3D2E1A"], desc: "暖麻绳色调，质朴手作，家居/食品包装" },
+    ],
+    "社交媒体": [
+      { name: "暖阳午后", tags: ["生活","美食"], colors: ["#FFF4E0","#FFD9A0","#E89B3A","#8B5A1A","#3D2810"], desc: "暖阳午后，惬意治愈，生活/美食社媒" },
+      { name: "陶土暖光", tags: ["家居","生活"], colors: ["#F5EBDD","#E0B888","#C1775A","#7A4A2F","#3D2418"], desc: "陶土暖光，居家温度，家居/生活社媒" },
+    ],
+  },
+  5: { // 浪漫 / 柔和
+    "网站": [
+      { name: "樱花粉雾", tags: ["美妆","婚庆"], colors: ["#FFF5F7","#FFD6E0","#FFA8C5","#D6678F","#7A2D4A"], desc: "樱花粉雾，浪漫柔和，美妆/婚庆官网" },
+      { name: "玫瑰金晨", tags: ["美妆","奢侈品"], colors: ["#FFF8F5","#F5D0C4","#E8A598","#B76E6E","#6B3838"], desc: "玫瑰金晨光，柔美高级，美妆/奢侈品官网" },
+    ],
+    "App": [
+      { name: "薄荷桃", tags: ["美妆","健康"], colors: ["#F5FFFA","#C4E8D4","#FFD6E0","#FFA8C5","#D6678F"], desc: "薄荷撞桃粉，清新浪漫，美妆/健康 App" },
+      { name: "淡藕丁香", tags: ["美妆","家居"], colors: ["#F8F4F6","#E0D0D8","#C4A8B8","#8B6B7A","#4A3640"], desc: "淡藕丁香紫，温柔低饱和，美妆/家居 App" },
+    ],
+    "品牌Logo": [
+      { name: "腮红粉", tags: ["美妆","社交"], colors: ["#FFF0F3","#FFB3C6","#FF6B95","#C13B6B","#5C1A35"], desc: "腮红粉，少女浪漫，美妆/社交品牌" },
+      { name: "玫瑰金", tags: ["奢侈品","美妆"], colors: ["#FFF8F5","#F5D0C4","#E8A598","#B76E6E","#8B5A4A"], desc: "玫瑰金渐变，柔美奢华，奢侈品/美妆 Logo" },
+    ],
+    "海报": [
+      { name: "初恋粉紫", tags: ["婚庆","社交"], colors: ["#FFF0F5","#FFC4D6","#FF6B95","#9B5AB8","#4A2A5C"], desc: "粉紫渐变，初恋浪漫，婚庆/社交海报" },
+      { name: "蜜桃霞光", tags: ["美妆","生活"], colors: ["#FFF5EE","#FFDAB0","#FF9E7A","#D6675A","#7A3328"], desc: "蜜桃霞光，温柔晚霞，美妆/生活海报" },
+    ],
+    "包装": [
+      { name: "玫瑰花瓣", tags: ["美妆","礼品"], colors: ["#FFF5F7","#FFD6E0","#FFA8C5","#D6678F","#7A2D4A"], desc: "玫瑰花瓣层叠，浪漫礼盒，美妆/礼品包装" },
+      { name: "藕荷丝带", tags: ["婚庆","礼品"], colors: ["#F8F4F6","#E8D8E0","#C4A8B8","#8B6B7A","#4A3640"], desc: "藕荷丝带，雅致浪漫，婚庆/礼品包装" },
+    ],
+    "社交媒体": [
+      { name: "粉色泡泡", tags: ["社交","美妆"], colors: ["#FFF0F5","#FFC4D6","#FF6B95","#C13B6B","#5C1A35"], desc: "粉色泡泡梦幻，少女社交，美妆/社交社媒" },
+      { name: "薰衣草梦", tags: ["美妆","健康"], colors: ["#F5F2F8","#DCD3E8","#A792C4","#6B5189","#3A2A4D"], desc: "薰衣草梦境，助眠浪漫，美妆/健康社媒" },
+    ],
+  },
+  6: { // 复古 / 怀旧
+    "网站": [
+      { name: "芥末黄棕", tags: ["文化","家居"], colors: ["#F0E8D0","#D4B85A","#9C7A2A","#5C4A1E","#2B2210"], desc: "芥末黄+旧棕，七八十年代复古，文创/家居官网" },
+      { name: "复古绿橘", tags: ["文化","食品"], colors: ["#E8E0C8","#C4A85A","#8B6B2A","#5C7A4A","#2B3D1E"], desc: "复古绿撞橘黄，老式印刷感，文创/食品官网" },
+    ],
+    "App": [
+      { name: "旧纸墨绿", tags: ["文化","阅读"], colors: ["#EDE4CC","#D4C49A","#8B7A4A","#3D5A3D","#1E2B1E"], desc: "旧报纸黄+墨绿，复古阅读感，阅读/文创 App" },
+      { name: "胶片棕", tags: ["文化","摄影"], colors: ["#E8DCC0","#C4A87A","#8B6B3D","#5C3D1E","#2B1E0F"], desc: "胶片暖棕调，怀旧滤镜，摄影/文创 App" },
+    ],
+    "品牌Logo": [
+      { name: "砖红米白", tags: ["文化","食品"], colors: ["#F0E8D4","#D4A884","#A0522D","#7A2D1A","#3D1208"], desc: "砖红米白，老式招牌感，文创/食品品牌" },
+      { name: "复古橄榄", tags: ["文化","家居"], colors: ["#E8E0C4","#B8A86A","#6B6B2A","#3D3D1A","#1E1E0F"], desc: "复古橄榄绿，军旅怀旧，文创/家居品牌" },
+    ],
+    "海报": [
+      { name: "怀旧四色", tags: ["文化","活动"], colors: ["#E8DCC0","#C45A3D","#3D5A8C","#8B6B2A","#2B2210"], desc: "复古印刷四色，老海报质感，文创/活动海报" },
+      { name: "褪色暖调", tags: ["文化","摄影"], colors: ["#EDE0CC","#C4A084","#8B6B4A","#5C3D2A","#2B1E14"], desc: "褪色暖棕，胶片怀旧，摄影/文创海报" },
+    ],
+    "包装": [
+      { name: "老式标签", tags: ["文化","食品"], colors: ["#EDE0C4","#D4B87A","#8B6B2A","#5C3D1A","#2B1E0A"], desc: "老式标签牛皮纸，复古手作，文创/食品包装" },
+      { name: "铁皮招牌", tags: ["文化","家居"], colors: ["#D45A3D","#C45A3D","#3D5A8C","#8B6B2A","#2B2210"], desc: "铁皮搪瓷招牌色，复古工业，文创/家居包装" },
+    ],
+    "社交媒体": [
+      { name: "复古胶片", tags: ["摄影","文化"], colors: ["#E8DCC0","#C4A084","#8B6B4A","#5C3D2A","#2B1E14"], desc: "胶片褪色暖调，怀旧质感，摄影/文创社媒" },
+      { name: "老唱片", tags: ["文化","娱乐"], colors: ["#EDE0C4","#C4A85A","#8B5A2A","#3D2A14","#1E1408"], desc: "老唱片暖棕，黑胶怀旧，娱乐/文创社媒" },
+    ],
+  },
+  7: { // 暗黑 / 深邃
+    "网站": [
+      { name: "午夜深蓝", tags: ["科技","金融"], colors: ["#0A0E1A","#111827","#1E3A5F","#3B82F6","#93C5FD"], desc: "午夜深蓝+电蓝强调，科技/金融暗色官网" },
+      { name: "炭黑赤红", tags: ["游戏","科技"], colors: ["#0D0D0D","#1A1A1A","#2D2D2D","#DC2626","#FCA5A5"], desc: "炭黑+赤红高对比，游戏/科技暗色官网" },
+    ],
+    "App": [
+      { name: "深空紫", tags: ["科技","美妆"], colors: ["#0D0B14","#1B1233","#2D1B5C","#8B5CF6","#DDD6FE"], desc: "深空紫渐变，神秘高级，科技/美妆暗色 App" },
+      { name: "墨黑青", tags: ["科技","效率"], colors: ["#0A0F0D","#0F1A16","#1E3D33","#10B981","#6EE7B7"], desc: "墨黑+翡翠青，终端极客感，开发者/效率 App" },
+    ],
+    "品牌Logo": [
+      { name: "暗夜霓虹", tags: ["科技","潮流"], colors: ["#0D0D0D","#1A1A2E","#16213E","#00FF88","#FF006E"], desc: "暗夜+霓虹双色，赛博潮酷，科技/潮牌 Logo" },
+      { name: "深炭金", tags: ["奢侈品","腕表"], colors: ["#0A0A0A","#1C1C1C","#2D2D2D","#C9A227","#F5E6C8"], desc: "深炭+暗金，低调奢华，奢侈品/腕表 Logo" },
+    ],
+    "海报": [
+      { name: "深渊蓝紫", tags: ["科技","娱乐"], colors: ["#0A0A1A","#11113D","#1E1E6B","#5B21B6","#A78BFA"], desc: "深渊蓝紫，深邃迷幻，科技/娱乐海报" },
+      { name: "黑曜石", tags: ["奢侈品","科技"], colors: ["#0D0D0D","#1A1A1A","#2D2D2D","#525252","#A3A3A3"], desc: "黑曜石灰阶，极致冷峻，奢侈品/科技海报" },
+    ],
+    "包装": [
+      { name: "暗夜星空", tags: ["奢侈品","美妆"], colors: ["#0A0A14","#11112E","#1E1E4D","#C9A227","#E8D094"], desc: "暗夜星空+金点，高端美妆/奢侈品包装" },
+      { name: "墨黑烫银", tags: ["奢侈品","礼品"], colors: ["#0A0A0A","#1C1C1C","#2D2D2D","#C0C0C0","#E8E8E8"], desc: "墨黑烫银，典藏质感，高端礼品/奢侈品包装" },
+    ],
+    "社交媒体": [
+      { name: "暗色高对比", tags: ["科技","设计"], colors: ["#0D0D0D","#1A1A1A","#262626","#F5F5F5","#3B82F6"], desc: "暗底高对比+蓝点，科技/设计暗色社媒" },
+      { name: "深紫霓虹", tags: ["娱乐","潮流"], colors: ["#0D0B14","#1B1233","#4A1D6B","#FF00FF","#00FFFF"], desc: "深紫+品红青霓虹，赛博社媒配图" },
+    ],
+  },
+  8: { // 赛博 / 未来
+    "网站": [
+      { name: "电青矩阵", tags: ["科技","游戏"], colors: ["#0A0E14","#0D1B2A","#003566","#00DDFF","#00FF9C"], desc: "电青矩阵风，黑客未来感，科技/游戏官网" },
+      { name: "霓虹粉紫", tags: ["科技","潮流"], colors: ["#0D0B14","#1B0B2E","#6B0FB8","#FF00AA","#FF6B00"], desc: "霓虹粉紫橙，赛博朋克，科技/潮牌官网" },
+    ],
+    "App": [
+      { name: "赛博青橙", tags: ["科技","运动"], colors: ["#0A0F14","#0F2027","#00DDFF","#FF6B1A","#FFD700"], desc: "赛博青撞橙金，未来运动，科技/运动 App" },
+      { name: "全息紫青", tags: ["科技","美妆"], colors: ["#0D0B14","#1B1B3D","#5B21B6","#00DDFF","#FF00AA"], desc: "全息紫青，未来美妆，科技/美妆 App" },
+    ],
+    "品牌Logo": [
+      { name: "电光绿黑", tags: ["科技","游戏"], colors: ["#0D0D0D","#1A1A1A","#00FF88","#00DDFF","#003D2B"], desc: "电光绿+黑底，赛博游戏感，科技/游戏 Logo" },
+      { name: "霓虹品红", tags: ["潮流","娱乐"], colors: ["#0D0B14","#2A0B2E","#FF00AA","#FF006E","#FFD700"], desc: "霓虹品红金，潮酷未来，潮牌/娱乐 Logo" },
+    ],
+    "海报": [
+      { name: "赛博城市", tags: ["科技","娱乐"], colors: ["#0A0A14","#1B0B2E","#6B0FB8","#00DDFF","#FF00AA"], desc: "赛博城市夜景，霓虹四色，科技/娱乐海报" },
+      { name: "矩阵绿", tags: ["科技","游戏"], colors: ["#0A0E0A","#0F1F0F","#003D00","#00FF00","#00DD88"], desc: "矩阵代码绿，黑客帝国感，科技/游戏海报" },
+    ],
+    "包装": [
+      { name: "全息镭射", tags: ["潮流","美妆"], colors: ["#0D0B14","#1B1B3D","#5B21B6","#00DDFF","#FF00AA"], desc: "全息镭射紫青，未来潮品，潮牌/美妆包装" },
+      { name: "赛博黑金", tags: ["潮流","科技"], colors: ["#0A0A0A","#1A1A2E","#00DDFF","#FFD700","#FF00AA"], desc: "赛博黑+金+霓虹，科技潮品包装" },
+    ],
+    "社交媒体": [
+      { name: "霓虹脉冲", tags: ["科技","娱乐"], colors: ["#0A0A14","#1B0B2E","#FF00AA","#00DDFF","#FFD700"], desc: "霓虹脉冲三色，赛博社媒爆款配图" },
+      { name: "未来渐变", tags: ["科技","美妆"], colors: ["#0D0B14","#5B21B6","#8B5CF6","#00DDFF","#FF00AA"], desc: "未来紫青粉渐变，科技/美妆社媒" },
+    ],
+  },
+  9: { // 自然 / 清新
+    "网站": [
+      { name: "森林苔藓", tags: ["环保","家居"], colors: ["#F2F6EE","#C8DDB8","#7AA855","#3D6B2A","#1E3D14"], desc: "森林苔藓绿，自然有机，环保/家居官网" },
+      { name: "竹青原木", tags: ["家居","文化"], colors: ["#F5F2E8","#D4C9A0","#9C8B5A","#5C7A4A","#2B3D1E"], desc: "竹青+原木，东方自然，家居/文创官网" },
+    ],
+    "App": [
+      { name: "嫩芽绿", tags: ["健康","生活"], colors: ["#F0F8E8","#C8E6A0","#7CC242","#4A8A1A","#2B4D0A"], desc: "嫩芽鲜绿，生机清新，健康/生活 App" },
+      { name: "薄荷森林", tags: ["健康","环保"], colors: ["#E8F5E9","#A5D6A7","#4CAF50","#2E7D32","#1B5E20"], desc: "薄荷到森林绿渐变，清新治愈，健康/环保 App" },
+    ],
+    "品牌Logo": [
+      { name: "叶绿土棕", tags: ["环保","食品"], colors: ["#EDEFE6","#A8C88A","#4A8A2A","#7A5A2A","#3D2E14"], desc: "叶绿+土棕，自然质朴，环保/有机食品品牌" },
+      { name: "竹叶青", tags: ["文化","健康"], colors: ["#F0F6EE","#C8DDB8","#6B9A3D","#3D6B2A","#1E3D14"], desc: "竹叶青绿，清新东方，文化/健康品牌" },
+    ],
+    "海报": [
+      { name: "山林晨雾", tags: ["环保","旅游"], colors: ["#E8EFE6","#B8D4AA","#6B9A4A","#3D6B2A","#1E3D14"], desc: "山林晨雾绿，自然开阔，环保/旅游海报" },
+      { name: "田园丰收", tags: ["食品","农业"], colors: ["#F5F2E0","#D4C470","#9C8B2A","#5C7A2A","#2B3D14"], desc: "田园黄绿，丰收暖意，农业/食品海报" },
+    ],
+    "包装": [
+      { name: "麻纸叶绿", tags: ["环保","食品"], colors: ["#EDE8D4","#C4B888","#6B9A3D","#3D6B2A","#1E3D14"], desc: "麻纸+叶绿，有机手作，环保/有机食品包装" },
+      { name: "竹编原木", tags: ["家居","文化"], colors: ["#F0E8D4","#D4B888","#9C7A3D","#5C4A2A","#2B2210"], desc: "竹编原木色，自然东方，家居/文创包装" },
+    ],
+    "社交媒体": [
+      { name: "清新绿野", tags: ["生活","健康"], colors: ["#E8F5E9","#A5D6A7","#4CAF50","#2E7D32","#1B5E20"], desc: "清新绿野，自然治愈，生活/健康社媒" },
+      { name: "花草田园", tags: ["生活","家居"], colors: ["#F0F6EE","#C8DDB8","#7AA855","#D4A0A0","#5C3D3D"], desc: "花草田园，绿+暖花色，生活/家居社媒" },
+    ],
+  },
+};
+// 合并：把扩展配色追加到对应 mood 的 usecase 数组
+Object.entries(extraPalettes).forEach(([mi, ucs]) => {
+  const mood = moods[parseInt(mi)];
+  if (!mood) return;
+  Object.entries(ucs).forEach(([u, arr]) => {
+    if (mood.usecases[u]) mood.usecases[u].push(...arr);
+    else mood.usecases[u] = arr;
+  });
+});
+
+const usecaseIcons = {
+  "网站": "W", "App": "A", "品牌Logo": "L", "海报": "P", "包装": "K", "社交媒体": "S"
+};
+
+/* ============ 颜色工具函数 ============ */
+function rgb(hex) {
+  return {
+    r: parseInt(hex.slice(1,3), 16),
+    g: parseInt(hex.slice(3,5), 16),
+    b: parseInt(hex.slice(5,7), 16)
+  };
+}
+function lum(hex) {
+  const {r,g,b} = rgb(hex);
+  return (r*299 + g*587 + b*114) / 1000;
+}
+function sat(hex) {
+  const {r,g,b} = rgb(hex);
+  const mx = Math.max(r,g,b), mn = Math.min(r,g,b);
+  return mx === 0 ? 0 : (mx - mn) / mx;
+}
+function mix(a, b, amt) { // amt: 0→a, 1→b
+  const A = rgb(a), B = rgb(b);
+  const to = v => Math.round(v).toString(16).padStart(2,'0').toUpperCase();
+  return '#' + to(A.r+(B.r-A.r)*amt) + to(A.g+(B.g-A.g)*amt) + to(A.b+(B.b-A.b)*amt);
+}
+function isLight(hex) { return lum(hex) > 165; }
+
+// 确保够亮（不够亮就往白混）
+function ensureLight(hex) { const l = lum(hex); return l < 225 ? mix(hex, '#FFFFFF', Math.min(0.85, (225-l)/255*1.3)) : hex; }
+// 确保够暗（不够暗就往黑混）
+function ensureDark(hex) { const l = lum(hex); return l > 45 ? mix(hex, '#000000', Math.min(0.9, (l-45)/255*1.6)) : hex; }
+
+/* 从一套配色派生浅色 / 深色两版主题 */
+function deriveTheme(colors) {
+  const infos = colors.map(c => ({ c, l: lum(c), s: sat(c) }));
+  const byL = [...infos].sort((a,b) => a.l - b.l);
+  const lightest = byL[0].c, darkest = byL[byL.length-1].c;
+
+  // 选强调色：饱和度最高且明度适中的颜色
+  const byS = [...infos].sort((a,b) => b.s - a.s);
+  let acc = byS.find(x => x.l > 50 && x.l < 225);
+  if (!acc) acc = byS[0];
+  let accent = acc.c;
+  if (acc.s < 0.12) accent = '#58A6FF'; // 纯黑白灰类配色给默认强调色
+  let acc2 = byS.find(x => x.c !== accent && x.s > 0.15);
+  let accent2 = acc2 ? acc2.c : mix(accent, '#FFFFFF', 0.25);
+
+  // 浅色版
+  const lBg = ensureLight(lightest);
+  const lText = ensureDark(darkest);
+  const lightTheme = {
+    bg: lBg,
+    surface: mix(lBg, lText, 0.06),
+    text: lText,
+    muted: mix(lText, lBg, 0.45),
+    accent: accent,
+    accent2: accent2
+  };
+
+  // 深色版（强调色太暗时提亮）
+  const dBg = ensureDark(darkest);
+  const dText = ensureLight(lightest);
+  let dAccent = accent, dAccent2 = accent2;
+  if (lum(dAccent) < 75) dAccent = mix(dAccent, '#FFFFFF', 0.3);
+  if (lum(dAccent2) < 75) dAccent2 = mix(dAccent2, '#FFFFFF', 0.3);
+  const darkTheme = {
+    bg: dBg,
+    surface: mix(dBg, '#FFFFFF', 0.09),
+    text: dText,
+    muted: mix(dText, dBg, 0.45),
+    accent: dAccent,
+    accent2: dAccent2
+  };
+
+  return { light: lightTheme, dark: darkTheme };
+}
+
+/* 生成一个迷你主页示意 */
+function mockHTML(theme, label) {
+  const at = isLight(theme.accent) ? '#101014' : '#FFFFFF';
+  const style = `--mbg:${theme.bg};--msurf:${theme.surface};--mtext:${theme.text};--mmuted:${theme.muted};--mac:${theme.accent};--mac2:${theme.accent2};--mat:${at}`;
+  const card = cls => `
+    <div class="mock-card ${cls}">
+      <span class="mc-icon"></span>
+      <div class="mc-t"></div><div class="mc-d"></div><div class="mc-d"></div>
+    </div>`;
+  return `
+  <div class="mock-col">
+    <div class="mock-label"><span class="mock-dot" style="background:${theme.accent}"></span>${label}</div>
+    <div class="mock" style="${style}">
+      <div class="mock-chrome"><i></i><i></i><i></i><span class="mock-url">brand.com</span></div>
+      <div class="mock-nav">
+        <span class="mock-logo"></span>
+        <span class="mock-nav-items"><span></span><span></span><span></span></span>
+        <span class="nav-btn">开始使用</span>
+      </div>
+      <div class="mock-hero">
+        <span class="mock-badge">NEW · 2026</span>
+        <div class="mock-title">让品牌<br>更具表现力</div>
+        <div class="mock-sub">简洁有力的副标题，传递品牌核心价值主张</div>
+        <div class="mock-btns"><span class="btn-p">立即体验</span><span class="btn-g">了解更多</span></div>
+      </div>
+      <div class="mock-cards">${card('c1')}${card('c2')}${card('c3')}</div>
+      <div class="mock-foot"><span class="fl"></span><span class="fl"></span><span class="fc">© 2026 Brand</span></div>
+    </div>
+  </div>`;
+}
+
+/* ============ 渲染 ============ */
+const tabsEl = document.getElementById('tabs');
+const contentEl = document.getElementById('content');
+
+/* ============ 标签归并：细碎标签 → 13 个大标签 ============ */
+const TAG_MAP = {
+  // 科技互联网
+  "科技":"科技互联网","AI":"科技互联网","SaaS":"科技互联网","技术":"科技互联网","开发者":"科技互联网",
+  "代码":"科技互联网","区块链":"科技互联网","Web3":"科技互联网","元宇宙":"科技互联网","平台":"科技互联网",
+  "工具":"科技互联网","效率":"科技互联网","效率工具":"科技互联网","数码":"科技互联网","电子产品":"科技互联网",
+  "外设":"科技互联网","产品":"科技互联网","未来":"科技互联网","Android":"科技互联网",
+  // 商务金融
+  "企业官网":"商务金融","B2B":"商务金融","LinkedIn":"商务金融","高端服务":"商务金融","金融":"商务金融","高端理财":"商务金融",
+  // 餐饮美食
+  "美食":"餐饮美食","食品":"餐饮美食","高端食品":"餐饮美食","餐饮":"餐饮美食","饮料":"餐饮美食","咖啡":"餐饮美食",
+  "咖啡豆":"餐饮美食","茶叶":"餐饮美食","面包":"餐饮美食","烘焙":"餐饮美食","甜点":"餐饮美食","甜品":"餐饮美食",
+  "零食":"餐饮美食","巧克力":"餐饮美食","精酿":"餐饮美食","红酒":"餐饮美食","烈酒":"餐饮美食","生鲜":"餐饮美食",
+  "果蔬":"餐饮美食","外卖":"餐饮美食",
+  // 时尚美妆
+  "美妆":"时尚美妆","护肤":"时尚美妆","个护":"时尚美妆","SPA":"时尚美妆","香水":"时尚美妆","香氛":"时尚美妆",
+  "时尚":"时尚美妆","穿搭":"时尚美妆","潮牌":"时尚美妆","潮流":"时尚美妆","潮玩":"时尚美妆","街头":"时尚美妆",
+  "限量":"时尚美妆","腕表":"时尚美妆","珠宝":"时尚美妆","奢侈品":"时尚美妆","高端":"时尚美妆","皮具":"时尚美妆",
+  // 家居生活
+  "生活":"家居生活","家居":"家居生活","家具":"家居生活","文具":"家居生活","阅读":"家居生活","日记":"家居生活",
+  "心情":"家居生活","冥想":"家居生活","收藏":"家居生活","礼品":"家居生活","蜡烛":"家居生活","花艺":"家居生活",
+  "植物":"家居生活","天然":"家居生活","玩具":"家居生活","儿童":"家居生活",
+  // 健康环保
+  "健康":"健康环保","环保":"健康环保","有机":"健康环保","有机食品":"健康环保","农业":"健康环保","公益":"健康环保",
+  "回收":"健康环保","自然":"健康环保","二手":"健康环保",
+  // 文化创意
+  "创意":"文化创意","设计":"文化创意","手作":"文化创意","手工艺":"文化创意","手工":"文化创意","古董":"文化创意",
+  "复古":"文化创意","复古品牌":"文化创意","摄影":"文化创意","出版":"文化创意","媒体":"文化创意","建筑":"文化创意",
+  // 娱乐社交
+  "游戏":"娱乐社交","电竞":"娱乐社交","音乐":"娱乐社交","音乐节":"娱乐社交","黑胶":"娱乐社交","音频":"娱乐社交",
+  "演出":"娱乐社交","电影":"娱乐社交","娱乐":"娱乐社交","社交":"娱乐社交","社区":"娱乐社交","派对":"娱乐社交",
+  // 活动会展
+  "活动":"活动会展","展览":"活动会展","发布会":"活动会展","典礼":"活动会展","晚宴":"活动会展","节日":"活动会展",
+  "市集":"活动会展","跳蚤市场":"活动会展","科技展":"活动会展",
+  // 教育学习
+  "教育":"教育学习","讲座":"教育学习","干货":"教育学习",
+  // 婚庆礼仪
+  "婚庆":"婚庆礼仪","婚礼":"婚庆礼仪","邀请函":"婚庆礼仪",
+  // 电商零售
+  "电商":"电商零售","购物":"电商零售","促销":"电商零售","会员":"电商零售",
+  // 运动旅行
+  "运动":"运动旅行","旅行":"运动旅行","旅游":"运动旅行","酒店":"运动旅行",
+};
+function mapTags(tags) {
+  const seen = new Set(), out = [];
+  tags.forEach(t => { const m = TAG_MAP[t] || t; if (!seen.has(m)) { seen.add(m); out.push(m); } });
+  return out;
+}
+
+moods.forEach((mood, i) => {
+  const tab = document.createElement('div');
+  tab.className = 'tab' + (i === 0 ? ' active' : '');
+  tab.dataset.idx = i;
+  tab.innerHTML = `<span class="dot" style="background:${mood.color}"></span>${i+1}. ${mood.name}`;
+  tab.onclick = () => switchTab(i);
+  tabsEl.appendChild(tab);
+});
+
+/* ============ 列数切换（1 / 2 / 4 列） ============ */
+const colSwitch = document.getElementById('colSwitch');
+let currentCols = localStorage.getItem('palette-cols') || 'auto';
+applyCols(currentCols);
+colSwitch.querySelectorAll('button').forEach(btn => {
+  btn.onclick = () => {
+    currentCols = btn.dataset.cols;
+    localStorage.setItem('palette-cols', currentCols);
+    applyCols(currentCols);
+  };
+});
+function applyCols(cols) {
+  colSwitch.querySelectorAll('button').forEach(b =>
+    b.classList.toggle('active', b.dataset.cols === cols));
+  const cls = cols === 'auto' ? '' : ` cols-${cols}`;
+  document.querySelectorAll('.palette-grid').forEach(g => {
+    g.className = 'palette-grid' + cls;
+  });
+}
+
+moods.forEach((mood, i) => {
+  const section = document.createElement('div');
+  section.className = 'tab-content' + (i === 0 ? ' active' : '');
+  section.dataset.idx = i;
+
+  let html = `
+    <div class="mood-header">
+      <div class="mood-number">${mood.id}</div>
+      <div class="mood-info">
+        <h2>${mood.name}</h2>
+        <p>${mood.desc}</p>
+      </div>
+    </div>
+  `;
+
+  Object.entries(mood.usecases).forEach(([usecase, palettes]) => {
+    html += `<div class="usecase-section">`;
+    html += `<div class="usecase-title"><span class="icon">${usecaseIcons[usecase]||'·'}</span>${usecase}</div>`;
+    html += `<div class="palette-grid">`;
+
+    palettes.forEach(p => {
+      const proportions = [30, 25, 20, 15, 10].slice(0, p.colors.length);
+      const sum = proportions.reduce((a,b)=>a+b, 0);
+      const adjusted = proportions.map(x => Math.round(x * 100 / sum));
+      const broadTags = mapTags(p.tags);
+
+      html += `<div class="palette-card" data-tags="${broadTags.join('|')}">`;
+      html += `<div class="palette-header">
+        <span class="palette-name">${p.name}</span>
+        <div class="palette-tags">${broadTags.map(t=>`<span class="palette-tag">${t}</span>`).join('')}</div>
+      </div>`;
+      html += `<div class="swatches">`;
+      p.colors.forEach(c => {
+        const textColor = isLight(c) ? '#000' : '#fff';
+        html += `<div class="swatch" style="background:${c}" data-hex="${c}">
+          <span class="swatch-hex" style="background:${c};color:${textColor}">${c}</span>
+        </div>`;
+      });
+      html += `</div>`;
+      html += `<div class="palette-body">
+        <div class="palette-desc">${p.desc}</div>
+        <div class="palette-hex-list">`;
+      p.colors.forEach(c => {
+        html += `<span class="hex-chip" data-hex="${c}"><span class="dot" style="background:${c}"></span>${c}</span>`;
+      });
+      html += `</div>
+        <div class="proportion-bar">`;
+      adjusted.forEach((pct, idx) => {
+        html += `<div style="flex:${pct};background:${p.colors[idx]}"></div>`;
+      });
+      html += `</div>
+      </div>`;
+
+      // 主页示意（浅色 + 深色并排）
+      const theme = deriveTheme(p.colors);
+      html += `<div class="mock-area">
+        <div class="mock-area-title">主页示意 · HOMEPAGE PREVIEW</div>
+        <div class="mock-wrap">
+          ${mockHTML(theme.light, '浅色调')}
+          ${mockHTML(theme.dark, '深色调')}
+        </div>
+      </div>`;
+
+      html += `</div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  section.innerHTML = html;
+  contentEl.appendChild(section);
+});
+
+let currentTab = 0;
+function switchTab(idx) {
+  currentTab = idx;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.idx) === idx));
+  if (activeTag) { setTag(null); window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' }); return; }
+  applyFilter();
+  window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+}
+
+/* ============ 标签筛选 ============ */
+const tagFilterEl = document.getElementById('tagFilter');
+const tagCounts = {};
+moods.forEach(m => Object.values(m.usecases).forEach(arr =>
+  arr.forEach(p => mapTags(p.tags).forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }))));
+const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
+
+let activeTag = null;
+function renderTagFilter() {
+  let h = `<span class="tf-label">筛选</span><button class="tf-chip${activeTag ? '' : ' active'}" data-tag="">全部</button>`;
+  sortedTags.forEach(t => {
+    h += `<button class="tf-chip${activeTag === t ? ' active' : ''}" data-tag="${t}">${t}<i>${tagCounts[t]}</i></button>`;
+  });
+  h += `<span class="tf-count" id="tfCount"></span>`;
+  tagFilterEl.innerHTML = h;
+}
+function setTag(tag) {
+  activeTag = tag;
+  renderTagFilter();
+  applyFilter();
+}
+function applyFilter() {
+  let total = 0;
+  document.querySelectorAll('.tab-content').forEach(sec => {
+    if (!activeTag) {
+      sec.querySelectorAll('.palette-card, .usecase-section').forEach(el => el.style.display = '');
+      sec.classList.toggle('active', parseInt(sec.dataset.idx) === currentTab);
+      return;
+    }
+    let secVisible = false;
+    sec.querySelectorAll('.usecase-section').forEach(us => {
+      let vis = 0;
+      us.querySelectorAll('.palette-card').forEach(card => {
+        const match = (card.dataset.tags || '').split('|').includes(activeTag);
+        card.style.display = match ? '' : 'none';
+        if (match) vis++;
+      });
+      us.style.display = vis ? '' : 'none';
+      if (vis) secVisible = true;
+      total += vis;
+    });
+    sec.classList.toggle('active', secVisible);
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', !activeTag && parseInt(t.dataset.idx) === currentTab));
+  const cnt = document.getElementById('tfCount');
+  if (cnt) cnt.textContent = activeTag ? `「${activeTag}」共 ${total} 套配色` : '';
+}
+tagFilterEl.addEventListener('click', e => {
+  const chip = e.target.closest('.tf-chip');
+  if (!chip) return;
+  setTag(chip.dataset.tag || null);
+  window.scrollTo({ top: tagFilterEl.offsetTop - 20, behavior: 'smooth' });
+});
+renderTagFilter();
+
+/* Copy hex */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+document.addEventListener('click', (e) => {
+  const ptag = e.target.closest('.palette-tag');
+  if (ptag) {
+    setTag(ptag.textContent.trim());
+    window.scrollTo({ top: tagFilterEl.offsetTop - 20, behavior: 'smooth' });
+    return;
+  }
+  const hex = e.target.closest('[data-hex]')?.dataset.hex;
+  if (hex) {
+    navigator.clipboard.writeText(hex).then(() => showToast(`已复制 ${hex}`)).catch(() => {});
+  }
+});
+</script>
+</body>
+</html>
